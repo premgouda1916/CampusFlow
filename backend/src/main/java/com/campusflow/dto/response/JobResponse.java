@@ -39,3 +39,4 @@ public class JobResponse {
     private boolean isExpired;
     private Boolean userEligible; // Computed if student is querying
 }
+

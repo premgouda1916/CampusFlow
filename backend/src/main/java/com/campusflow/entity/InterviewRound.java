@@ -7,3 +7,4 @@ public enum InterviewRound {
     HR_ROUND,
     FINAL_INTERVIEW
 }
+

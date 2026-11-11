@@ -138,3 +138,4 @@ class AuthServiceTest {
         assertEquals("student@campusflow.com", res.getEmail());
     }
 }
+

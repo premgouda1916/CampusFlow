@@ -181,3 +181,4 @@ export const EligibilityModal = ({ isOpen, onClose, eligibility, onApply, applyi
 };
 
 export default EligibilityModal;
+

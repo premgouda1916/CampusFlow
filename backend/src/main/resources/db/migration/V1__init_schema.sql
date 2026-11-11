@@ -221,3 +221,4 @@ CREATE TABLE audit_logs (
 
 CREATE INDEX idx_audit_logs_action ON audit_logs(action);
 CREATE INDEX idx_audit_logs_timestamp ON audit_logs(timestamp);
+

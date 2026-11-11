@@ -45,3 +45,4 @@ public class User extends BaseEntity {
     @Builder.Default
     private Long version = 0L;
 }
+

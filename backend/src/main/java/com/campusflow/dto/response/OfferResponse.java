@@ -34,3 +34,4 @@ public class OfferResponse {
     private LocalDateTime respondedAt;
     private boolean isExpired;
 }
+

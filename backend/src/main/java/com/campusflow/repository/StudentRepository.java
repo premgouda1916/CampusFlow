@@ -23,3 +23,4 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
            "(:isPlaced IS NULL OR s.placed = :isPlaced)")
     Page<Student> findStudentsWithFilter(Long departmentId, Integer graduationYear, Boolean isPlaced, Pageable pageable);
 }
+

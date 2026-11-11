@@ -74,3 +74,4 @@ public class StudentController {
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 }
+

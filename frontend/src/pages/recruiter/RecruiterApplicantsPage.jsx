@@ -539,3 +539,4 @@ export const RecruiterApplicantsPage = () => {
 };
 
 export default RecruiterApplicantsPage;
+

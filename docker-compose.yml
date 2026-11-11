@@ -55,6 +55,7 @@ services:
         condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: docker
+      SERVER_PORT: 8081
       DB_HOST: campusflow-mysql
       DB_PORT: 3306
       DB_NAME: campusflow_db
@@ -66,7 +67,7 @@ services:
       JWT_EXPIRATION_MS: 86400000
       FILE_UPLOAD_DIR: /app/uploads/resumes
     ports:
-      - "8080:8080"
+      - "8081:8081"
     volumes:
       - backend_uploads:/app/uploads
     networks:
@@ -98,3 +99,4 @@ volumes:
 networks:
   campusflow-net:
     driver: bridge
+

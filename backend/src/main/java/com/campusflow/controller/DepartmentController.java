@@ -28,3 +28,4 @@ public class DepartmentController {
         return ResponseEntity.ok(ApiResponse.success(departments));
     }
 }
+

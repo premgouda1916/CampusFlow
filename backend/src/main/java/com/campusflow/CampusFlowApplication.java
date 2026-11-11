@@ -14,3 +14,4 @@ public class CampusFlowApplication {
         SpringApplication.run(CampusFlowApplication.class, args);
     }
 }
+

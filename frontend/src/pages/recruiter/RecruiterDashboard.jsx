@@ -184,3 +184,4 @@ export const RecruiterDashboard = () => {
 };
 
 export default RecruiterDashboard;
+

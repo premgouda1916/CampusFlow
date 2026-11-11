@@ -37,3 +37,4 @@ public class PriorApplicationRule implements EligibilityRule {
                 .build();
     }
 }
+

@@ -9,3 +9,4 @@ public interface EligibilityRule {
     CriterionEvaluation evaluate(Student student, Job job, EvaluationContext context);
     boolean isMandatory();
 }
+

@@ -26,3 +26,4 @@ public class Department {
     @Builder.Default
     private boolean active = true;
 }
+

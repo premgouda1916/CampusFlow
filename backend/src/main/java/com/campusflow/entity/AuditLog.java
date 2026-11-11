@@ -43,3 +43,4 @@ public class AuditLog {
     @Builder.Default
     private LocalDateTime timestamp = LocalDateTime.now();
 }
+

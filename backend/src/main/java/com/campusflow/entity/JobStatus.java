@@ -6,3 +6,4 @@ public enum JobStatus {
     CLOSED,
     CANCELLED
 }
+

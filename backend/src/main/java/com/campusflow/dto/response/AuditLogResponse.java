@@ -22,3 +22,4 @@ public class AuditLogResponse {
     private String ipAddress;
     private LocalDateTime timestamp;
 }
+

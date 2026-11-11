@@ -156,3 +156,4 @@ class ApplicationServiceTest {
         verify(notificationService).createNotification(eq(student.getUser()), any(), any(), any(), any());
     }
 }
+

@@ -22,3 +22,4 @@ public class CompanyResponse {
     private LocalDateTime createdAt;
     private long activeJobsCount;
 }
+

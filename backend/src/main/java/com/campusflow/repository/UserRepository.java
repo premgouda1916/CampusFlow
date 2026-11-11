@@ -17,3 +17,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     long countByActiveTrue();
     Page<User> findByRole(Role role, Pageable pageable);
 }
+

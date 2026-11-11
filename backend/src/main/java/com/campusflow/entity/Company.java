@@ -35,3 +35,4 @@ public class Company extends BaseEntity {
     @Builder.Default
     private boolean verified = false;
 }
+

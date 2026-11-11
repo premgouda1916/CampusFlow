@@ -116,3 +116,4 @@ CampusFlow is engineered as a high-performance, modular monolithic enterprise ap
 - **State Management**: React Context (`AuthContext`, `NotificationContext`) + custom hooks (`useAuth`, `useApi`, `useToast`).
 - **Styling**: Tailwind CSS / modern CSS tokens following a refined slate & indigo aesthetic inspired by Linear and Stripe.
 - **Visualizations**: Recharts for dynamic charts (bar charts for department placements, area charts for application trends, pie charts for status breakdown).
+

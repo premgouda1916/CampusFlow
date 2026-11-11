@@ -76,3 +76,4 @@ public class Job extends BaseEntity {
     @Builder.Default
     private Long version = 0L;
 }
+

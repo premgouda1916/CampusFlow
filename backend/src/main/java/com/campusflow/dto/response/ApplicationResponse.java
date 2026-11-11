@@ -36,3 +36,4 @@ public class ApplicationResponse {
     private LocalDateTime reviewedAt;
     private String notes;
 }
+

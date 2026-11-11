@@ -82,3 +82,4 @@ public class AuthControllerIntegrationTest {
                 .andExpect(jsonPath("$.data.email", is("neha.sharma@campusflow.com")));
     }
 }
+

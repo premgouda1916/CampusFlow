@@ -55,3 +55,4 @@ public class JobUpdateRequest {
 
     private Long placementDriveId;
 }
+

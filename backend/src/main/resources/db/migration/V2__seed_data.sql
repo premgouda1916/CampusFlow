@@ -89,3 +89,4 @@ INSERT INTO audit_logs (id, user_id, user_email, action, entity_type, entity_id,
 (1, 1, 'admin@campusflow.com', 'SYSTEM_INITIALIZATION', 'SYSTEM', '1', 'Initial platform installation and department configuration verified.', '127.0.0.1', CURRENT_TIMESTAMP),
 (2, 2, 'officer@campusflow.com', 'COMPANY_VERIFIED', 'COMPANY', '1', 'Placement Cell approved Google registration.', '127.0.0.1', CURRENT_TIMESTAMP),
 (3, 3, 'recruiter.google@campusflow.com', 'JOB_PUBLISHED', 'JOB', '1', 'Published opening for Software Development Engineer (Backend).', '127.0.0.1', CURRENT_TIMESTAMP);
+

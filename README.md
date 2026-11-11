@@ -165,9 +165,9 @@ docker compose up --build
 
 Access the services:
 - **Frontend Web Portal**: [http://localhost](http://localhost) (or [http://localhost:3000](http://localhost:3000))
-- **Backend REST API**: [http://localhost:8080](http://localhost:8080)
-- **Interactive Swagger UI**: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
-- **Actuator Health Metrics**: [http://localhost:8080/actuator/health](http://localhost:8080/actuator/health)
+- **Backend REST API**: [http://localhost:8081](http://localhost:8081)
+- **Interactive Swagger UI**: [http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html)
+- **Actuator Health Metrics**: [http://localhost:8081/actuator/health](http://localhost:8081/actuator/health)
 
 ---
 
@@ -181,7 +181,7 @@ cd d:\CampusFlow\backend
 # Ensure Java 21 is active
 $env:JAVA_HOME = "C:\Program Files\Java\jdk-21.0.10"
 
-# Compile and start Spring Boot (runs on port 8080)
+# Compile and start Spring Boot (runs on port 8081 to avoid conflict with Jenkins on 8080)
 mvn spring-boot:run
 ```
 
@@ -192,7 +192,7 @@ cd d:\CampusFlow\frontend
 # Install dependencies (Node.js 20+)
 npm install
 
-# Start Vite development server (runs on port 5173 with proxy to 8080)
+# Start Vite development server (runs on port 5173 with proxy to 8081)
 npm run dev
 ```
 Open [http://localhost:5173](http://localhost:5173) in your browser.
@@ -205,14 +205,14 @@ All seed accounts use the default password: **`password123`**
 
 | Role | Email | Full Name / Title | Description |
 |---|---|---|---|
-| 🎓 **Student** | `arjun.sharma@campusflow.edu` | Arjun Sharma | High CGPA (8.85), 0 Backlogs, CSE Department, Has Resumes |
-| 🎓 **Student** | `priya.patel@campusflow.edu` | Priya Patel | CGPA 7.40, 1 Backlog, ISE Department, Tests partial eligibility |
-| 🎓 **Student** | `rohit.kumar@campusflow.edu` | Rohit Kumar | CGPA 6.80, 2 Backlogs, MECH Department, Tests ineligible edge cases |
-| 🏢 **Recruiter** | `vikram.aditya@google.com` | Vikram Aditya | Approved Google Recruiter (SWE, SRE roles) |
-| 🏢 **Recruiter** | `ananya.deshmukh@microsoft.com` | Ananya Deshmukh | Approved Microsoft Recruiter (Cloud Engineer roles) |
-| 🏢 **Recruiter** | `rahul.mehta@startup.io` | Rahul Mehta | Pending Approval Recruiter (Tests officer approval flow) |
-| 🏛️ **Placement Officer** | `officer.placement@campusflow.edu` | Dr. Rajeshwari Rao | Placement Head with verification & report powers |
-| 🛡️ **System Admin** | `admin@campusflow.edu` | Chief System Admin | Full platform access, audit logs, department management |
+| 🎓 **Student** | `arjun.sharma@campusflow.com` | Arjun Sharma | High CGPA (8.85), 0 Backlogs, CSE Department, Has Resumes |
+| 🎓 **Student** | `priya.nair@campusflow.com` | Priya Nair | CGPA 7.40, 1 Backlog, ISE Department, Tests partial eligibility |
+| 🎓 **Student** | `rohit.verma@campusflow.com` | Rohit Verma | CGPA 6.80, 2 Backlogs, MECH Department, Tests ineligible edge cases |
+| 🏢 **Recruiter** | `recruiter.google@campusflow.com` | Ananya Deshmukh | Approved Google Recruiter (SWE, SRE roles) |
+| 🏢 **Recruiter** | `recruiter.msft@campusflow.com` | Vikramaditya Sen | Approved Microsoft Recruiter (Cloud Engineer roles) |
+| 🏢 **Recruiter** | `recruiter.pending@campusflow.com` | Rohit Khandelwal | Pending Approval Recruiter (Tests officer approval flow) |
+| 🏛️ **Placement Officer** | `officer@campusflow.com` | Dr. Rajesh Rao | Placement Head with verification & report powers |
+| 🛡️ **System Admin** | `admin@campusflow.com` | System Administrator | Full platform access, audit logs, department management |
 
 > **Pro-Tip**: The login page (`/login`) includes 1-click **Demo Account Switcher** buttons. Clicking any role instantly pre-populates credentials and logs in.
 
@@ -289,3 +289,4 @@ CampusFlow/
 ## 📄 License & Attribution
 
 Designed and engineered for enterprise campus placement operations. Open source under the [MIT License](LICENSE).
+

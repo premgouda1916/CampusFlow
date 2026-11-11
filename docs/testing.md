@@ -95,14 +95,14 @@ Use the table below for pre-seeded user accounts to test every workflow immediat
 
 | Role | Email | Password | Full Name / Title | Description |
 |---|---|---|---|---|
-| **Student** | `arjun.sharma@campusflow.edu` | `password123` | Arjun Sharma | High CGPA (8.85), 0 Backlogs, CSE Department, Has Resumes |
-| **Student** | `priya.patel@campusflow.edu` | `password123` | Priya Patel | CGPA 7.40, 1 Backlog, ISE Department, Tests partial eligibility |
-| **Student** | `rohit.kumar@campusflow.edu` | `password123` | Rohit Kumar | CGPA 6.80, 2 Backlogs, MECH Department, Tests ineligible edge cases |
-| **Recruiter** | `vikram.aditya@google.com` | `password123` | Vikram Aditya | Approved Google Recruiter (SWE, SRE roles) |
-| **Recruiter** | `ananya.deshmukh@microsoft.com` | `password123` | Ananya Deshmukh | Approved Microsoft Recruiter (Cloud Engineer roles) |
-| **Recruiter** | `rahul.mehta@startup.io` | `password123` | Rahul Mehta | Pending Approval Recruiter (Tests officer approval flow) |
-| **Placement Officer**| `officer.placement@campusflow.edu`| `password123` | Dr. Rajeshwari Rao | Placement Head with verification & report powers |
-| **Admin** | `admin@campusflow.edu` | `password123` | Chief System Admin | Full platform access, audit logs, department management |
+| **Student** | `arjun.sharma@campusflow.com` | `password123` | Arjun Sharma | High CGPA (8.85), 0 Backlogs, CSE Department, Has Resumes |
+| **Student** | `priya.nair@campusflow.com` | `password123` | Priya Nair | CGPA 7.40, 1 Backlog, ISE Department, Tests partial eligibility |
+| **Student** | `rohit.verma@campusflow.com` | `password123` | Rohit Verma | CGPA 6.80, 2 Backlogs, MECH Department, Tests ineligible edge cases |
+| **Recruiter** | `recruiter.google@campusflow.com` | `password123` | Ananya Deshmukh | Approved Google Recruiter (SWE, SRE roles) |
+| **Recruiter** | `recruiter.msft@campusflow.com` | `password123` | Vikramaditya Sen | Approved Microsoft Recruiter (Cloud Engineer roles) |
+| **Recruiter** | `recruiter.pending@campusflow.com` | `password123` | Rohit Khandelwal | Pending Approval Recruiter (Tests officer approval flow) |
+| **Placement Officer**| `officer@campusflow.com`| `password123` | Dr. Rajesh Rao | Placement Head with verification & report powers |
+| **Admin** | `admin@campusflow.com` | `password123` | System Administrator | Full platform access, audit logs, department management |
 
 > **Pro-Tip**: The login page (`/login`) includes 1-click **Demo Account Switcher** buttons. Clicking any role instantly pre-populates the credentials and logs in.
 
@@ -188,3 +188,4 @@ Use the table below for pre-seeded user accounts to test every workflow immediat
    - Sign in as `admin@campusflow.edu` / `password123`.
    - Click **"Audit Logs"** in the navigation.
    - Review real-time immutable security logs: timestamps, actors, actions (`LOGIN_SUCCESS`, `APPLICATION_SUBMITTED`, `STATUS_CHANGED`), and IP addresses.
+

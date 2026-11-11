@@ -205,3 +205,4 @@ erDiagram
 | `description` | TEXT | NOT NULL | Human-readable audit narrative |
 | `ip_address` | VARCHAR(50) | NULL | Client remote IP |
 | `timestamp` | DATETIME | NOT NULL | Event timestamp |
+

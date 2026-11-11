@@ -57,3 +57,4 @@ public class NotificationController {
         return ResponseEntity.ok(ApiResponse.success("All notifications marked as read", null));
     }
 }
+

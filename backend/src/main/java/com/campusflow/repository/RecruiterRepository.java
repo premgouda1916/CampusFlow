@@ -17,3 +17,4 @@ public interface RecruiterRepository extends JpaRepository<Recruiter, Long> {
     long countByApprovedTrue();
     long countByApprovedFalse();
 }
+

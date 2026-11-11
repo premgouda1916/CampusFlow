@@ -23,3 +23,4 @@ public class AuthResponse {
     private Long companyId; // If recruiter
     private String companyName;
 }
+

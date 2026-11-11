@@ -2,9 +2,9 @@
 
 This document provides complete documentation for the REST API of the **CampusFlow** Smart Campus Placement & Recruitment Management Platform.
 
-- **Base URL**: `http://localhost:8080/api/v1`
-- **Interactive Swagger UI**: `http://localhost:8080/swagger-ui.html`
-- **OpenAPI 3.0 JSON Spec**: `http://localhost:8080/v3/api-docs`
+- **Base URL**: `http://localhost:8081/api/v1`
+- **Interactive Swagger UI**: `http://localhost:8081/swagger-ui.html`
+- **OpenAPI 3.0 JSON Spec**: `http://localhost:8081/v3/api-docs`
 
 ---
 
@@ -403,3 +403,4 @@ On failure (e.g. 400, 401, 403, 404, 409, 422, 500):
 - **Access**: `ADMIN`
 - **Query Params**: `page`, `size`
 - **Returns**: Chronological immutable log of actions, IP addresses, actors, and metadata.
+

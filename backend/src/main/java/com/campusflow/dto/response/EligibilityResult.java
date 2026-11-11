@@ -37,3 +37,4 @@ public class EligibilityResult {
     private boolean alreadyApplied;
     private boolean deadlinePassed;
 }
+

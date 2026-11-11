@@ -18,3 +18,4 @@ public class InterviewFeedbackRequest {
 
     private String feedback;
 }
+

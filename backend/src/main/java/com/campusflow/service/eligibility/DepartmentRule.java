@@ -51,3 +51,4 @@ public class DepartmentRule implements EligibilityRule {
                 .build();
     }
 }
+

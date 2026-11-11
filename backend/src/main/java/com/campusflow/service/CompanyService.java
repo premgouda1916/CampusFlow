@@ -81,3 +81,4 @@ public class CompanyService {
         return EntityMapper.toCompanyResponse(company, jobsCount);
     }
 }
+

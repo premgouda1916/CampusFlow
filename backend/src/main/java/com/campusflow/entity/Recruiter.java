@@ -36,3 +36,4 @@ public class Recruiter {
     @Builder.Default
     private Long version = 0L;
 }
+

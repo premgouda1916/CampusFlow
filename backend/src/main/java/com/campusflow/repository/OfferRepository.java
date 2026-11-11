@@ -37,3 +37,4 @@ public interface OfferRepository extends JpaRepository<Offer, Long> {
     @Query("SELECT COUNT(o) FROM Offer o WHERE o.application.student.id = :studentId")
     long countByStudentId(@Param("studentId") Long studentId);
 }
+

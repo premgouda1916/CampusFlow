@@ -34,3 +34,4 @@ public class InterviewResponse {
     private InterviewStatus status;
     private String feedback;
 }
+

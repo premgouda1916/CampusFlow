@@ -179,3 +179,4 @@ class EligibilityEngineTest {
         assertTrue(result.getMatchedSkills().contains("Java"));
     }
 }
+

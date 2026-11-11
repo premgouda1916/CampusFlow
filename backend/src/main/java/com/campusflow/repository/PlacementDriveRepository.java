@@ -13,3 +13,4 @@ public interface PlacementDriveRepository extends JpaRepository<PlacementDrive, 
     List<PlacementDrive> findAllByOrderByStartDateDesc();
     long countByStatus(DriveStatus status);
 }
+

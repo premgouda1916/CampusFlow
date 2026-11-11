@@ -166,3 +166,4 @@ export const Navbar = ({ setMobileOpen }) => {
 };
 
 export default Navbar;
+

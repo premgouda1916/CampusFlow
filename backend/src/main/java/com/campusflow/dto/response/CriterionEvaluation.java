@@ -17,3 +17,4 @@ public class CriterionEvaluation {
     private String studentValue;
     private String message;
 }
+

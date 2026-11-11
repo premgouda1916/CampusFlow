@@ -42,3 +42,4 @@ public class AuditLogService {
                 .map(EntityMapper::toAuditLogResponse);
     }
 }
+

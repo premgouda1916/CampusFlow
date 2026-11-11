@@ -15,3 +15,4 @@ public class IneligibleApplicationException extends RuntimeException {
         this.eligibilityResult = eligibilityResult;
     }
 }
+

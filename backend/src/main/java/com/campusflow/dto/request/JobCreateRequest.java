@@ -53,3 +53,4 @@ public class JobCreateRequest {
 
     private Long placementDriveId;
 }
+

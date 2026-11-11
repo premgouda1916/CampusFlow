@@ -99,3 +99,4 @@ export const RecruiterOffersPage = () => {
 };
 
 export default RecruiterOffersPage;
+

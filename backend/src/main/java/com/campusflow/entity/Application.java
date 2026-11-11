@@ -47,3 +47,4 @@ public class Application {
     @Builder.Default
     private Long version = 0L;
 }
+

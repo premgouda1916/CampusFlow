@@ -40,3 +40,4 @@ public class GraduationYearRule implements EligibilityRule {
                 .build();
     }
 }
+

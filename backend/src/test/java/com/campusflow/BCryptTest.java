@@ -15,3 +15,4 @@ public class BCryptTest {
         assertTrue(encoder.matches("password123", hash));
     }
 }
+

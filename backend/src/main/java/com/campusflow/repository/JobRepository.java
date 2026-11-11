@@ -37,3 +37,4 @@ public interface JobRepository extends JpaRepository<Job, Long> {
                          @Param("search") String search,
                          Pageable pageable);
 }
+

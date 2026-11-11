@@ -60,3 +60,4 @@ public class PlacementDriveController {
         return ResponseEntity.ok(ApiResponse.success("Placement drive updated", drive));
     }
 }
+

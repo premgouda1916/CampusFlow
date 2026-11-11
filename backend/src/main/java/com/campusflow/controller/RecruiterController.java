@@ -51,3 +51,4 @@ public class RecruiterController {
         return ResponseEntity.ok(ApiResponse.success("Recruiter approval status updated", response));
     }
 }
+

@@ -64,3 +64,4 @@ public class CompanyController {
         return ResponseEntity.ok(ApiResponse.success("Company verification updated", response));
     }
 }
+

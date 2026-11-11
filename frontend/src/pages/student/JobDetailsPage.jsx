@@ -228,3 +228,4 @@ export const JobDetailsPage = () => {
 };
 
 export default JobDetailsPage;
+

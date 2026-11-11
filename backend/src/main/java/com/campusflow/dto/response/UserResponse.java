@@ -22,3 +22,4 @@ public class UserResponse {
     private boolean verified;
     private LocalDateTime createdAt;
 }
+

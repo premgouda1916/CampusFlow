@@ -55,3 +55,4 @@ public class Offer {
     @Builder.Default
     private Long version = 0L;
 }
+

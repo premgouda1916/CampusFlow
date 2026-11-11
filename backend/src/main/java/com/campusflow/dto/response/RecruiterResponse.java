@@ -20,3 +20,4 @@ public class RecruiterResponse {
     private String designation;
     private boolean approved;
 }
+

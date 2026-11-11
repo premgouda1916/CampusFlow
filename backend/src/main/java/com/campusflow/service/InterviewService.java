@@ -122,3 +122,4 @@ public class InterviewService {
                 .map(EntityMapper::toInterviewResponse);
     }
 }
+

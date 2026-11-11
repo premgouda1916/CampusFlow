@@ -175,3 +175,4 @@ export const RecruiterJobsPage = () => {
 };
 
 export default RecruiterJobsPage;
+

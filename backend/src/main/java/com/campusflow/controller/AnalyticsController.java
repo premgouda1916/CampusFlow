@@ -69,3 +69,4 @@ public class AnalyticsController {
         analyticsService.exportPlacementReportCsv(response.getWriter());
     }
 }
+

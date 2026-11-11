@@ -6,3 +6,4 @@ public enum Role {
     PLACEMENT_OFFICER,
     ADMIN
 }
+

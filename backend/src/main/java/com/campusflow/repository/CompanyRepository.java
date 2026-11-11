@@ -17,3 +17,4 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     Page<Company> findByVerified(boolean verified, Pageable pageable);
     long countByVerifiedTrue();
 }
+

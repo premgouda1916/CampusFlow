@@ -81,3 +81,4 @@ public class SkillMatchRule implements EligibilityRule {
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 }
+

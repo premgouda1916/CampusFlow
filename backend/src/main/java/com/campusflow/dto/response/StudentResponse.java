@@ -30,3 +30,4 @@ public class StudentResponse {
     private String profilePhotoUrl;
     private boolean placed;
 }
+

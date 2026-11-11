@@ -63,3 +63,4 @@ public class RecruiterService {
         return EntityMapper.toRecruiterResponse(recruiter);
     }
 }
+

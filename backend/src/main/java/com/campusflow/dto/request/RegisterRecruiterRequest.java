@@ -38,3 +38,4 @@ public class RegisterRecruiterRequest {
 
     private String designation;
 }
+

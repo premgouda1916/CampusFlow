@@ -185,3 +185,4 @@ export const RecruiterApprovalsPage = () => {
 };
 
 export default RecruiterApprovalsPage;
+

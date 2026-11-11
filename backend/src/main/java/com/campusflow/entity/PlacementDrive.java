@@ -38,3 +38,4 @@ public class PlacementDrive {
     @Column(columnDefinition = "TEXT")
     private String description;
 }
+

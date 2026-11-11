@@ -184,3 +184,4 @@ export const MyApplicationsPage = () => {
 };
 
 export default MyApplicationsPage;
+

@@ -41,3 +41,4 @@ public class ApplicationStatusHistory {
     @Builder.Default
     private LocalDateTime changedAt = LocalDateTime.now();
 }
+

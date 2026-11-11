@@ -17,3 +17,4 @@ public class OfferResponseRequest {
     @Pattern(regexp = "^(ACCEPT|REJECT)$", message = "Action must be either ACCEPT or REJECT")
     private String action;
 }
+

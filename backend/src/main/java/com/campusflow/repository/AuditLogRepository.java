@@ -19,3 +19,4 @@ public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
 
     Page<AuditLog> findByUserId(Long userId, Pageable pageable);
 }
+

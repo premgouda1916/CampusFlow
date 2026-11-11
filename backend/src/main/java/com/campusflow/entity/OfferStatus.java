@@ -6,3 +6,4 @@ public enum OfferStatus {
     REJECTED,
     EXPIRED
 }
+

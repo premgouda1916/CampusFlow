@@ -51,3 +51,4 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success("Password updated successfully", null));
     }
 }
+

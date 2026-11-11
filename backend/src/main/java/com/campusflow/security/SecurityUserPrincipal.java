@@ -69,3 +69,4 @@ public class SecurityUserPrincipal implements UserDetails {
         return user.isActive();
     }
 }
+
