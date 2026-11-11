@@ -1,0 +1,100 @@
+version: '3.8'
+
+services:
+  # MySQL 8.0 Relational Database
+  campusflow-mysql:
+    image: mysql:8.0
+    container_name: campusflow-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: campusflow_db
+      MYSQL_USER: campusflow_user
+      MYSQL_PASSWORD: campusflow_secret
+      MYSQL_ROOT_PASSWORD: root_secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot_secret"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    networks:
+      - campusflow-net
+
+  # Redis 7 In-Memory Cache
+  campusflow-redis:
+    image: redis:7-alpine
+    container_name: campusflow-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - campusflow-net
+
+  # Spring Boot 3 Backend
+  campusflow-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: campusflow-backend
+    restart: unless-stopped
+    depends_on:
+      campusflow-mysql:
+        condition: service_healthy
+      campusflow-redis:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      DB_HOST: campusflow-mysql
+      DB_PORT: 3306
+      DB_NAME: campusflow_db
+      DB_USERNAME: campusflow_user
+      DB_PASSWORD: campusflow_secret
+      REDIS_HOST: campusflow-redis
+      REDIS_PORT: 6379
+      JWT_SECRET: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      JWT_EXPIRATION_MS: 86400000
+      FILE_UPLOAD_DIR: /app/uploads/resumes
+    ports:
+      - "8080:8080"
+    volumes:
+      - backend_uploads:/app/uploads
+    networks:
+      - campusflow-net
+
+  # React 18 + Vite Frontend with Nginx Reverse Proxy
+  campusflow-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: campusflow-frontend
+    restart: unless-stopped
+    depends_on:
+      - campusflow-backend
+    ports:
+      - "80:80"
+      - "3000:80"
+    networks:
+      - campusflow-net
+
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
+  backend_uploads:
+    driver: local
+
+networks:
+  campusflow-net:
+    driver: bridge
