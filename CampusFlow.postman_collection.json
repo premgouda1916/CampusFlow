@@ -1,0 +1,647 @@
+{
+  "info": {
+    "name": "CampusFlow API Collection",
+    "_postman_id": "b3e9432e-1311-4f16-9dc4-839e248b1928",
+    "description": "Comprehensive Postman collection for CampusFlow – Smart Campus Placement & Recruitment Management Platform.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Login - Student (Arjun)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.success && jsonData.data && jsonData.data.token) {",
+                  "    pm.collectionVariables.set('token', jsonData.data.token);",
+                  "    console.log('JWT Token stored successfully');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"arjun.sharma@campusflow.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login - Google Recruiter (Ananya)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.success && jsonData.data && jsonData.data.token) {",
+                  "    pm.collectionVariables.set('token', jsonData.data.token);",
+                  "    console.log('JWT Token stored successfully');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"recruiter.google@campusflow.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login - Placement Officer (Dr. Rao)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.success && jsonData.data && jsonData.data.token) {",
+                  "    pm.collectionVariables.set('token', jsonData.data.token);",
+                  "    console.log('JWT Token stored successfully');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"officer@campusflow.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login - Administrator",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.success && jsonData.data && jsonData.data.token) {",
+                  "    pm.collectionVariables.set('token', jsonData.data.token);",
+                  "    console.log('JWT Token stored successfully');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@campusflow.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Get Authenticated User Info (/me)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "me"]
+            }
+          }
+        },
+        {
+          "name": "Register New Student",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"siddharth.m@campusflow.com\",\n  \"password\": \"password123\",\n  \"fullName\": \"Siddharth Mohan\",\n  \"usn\": \"1MS21CS115\",\n  \"phone\": \"+91 98860 12345\",\n  \"departmentId\": 1,\n  \"collegeName\": \"Ramaiah Institute of Technology\",\n  \"graduationYear\": 2026,\n  \"cgpa\": 8.92,\n  \"backlogs\": 0,\n  \"skills\": \"Java, Spring Boot, React, PostgreSQL, Docker\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/student/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "student", "register"]
+            }
+          }
+        },
+        {
+          "name": "Register New Recruiter",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"talent@cred.club\",\n  \"password\": \"password123\",\n  \"fullName\": \"Tanvi Joshi\",\n  \"phone\": \"+91 97711 22334\",\n  \"companyId\": 1,\n  \"designation\": \"University Recruiting Lead\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/recruiter/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "recruiter", "register"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Student Portal",
+      "item": [
+        {
+          "name": "Get My Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/students/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["students", "me"]
+            }
+          }
+        },
+        {
+          "name": "Get Student Dashboard Metrics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/students/me/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["students", "me", "dashboard"]
+            }
+          }
+        },
+        {
+          "name": "Update Profile & Academic Info",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Arjun Sharma\",\n  \"phone\": \"+91 98765 43210\",\n  \"collegeName\": \"R.V. College of Engineering\",\n  \"graduationYear\": 2026,\n  \"cgpa\": 8.85,\n  \"backlogs\": 0,\n  \"skills\": \"Java, Spring Boot, React, Docker, MySQL, Redis, AWS\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/students/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["students", "me"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Jobs & Dynamic Eligibility",
+      "item": [
+        {
+          "name": "List All Jobs (Filtered & Paged)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/jobs?page=0&size=10&status=PUBLISHED",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobs"],
+              "query": [
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "10" },
+                { "key": "status", "value": "PUBLISHED" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Check Dynamic Eligibility for Job (Job ID 1)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/jobs/1/check-eligibility",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobs", "1", "check-eligibility"]
+            }
+          }
+        },
+        {
+          "name": "Create Job (Recruiter Only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"driveId\": 1,\n  \"title\": \"Cloud Site Reliability Engineer\",\n  \"description\": \"Building resilient Kubernetes clusters and telemetry for distributed services.\",\n  \"jobType\": \"FULL_TIME\",\n  \"location\": \"Bengaluru, India\",\n  \"salaryPackage\": 22.0,\n  \"minimumCgpa\": 7.5,\n  \"maxBacklogs\": 0,\n  \"graduationYear\": 2026,\n  \"requiredSkills\": \"Java, Linux, Kubernetes, Go, Docker\",\n  \"applicationDeadline\": \"2026-12-31T23:59:59\",\n  \"departmentIds\": [1, 2]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/jobs",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobs"]
+            }
+          }
+        },
+        {
+          "name": "Publish Job (Job ID 2)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/jobs/2/publish",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobs", "2", "publish"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Applications Lifecycle",
+      "item": [
+        {
+          "name": "Apply for Job (Job ID 1)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/applications/jobs/1/apply",
+              "host": ["{{baseUrl}}"],
+              "path": ["applications", "jobs", "1", "apply"]
+            }
+          }
+        },
+        {
+          "name": "Get My Applications (Student)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/applications/my-applications",
+              "host": ["{{baseUrl}}"],
+              "path": ["applications", "my-applications"]
+            }
+          }
+        },
+        {
+          "name": "Get Job Applicants (Recruiter)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/applications/jobs/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["applications", "jobs", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Application Status (Shortlist)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"SHORTLISTED\",\n  \"remarks\": \"Selected based on strong backend data structure performance.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/applications/1/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["applications", "1", "status"]
+            }
+          }
+        },
+        {
+          "name": "Get Application Status History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/applications/1/history",
+              "host": ["{{baseUrl}}"],
+              "path": ["applications", "1", "history"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Interviews & Offers",
+      "item": [
+        {
+          "name": "Schedule Interview Round",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"applicationId\": 1,\n  \"roundNumber\": 2,\n  \"roundName\": \"System Design & Architecture\",\n  \"roundType\": \"TECHNICAL\",\n  \"mode\": \"ONLINE\",\n  \"meetingLink\": \"https://meet.google.com/xyz-abcd-efg\",\n  \"scheduledTime\": \"2026-11-20T14:30:00\",\n  \"durationMinutes\": 60,\n  \"instructions\": \"Please keep your IDE open with Java 21 environment ready.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/interviews",
+              "host": ["{{baseUrl}}"],
+              "path": ["interviews"]
+            }
+          }
+        },
+        {
+          "name": "Extend Job Offer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"applicationId\": 1,\n  \"packageAmount\": 24.5,\n  \"joiningDate\": \"2027-07-01\",\n  \"offerLetterUrl\": \"https://campusflow.storage/offers/OFFER-2026-GOOGLE-001.pdf\",\n  \"validUntil\": \"2026-12-15T18:00:00\",\n  \"notes\": \"Congratulations! We are delighted to extend this offer for Software Engineer - I.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/offers",
+              "host": ["{{baseUrl}}"],
+              "path": ["offers"]
+            }
+          }
+        },
+        {
+          "name": "Respond to Offer (Student: Accept)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/offers/1/respond?status=ACCEPTED",
+              "host": ["{{baseUrl}}"],
+              "path": ["offers", "1", "respond"],
+              "query": [
+                { "key": "status", "value": "ACCEPTED" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Analytics, Export & Admin",
+      "item": [
+        {
+          "name": "Get Placement Officer Analytics Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/analytics/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["analytics", "dashboard"]
+            }
+          }
+        },
+        {
+          "name": "Export Placement Report (CSV)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/analytics/export/csv",
+              "host": ["{{baseUrl}}"],
+              "path": ["analytics", "export", "csv"]
+            }
+          }
+        },
+        {
+          "name": "Get Security Audit Logs (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/analytics/audit-logs?page=0&size=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["analytics", "audit-logs"],
+              "query": [
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "20" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Pending Recruiters (Officer/Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/recruiters/pending",
+              "host": ["{{baseUrl}}"],
+              "path": ["recruiters", "pending"]
+            }
+          }
+        },
+        {
+          "name": "Approve Recruiter (Recruiter ID 3)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/recruiters/3/approve",
+              "host": ["{{baseUrl}}"],
+              "path": ["recruiters", "3", "approve"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

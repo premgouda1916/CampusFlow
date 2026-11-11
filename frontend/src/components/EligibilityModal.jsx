@@ -2,177 +2,187 @@ import React from 'react';
 import Modal from './Modal';
 import { CheckCircle2, XCircle, AlertTriangle, Sparkles, Send, Award, Clock } from 'lucide-react';
 
-export const EligibilityModal = ({ isOpen, onClose, eligibility, onApply, applying }) => {
-  if (!eligibility) return null;
+export const EligibilityModal = ({ isOpen, onClose, job, eligibilityData, loading, onApply, applying }) => {
+  if (!isOpen) return null;
+
+  const title = job?.title || 'Eligibility Evaluation';
+
+  if (loading || !eligibilityData) {
+    return (
+      <Modal isOpen={isOpen} onClose={onClose} title="Evaluating Spatial Eligibility..." maxWidth="max-w-xl">
+        <div className="py-12 flex flex-col items-center justify-center gap-3">
+          <div className="w-12 h-12 rounded-full border-2 border-blue-500 border-t-transparent animate-spin" />
+          <span className="text-xs text-slate-400 font-medium tracking-wider uppercase">Running Dynamic Invariant Checks...</span>
+        </div>
+      </Modal>
+    );
+  }
 
   const {
-    jobTitle,
     eligible,
-    overallMatchScore,
-    criteriaEvaluations = [],
+    matchScorePercentage = 0,
+    criteriaBreakdown = [],
     rejectionReasons = [],
     missingSkills = [],
     matchedSkills = [],
     alreadyApplied,
     deadlinePassed,
-  } = eligibility;
+  } = eligibilityData;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Eligibility & Fit Assessment" maxWidth="max-w-2xl">
+    <Modal isOpen={isOpen} onClose={onClose} title={`Eligibility Assessment • ${job?.companyName || ''}`} maxWidth="max-w-2xl">
       <div className="space-y-6">
-        {/* Top Header Card */}
+        {/* Top Status Card */}
         <div
-          className={`p-6 rounded-2xl border flex items-center justify-between ${
+          className={`p-5 rounded-2xl border flex items-center justify-between relative overflow-hidden ${
             eligible
-              ? 'bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border-emerald-200'
-              : 'bg-gradient-to-r from-rose-50 via-amber-50 to-rose-50 border-rose-200'
+              ? 'bg-emerald-950/40 border-emerald-500/30 text-white'
+              : 'bg-rose-950/40 border-rose-500/30 text-white'
           }`}
         >
-          <div className="space-y-1">
+          <div className="space-y-1 relative z-10">
             <div className="flex items-center gap-2">
               {eligible ? (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" /> Fully Eligible
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Fully Eligible
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-rose-100 text-rose-800">
-                  <XCircle className="w-4 h-4 text-rose-600" /> Criteria Not Met
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">
+                  <XCircle className="w-4 h-4 text-rose-400" /> Criteria Not Met
                 </span>
               )}
               {alreadyApplied && (
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-500/20 text-blue-300 border border-blue-500/30">
                   Already Applied
                 </span>
               )}
             </div>
-            <h4 className="text-lg font-bold text-slate-900">{jobTitle}</h4>
-            <p className="text-xs text-slate-500">
+            <h4 className="text-lg font-bold text-white pt-1">{title}</h4>
+            <p className="text-xs text-slate-300">
               {eligible
-                ? 'Your academic background and credentials fulfill all institutional criteria.'
-                : 'One or more prerequisite requirements were not satisfied for this role.'}
+                ? 'Your academic credentials satisfy all company and institutional requirements.'
+                : 'One or more prerequisite requirements were not satisfied.'}
             </p>
           </div>
 
-          <div className="text-center bg-white/80 backdrop-blur p-3 rounded-xl border shadow-sm">
-            <div className="text-2xl font-black text-indigo-600">{overallMatchScore}%</div>
-            <div className="text-[10px] font-semibold tracking-wider text-slate-500 uppercase">Profile Match</div>
+          {/* Profile Match Score Pill */}
+          <div className="text-center p-3 rounded-2xl bg-white/[0.06] border border-white/10 backdrop-blur-md relative z-10 min-w-[90px]">
+            <div className="text-2xl font-black text-blue-400">{Math.round(matchScorePercentage)}%</div>
+            <div className="text-[10px] font-bold tracking-wider text-slate-400 uppercase">Profile Fit</div>
           </div>
         </div>
 
-        {/* Rejection Alert if Ineligible */}
+        {/* Rejection Reasons if Ineligible */}
         {!eligible && rejectionReasons.length > 0 && (
-          <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-900 space-y-1">
-            <div className="flex items-center gap-2 font-semibold text-sm">
-              <AlertTriangle className="w-4 h-4 text-rose-600" /> Unfulfilled Conditions:
+          <div className="p-4 rounded-2xl bg-rose-950/30 border border-rose-500/30 text-rose-200 space-y-1.5">
+            <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wider text-rose-400">
+              <AlertTriangle className="w-4 h-4 text-rose-400" /> Failed Invariants:
             </div>
-            <ul className="list-disc list-inside text-xs space-y-0.5 pl-1">
+            <ul className="list-disc list-inside text-xs space-y-1 pl-1">
               {rejectionReasons.map((reason, idx) => (
-                <li key={idx}>{reason}</li>
+                <li key={idx} className="text-slate-300">{reason}</li>
               ))}
             </ul>
           </div>
         )}
 
-        {/* Individual Criteria Table */}
-        <div>
-          <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
+        {/* Criteria Breakdown Grid */}
+        <div className="space-y-2">
+          <h5 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider pl-1">
             Institutional Criterion Breakdown
           </h5>
-          <div className="border border-slate-200 rounded-xl divide-y divide-slate-100 overflow-hidden text-sm">
-            {criteriaEvaluations.map((c, i) => (
-              <div key={i} className="flex items-center justify-between p-3.5 hover:bg-slate-50/60 transition">
-                <div className="flex items-start gap-3">
+          <div className="border border-white/10 rounded-2xl divide-y divide-white/[0.06] overflow-hidden bg-white/[0.02]">
+            {criteriaBreakdown.map((c, i) => (
+              <div key={i} className="flex items-center justify-between p-3 hover:bg-white/[0.04] transition text-xs">
+                <div className="flex items-start gap-2.5">
                   {c.passed ? (
-                    <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
                   ) : (
-                    <XCircle className="w-5 h-5 text-rose-500 flex-shrink-0 mt-0.5" />
+                    <XCircle className="w-4 h-4 text-rose-400 flex-shrink-0 mt-0.5" />
                   )}
                   <div>
-                    <div className="font-medium text-slate-800">{c.ruleName}</div>
-                    <div className="text-xs text-slate-500">{c.message}</div>
+                    <div className="font-semibold text-white">{c.criterion}</div>
+                    <div className="text-[11px] text-slate-400">Requirement: {c.requirement}</div>
                   </div>
                 </div>
 
-                <div className="text-right text-xs">
-                  <div className="text-slate-400">Req: <span className="text-slate-700 font-medium">{c.requiredValue}</span></div>
-                  <div className="text-slate-400">You: <span className={c.passed ? 'text-emerald-700 font-medium' : 'text-rose-700 font-medium'}>{c.studentValue}</span></div>
+                <div className="text-right">
+                  <div className={`font-mono font-semibold ${c.passed ? 'text-emerald-400' : 'text-rose-400'}`}>
+                    {c.studentValue}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Skills Compatibility */}
-        {(matchedSkills.length > 0 || missingSkills.length > 0) && (
-          <div className="space-y-3">
-            <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-              Technical Skill Analysis
-            </h5>
-
-            {matchedSkills.length > 0 && (
-              <div>
-                <span className="text-xs font-medium text-emerald-700 block mb-1.5 flex items-center gap-1">
-                  <Award className="w-3.5 h-3.5" /> Matched Skills ({matchedSkills.length}):
-                </span>
-                <div className="flex flex-wrap gap-1.5">
-                  {matchedSkills.map((s, idx) => (
-                    <span key={idx} className="px-2.5 py-1 rounded-lg text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
-                      {s}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {missingSkills.length > 0 && (
-              <div>
-                <span className="text-xs font-medium text-amber-700 block mb-1.5 flex items-center gap-1">
-                  <Sparkles className="w-3.5 h-3.5" /> Skills Desired by Recruiter ({missingSkills.length}):
-                </span>
-                <div className="flex flex-wrap gap-1.5">
-                  {missingSkills.map((s, idx) => (
-                    <span key={idx} className="px-2.5 py-1 rounded-lg text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200">
-                      + {s}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
+        {/* Skills Alignment */}
+        <div className="grid grid-cols-2 gap-3 text-xs">
+          <div className="p-3.5 rounded-2xl spatial-panel space-y-2">
+            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-blue-400" /> Matched Skills
+            </span>
+            <div className="flex flex-wrap gap-1.5">
+              {matchedSkills.length > 0 ? (
+                matchedSkills.map((s, idx) => (
+                  <span key={idx} className="px-2 py-0.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[11px] font-medium">
+                    {s}
+                  </span>
+                ))
+              ) : (
+                <span className="text-slate-500 text-[11px]">No skill overlap detected</span>
+              )}
+            </div>
           </div>
-        )}
 
-        {/* Modal Action Bar */}
-        <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
+          <div className="p-3.5 rounded-2xl spatial-panel space-y-2">
+            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+              <AlertTriangle className="w-3.5 h-3.5 text-amber-400" /> Missing Skills
+            </span>
+            <div className="flex flex-wrap gap-1.5">
+              {missingSkills.length > 0 ? (
+                missingSkills.map((s, idx) => (
+                  <span key={idx} className="px-2 py-0.5 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[11px] font-medium">
+                    {s}
+                  </span>
+                ))
+              ) : (
+                <span className="text-emerald-400 text-[11px]">All required skills satisfied ✓</span>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Action Button Footer */}
+        <div className="pt-2 flex items-center justify-end gap-3 border-t border-white/[0.08]">
           <button
-            type="button"
             onClick={onClose}
-            className="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition"
+            className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/[0.08] transition"
           >
             Close
           </button>
 
-          {eligible && !alreadyApplied && !deadlinePassed && (
+          {eligible && !alreadyApplied && (
             <button
-              type="button"
               onClick={onApply}
               disabled={applying}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 shadow-md shadow-indigo-100 disabled:opacity-50 transition"
+              className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs tracking-wide flex items-center gap-2 shadow-spatial-glow transition disabled:opacity-50"
             >
-              <Send className="w-4 h-4" />
-              {applying ? 'Submitting Application...' : 'Apply for this Position'}
+              {applying ? (
+                <span>Submitting Application...</span>
+              ) : (
+                <>
+                  <Send className="w-3.5 h-3.5" />
+                  <span>Confirm & Submit Application</span>
+                </>
+              )}
             </button>
           )}
 
           {alreadyApplied && (
-            <div className="text-sm font-medium text-slate-500 flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-blue-500" /> Application on Record
-            </div>
-          )}
-
-          {deadlinePassed && (
-            <div className="text-sm font-medium text-rose-500 flex items-center gap-1.5">
-              <Clock className="w-4 h-4" /> Application Window Closed
-            </div>
+            <span className="text-xs text-blue-400 font-semibold px-3 py-1 rounded-xl bg-blue-500/10 border border-blue-500/20">
+              Application is under recruiter review
+            </span>
           )}
         </div>
       </div>
@@ -181,4 +191,3 @@ export const EligibilityModal = ({ isOpen, onClose, eligibility, onApply, applyi
 };
 
 export default EligibilityModal;
-
