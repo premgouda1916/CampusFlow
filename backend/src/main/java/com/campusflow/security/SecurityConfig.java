@@ -82,6 +82,8 @@ public class SecurityConfig {
                 ).permitAll()
                 // Public or unauthenticated job browsing
                 .requestMatchers(HttpMethod.GET, "/api/v1/jobs", "/api/v1/jobs/{id}", "/api/v1/companies", "/api/v1/companies/{id}", "/api/v1/departments").permitAll()
+                // Authenticated read access to campus placement drives (needed by recruiters creating jobs)
+                .requestMatchers(HttpMethod.GET, "/api/v1/placement/drives", "/api/v1/placement/drives/**").authenticated()
                 // Role specific paths
                 .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/v1/placement/**").hasAnyRole("PLACEMENT_OFFICER", "ADMIN")

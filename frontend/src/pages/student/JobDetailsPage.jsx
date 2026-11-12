@@ -4,18 +4,15 @@ import { jobService, applicationService } from '../../services/api';
 import { useToast } from '../../context/ToastContext';
 import StatusBadge from '../../components/StatusBadge';
 import {
-  Briefcase,
   MapPin,
-  Calendar,
-  Building,
+  Building2,
   ArrowLeft,
   CheckCircle2,
   XCircle,
-  AlertTriangle,
   Send,
   Loader2,
   Sparkles,
-  Award
+  Calendar
 } from 'lucide-react';
 
 export const JobDetailsPage = () => {
@@ -37,7 +34,7 @@ export const JobDetailsPage = () => {
         ]);
         setJob(jobRes.data);
         setEligibility(eligRes.data);
-      } catch (err) {
+      } catch {
         toast.error('Failed to load job details');
         navigate('/student/jobs');
       } finally {
@@ -50,9 +47,9 @@ export const JobDetailsPage = () => {
   const handleApply = async () => {
     setApplying(true);
     try {
-      await applicationService.applyForJob(id, { notes: 'Submitted from detailed view' });
-      toast.success('Application submitted successfully!');
-      setEligibility((prev) => ({ ...prev, alreadyApplied: true }));
+      await applicationService.applyForJob(id, { notes: 'Submitted from detailed role view' });
+      toast.success('Application submitted successfully.');
+      setEligibility((prev) => (prev ? { ...prev, alreadyApplied: true } : prev));
     } catch (err) {
       toast.error(err.message || 'Application submission failed');
     } finally {
@@ -61,116 +58,123 @@ export const JobDetailsPage = () => {
   };
 
   if (loading || !job) {
-    return <div className="p-12 text-center text-xs text-slate-400">Loading vacancy details...</div>;
+    return (
+      <div className="p-12 text-center text-xs text-zinc-400">
+        Loading role specification...
+      </div>
+    );
   }
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto">
-      {/* Back button */}
+    <div className="space-y-6 max-w-5xl mx-auto pb-8">
       <Link
         to="/student/jobs"
-        className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-indigo-600 transition"
+        className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-400 hover:text-emerald-400 transition"
       >
-        <ArrowLeft className="w-4 h-4" /> Back to All Openings
+        <ArrowLeft className="w-4 h-4" /> Back to Opportunities
       </Link>
 
-      {/* Main Header Banner */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="rounded-3xl spatial-panel p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <span className="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-bold uppercase tracking-wider">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="px-2.5 py-0.5 rounded-full bg-white/[0.08] text-zinc-200 border border-white/15 text-[11px] font-semibold uppercase tracking-wider">
               {job.jobType}
             </span>
             <StatusBadge status={job.status} />
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-semibold text-white tracking-tight">
             {job.title}
           </h1>
 
-          <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-slate-600">
-            <span className="flex items-center gap-1 text-slate-900 font-bold">
-              <Building className="w-4 h-4 text-slate-400" /> {job.companyName}
+          <div className="flex flex-wrap items-center gap-4 text-xs text-zinc-300">
+            <span className="flex items-center gap-1.5 font-semibold text-white">
+              <Building2 className="w-4 h-4 text-emerald-400" /> {job.companyName}
             </span>
-            <span className="flex items-center gap-1">
-              <MapPin className="w-4 h-4 text-slate-400" /> {job.location}
+            <span className="flex items-center gap-1.5 text-zinc-400">
+              <MapPin className="w-4 h-4" /> {job.location}
             </span>
-            <span className="flex items-center gap-1 font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
-              💰 {job.salaryPackage}
+            <span className="font-semibold text-emerald-300 bg-emerald-500/15 px-2.5 py-1 rounded-xl border border-emerald-500/25">
+              {job.salaryPackage}
             </span>
           </div>
         </div>
 
-        {/* Action card */}
-        <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center justify-center space-y-3 min-w-[220px]">
+        <div className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 flex flex-col items-center justify-center space-y-3 min-w-[220px]">
           {eligibility?.alreadyApplied ? (
-            <div className="text-xs font-bold text-blue-700 flex items-center gap-1.5 bg-blue-50 px-3 py-1.5 rounded-xl border border-blue-200">
-              <CheckCircle2 className="w-4 h-4" /> Applied on Record
+            <div className="text-xs font-semibold text-emerald-300 flex items-center gap-1.5 bg-emerald-500/15 px-3.5 py-2 rounded-xl border border-emerald-500/25">
+              <CheckCircle2 className="w-4 h-4" /> Application Submitted
             </div>
           ) : eligibility?.eligible ? (
             <button
+              type="button"
               onClick={handleApply}
               disabled={applying}
-              className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-xs text-white bg-indigo-600 hover:bg-indigo-700 shadow-md shadow-indigo-100 disabled:opacity-50 transition"
+              className="w-full spatial-btn-primary py-3"
             >
               {applying ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-              {applying ? 'Applying...' : 'Submit Application'}
+              <span>{applying ? 'Applying...' : 'Submit Application'}</span>
             </button>
           ) : (
             <div className="text-center space-y-1">
-              <span className="inline-flex items-center gap-1 text-xs font-bold text-rose-700 bg-rose-50 px-3 py-1.5 rounded-xl border border-rose-200">
-                <XCircle className="w-4 h-4" /> Ineligible to Apply
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-rose-300 bg-rose-500/15 px-3.5 py-1.5 rounded-xl border border-rose-500/25">
+                <XCircle className="w-4 h-4" /> Criteria Not Met
               </span>
-              <p className="text-[11px] text-slate-400">See criteria breakdown below</p>
+              <p className="text-[11px] text-zinc-400">Review breakdown on the right</p>
             </div>
           )}
-          <div className="text-[11px] text-slate-400">
+          <div className="text-[11px] text-zinc-400 flex items-center gap-1">
+            <Calendar className="w-3 h-3" />
             Deadline: {new Date(job.applicationDeadline).toLocaleDateString()}
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left 2 Cols: Description & Requirements */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-4">
-            <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3">
+          <div className="rounded-3xl spatial-panel p-6 sm:p-7 space-y-3">
+            <h3 className="text-sm font-semibold text-white border-b border-white/[0.08] pb-3">
               Role Description & Scope
             </h3>
-            <div className="text-sm text-slate-600 leading-relaxed whitespace-pre-line">
+            <div className="text-xs sm:text-sm text-zinc-300 leading-relaxed whitespace-pre-line">
               {job.description}
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-4">
-            <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3">
-              Academic & Skill Prerequisites
+          <div className="rounded-3xl spatial-panel p-6 sm:p-7 space-y-4">
+            <h3 className="text-sm font-semibold text-white border-b border-white/[0.08] pb-3">
+              Academic & Technical Prerequisites
             </h3>
-            <div className="grid grid-cols-2 gap-4 text-xs">
-              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
-                <div className="text-slate-400 font-medium">Minimum CGPA</div>
-                <div className="text-base font-black text-slate-900 mt-0.5">{job.minCgpa} / 10.0</div>
+            <div className="grid grid-cols-2 gap-3.5 text-xs">
+              <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.07]">
+                <div className="text-zinc-400">Minimum CGPA</div>
+                <div className="text-base font-semibold text-white mt-0.5">{job.minCgpa} / 10.0</div>
               </div>
-              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
-                <div className="text-slate-400 font-medium">Max Active Backlogs</div>
-                <div className="text-base font-black text-slate-900 mt-0.5">{job.maxBacklogs} allowed</div>
+              <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.07]">
+                <div className="text-zinc-400">Max Active Backlogs</div>
+                <div className="text-base font-semibold text-white mt-0.5">{job.maxBacklogs} allowed</div>
               </div>
-              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
-                <div className="text-slate-400 font-medium">Qualifying Batch Year</div>
-                <div className="text-base font-black text-slate-900 mt-0.5">{job.graduationYear}</div>
+              <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.07]">
+                <div className="text-zinc-400">Qualifying Batch</div>
+                <div className="text-base font-semibold text-white mt-0.5">{job.graduationYear}</div>
               </div>
-              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
-                <div className="text-slate-400 font-medium">Eligible Departments</div>
-                <div className="text-base font-black text-slate-900 mt-0.5">{job.eligibleDepartments}</div>
+              <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.07]">
+                <div className="text-zinc-400">Eligible Branches</div>
+                <div className="text-base font-semibold text-white mt-0.5">{job.eligibleDepartments}</div>
               </div>
             </div>
 
             {job.requiredSkills && (
               <div className="pt-2">
-                <span className="text-xs font-semibold text-slate-500 block mb-2">Required Technical Skills:</span>
+                <span className="text-xs font-medium text-zinc-400 block mb-2">
+                  Required Technical Skills
+                </span>
                 <div className="flex flex-wrap gap-1.5">
                   {job.requiredSkills.split(',').map((skill, i) => (
-                    <span key={i} className="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">
+                    <span
+                      key={i}
+                      className="px-2.5 py-1 rounded-lg text-xs font-medium bg-white/[0.05] text-zinc-200 border border-white/10"
+                    >
                       {skill.trim()}
                     </span>
                   ))}
@@ -180,40 +184,44 @@ export const JobDetailsPage = () => {
           </div>
         </div>
 
-        {/* Right Col: Live Dynamic Eligibility Card */}
-        <div className="space-y-6">
-          <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm space-y-4 sticky top-24">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <h4 className="text-sm font-bold text-slate-900 flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-indigo-600" /> Dynamic Eligibility
+        <div>
+          <div className="rounded-3xl spatial-panel p-6 space-y-4 sticky top-4">
+            <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
+              <h4 className="text-sm font-semibold text-white flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-emerald-400" /> Eligibility Check
               </h4>
-              <span className="text-xs font-black text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">
-                {eligibility?.overallMatchScore}% Match
+              <span className="text-xs font-semibold text-emerald-300 bg-emerald-500/15 border border-emerald-500/25 px-2.5 py-0.5 rounded-full tabular-nums">
+                {Math.round(eligibility?.overallMatchScore ?? 0)}% Match
               </span>
             </div>
 
-            {eligibility?.criteriaEvaluations?.map((c, i) => (
-              <div key={i} className="flex items-start gap-2.5 text-xs py-1">
-                {c.passed ? (
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
-                ) : (
-                  <XCircle className="w-4 h-4 text-rose-500 flex-shrink-0 mt-0.5" />
-                )}
-                <div>
-                  <div className="font-semibold text-slate-800">{c.ruleName}</div>
-                  <div className="text-[11px] text-slate-500">{c.message}</div>
+            <div className="space-y-3">
+              {eligibility?.criteriaEvaluations?.map((c, i) => (
+                <div key={i} className="flex items-start gap-2.5 text-xs">
+                  {c.passed ? (
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                  ) : (
+                    <XCircle className="w-4 h-4 text-rose-400 flex-shrink-0 mt-0.5" />
+                  )}
+                  <div>
+                    <div className="font-semibold text-zinc-100">{c.criterionName || c.ruleName}</div>
+                    <div className="text-[11px] text-zinc-400">{c.message}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
 
             {eligibility?.missingSkills?.length > 0 && (
-              <div className="pt-3 border-t border-slate-100">
-                <span className="text-[11px] font-bold text-amber-700 block mb-1.5">
-                  Missing Skills ({eligibility.missingSkills.length}):
+              <div className="pt-3 border-t border-white/[0.08]">
+                <span className="text-[11px] font-semibold text-amber-300 block mb-2">
+                  Missing Skills ({eligibility.missingSkills.length})
                 </span>
-                <div className="flex flex-wrap gap-1">
+                <div className="flex flex-wrap gap-1.5">
                   {eligibility.missingSkills.map((s, idx) => (
-                    <span key={idx} className="px-2 py-0.5 rounded text-[10px] bg-amber-50 text-amber-800 border border-amber-200">
+                    <span
+                      key={idx}
+                      className="px-2 py-0.5 rounded-lg text-[11px] bg-amber-500/15 text-amber-300 border border-amber-500/25"
+                    >
                       {s}
                     </span>
                   ))}
@@ -228,4 +236,3 @@ export const JobDetailsPage = () => {
 };
 
 export default JobDetailsPage;
-

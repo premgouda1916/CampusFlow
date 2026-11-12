@@ -5,47 +5,48 @@ export const StatusBadge = ({ status }) => {
 
   const statusConfig = {
     // Application statuses
-    APPLIED: { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200', label: 'Applied' },
-    UNDER_REVIEW: { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', label: 'Under Review' },
-    SHORTLISTED: { bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200', label: 'Shortlisted' },
-    INTERVIEW_SCHEDULED: { bg: 'bg-purple-50', text: 'text-purple-700', border: 'border-purple-200', label: 'Interview Scheduled' },
-    SELECTED: { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200', label: 'Selected' },
-    REJECTED: { bg: 'bg-rose-50', text: 'text-rose-700', border: 'border-rose-200', label: 'Not Selected' },
-    WITHDRAWN: { bg: 'bg-slate-100', text: 'text-slate-600', border: 'border-slate-300', label: 'Withdrawn' },
+    APPLIED: { style: 'bg-zinc-100/10 text-zinc-200 border-zinc-400/25', label: 'Applied' },
+    UNDER_REVIEW: { style: 'bg-amber-500/15 text-amber-300 border-amber-400/25', label: 'Under Review' },
+    SHORTLISTED: { style: 'bg-teal-500/15 text-teal-300 border-teal-400/25', label: 'Shortlisted' },
+    INTERVIEW_SCHEDULED: { style: 'bg-amber-500/15 text-amber-300 border-amber-400/25', label: 'Interview Scheduled' },
+    SELECTED: { style: 'bg-emerald-500/15 text-emerald-300 border-emerald-400/25', label: 'Selected' },
+    REJECTED: { style: 'bg-rose-500/15 text-rose-300 border-rose-400/25', label: 'Not Selected' },
+    WITHDRAWN: { style: 'bg-white/[0.06] text-zinc-400 border-white/15', label: 'Withdrawn' },
 
     // Job statuses
-    DRAFT: { bg: 'bg-slate-100', text: 'text-slate-700', border: 'border-slate-300', label: 'Draft' },
-    PUBLISHED: { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200', label: 'Published' },
-    CLOSED: { bg: 'bg-slate-100', text: 'text-slate-600', border: 'border-slate-300', label: 'Closed' },
-    CANCELLED: { bg: 'bg-rose-50', text: 'text-rose-700', border: 'border-rose-200', label: 'Cancelled' },
+    DRAFT: { style: 'bg-white/[0.06] text-zinc-300 border-white/15', label: 'Draft' },
+    PUBLISHED: { style: 'bg-emerald-500/15 text-emerald-300 border-emerald-400/25', label: 'Published' },
+    CLOSED: { style: 'bg-white/[0.06] text-zinc-400 border-white/15', label: 'Closed' },
+    CANCELLED: { style: 'bg-rose-500/15 text-rose-300 border-rose-400/25', label: 'Cancelled' },
 
     // Interview statuses
-    SCHEDULED: { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200', label: 'Scheduled' },
-    COMPLETED: { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200', label: 'Completed' },
-    RESCHEDULED: { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', label: 'Rescheduled' },
+    SCHEDULED: { style: 'bg-teal-500/15 text-teal-300 border-teal-400/25', label: 'Scheduled' },
+    COMPLETED: { style: 'bg-emerald-500/15 text-emerald-300 border-emerald-400/25', label: 'Completed' },
+    RESCHEDULED: { style: 'bg-amber-500/15 text-amber-300 border-amber-400/25', label: 'Rescheduled' },
 
     // Offer statuses
-    OFFERED: { bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200', label: 'Offer Extended' },
-    ACCEPTED: { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200', label: 'Offer Accepted' },
-    EXPIRED: { bg: 'bg-slate-100', text: 'text-slate-600', border: 'border-slate-300', label: 'Expired' },
+    OFFERED: { style: 'bg-teal-500/15 text-teal-300 border-teal-400/25', label: 'Offer Extended' },
+    ACCEPTED: { style: 'bg-emerald-500/15 text-emerald-300 border-emerald-400/25', label: 'Offer Accepted' },
+    EXPIRED: { style: 'bg-white/[0.06] text-zinc-400 border-white/15', label: 'Expired' },
+
+    // Drive statuses
+    UPCOMING: { style: 'bg-amber-500/15 text-amber-300 border-amber-400/25', label: 'Upcoming' },
+    ONGOING: { style: 'bg-emerald-500/15 text-emerald-300 border-emerald-400/25', label: 'Ongoing' },
   };
 
   const config = statusConfig[status] || {
-    bg: 'bg-slate-50',
-    text: 'text-slate-700',
-    border: 'border-slate-200',
+    style: 'bg-white/[0.06] text-zinc-300 border-white/15',
     label: status.replace(/_/g, ' '),
   };
 
   return (
     <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${config.bg} ${config.text} ${config.border}`}
+      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium border backdrop-blur-md ${config.style}`}
     >
-      <span className="w-1.5 h-1.5 mr-1.5 rounded-full bg-current opacity-75"></span>
+      <span className="w-1.5 h-1.5 mr-1.5 rounded-full bg-current opacity-80" />
       {config.label}
     </span>
   );
 };
 
 export default StatusBadge;
-

@@ -122,8 +122,9 @@ public class StudentService {
     }
 
     @Transactional(readOnly = true)
-    public Page<StudentResponse> getAllStudents(Long departmentId, Integer graduationYear, Boolean isPlaced, Pageable pageable) {
-        return studentRepository.findStudentsWithFilter(departmentId, graduationYear, isPlaced, pageable)
+    public Page<StudentResponse> getAllStudents(Long departmentId, Integer graduationYear, Boolean isPlaced, String search, Pageable pageable) {
+        String normalizedSearch = (search != null && !search.isBlank()) ? search.trim() : null;
+        return studentRepository.findStudentsWithFilter(departmentId, graduationYear, isPlaced, normalizedSearch, pageable)
                 .map(EntityMapper::toStudentResponse);
     }
 }

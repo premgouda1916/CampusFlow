@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authService } from '../../services/api';
 import { useToast } from '../../context/ToastContext';
-import { GraduationCap, ArrowRight, Loader2, KeyRound } from 'lucide-react';
+import { Loader2, KeyRound, ArrowLeft } from 'lucide-react';
 
 export const ForgotPasswordPage = () => {
   const [email, setEmail] = useState('');
@@ -30,82 +30,76 @@ export const ForgotPasswordPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
-        <Link to="/" className="inline-flex items-center gap-2.5">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-indigo-400 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20">
-            <GraduationCap className="w-6 h-6" />
+    <div className="min-h-screen spatial-environment text-zinc-100 flex flex-col justify-center items-center p-4">
+      <div className="w-full max-w-md rounded-[32px] spatial-window specular-rim p-6 sm:p-8 space-y-6">
+        <div className="text-center space-y-2">
+          <Link
+            to="/"
+            className="w-11 h-11 mx-auto rounded-2xl bg-emerald-600 flex items-center justify-center text-white font-bold text-base shadow-spatial-glow"
+          >
+            CF
+          </Link>
+          <h1 className="text-xl font-light text-white tracking-tight">
+            Reset <strong className="font-semibold">Password</strong>
+          </h1>
+          <p className="text-xs text-zinc-400">
+            Enter your registered email address and a new password
+          </p>
+        </div>
+
+        {errorMsg && (
+          <div className="p-3.5 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-200 text-xs">
+            {errorMsg}
           </div>
-          <span className="text-2xl font-black text-white tracking-tight">CampusFlow</span>
-        </Link>
-        <h2 className="mt-4 text-2xl font-bold text-white tracking-tight">
-          Reset Your Password
-        </h2>
-        <p className="mt-1 text-sm text-slate-400">
-          Enter your registered email and a new password
-        </p>
-      </div>
+        )}
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4 sm:px-0">
-        <div className="bg-slate-850 py-8 px-6 sm:px-8 shadow-2xl rounded-2xl border border-slate-800 space-y-5">
-          {errorMsg && (
-            <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs font-medium">
-              {errorMsg}
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
-                Registered Email
-              </label>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="name@campusflow.com"
-                className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
-                New Password (min 6 characters)
-              </label>
-              <input
-                type="password"
-                required
-                minLength={6}
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="••••••••••••"
-                className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg shadow-indigo-600/30 transition disabled:opacity-50"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" /> Updating...
-                </>
-              ) : (
-                <>
-                  <KeyRound className="w-4 h-4" /> Save New Password
-                </>
-              )}
-            </button>
-          </form>
-
-          <div className="text-center pt-2">
-            <Link to="/login" className="text-xs text-slate-400 hover:text-white font-medium">
-              Back to Sign In
-            </Link>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="spatial-label">Registered Email</label>
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="name@campusflow.com"
+              className="spatial-input"
+            />
           </div>
+
+          <div>
+            <label className="spatial-label">New Password (min 6 chars)</label>
+            <input
+              type="password"
+              required
+              minLength={6}
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              placeholder="••••••••••••"
+              className="spatial-input"
+            />
+          </div>
+
+          <button type="submit" disabled={loading} className="w-full spatial-btn-primary py-3">
+            {loading ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" /> Updating...
+              </>
+            ) : (
+              <>
+                <KeyRound className="w-4 h-4" />
+                <span>Update Password</span>
+              </>
+            )}
+          </button>
+        </form>
+
+        <div className="text-center pt-2 border-t border-white/[0.08]">
+          <Link
+            to="/login"
+            className="inline-flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white font-medium transition"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" /> Back to Sign In
+          </Link>
         </div>
       </div>
     </div>
@@ -113,4 +107,3 @@ export const ForgotPasswordPage = () => {
 };
 
 export default ForgotPasswordPage;
-

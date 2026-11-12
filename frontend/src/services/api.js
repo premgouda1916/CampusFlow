@@ -31,7 +31,11 @@ api.interceptors.response.use(
         window.location.href = '/login?session_expired=true';
       }
     }
-    const message = error.response?.data?.message || error.message || 'An unexpected error occurred';
+    const validationErrors = error.response?.data?.validationErrors;
+    const validationMsg = Array.isArray(validationErrors) && validationErrors.length > 0
+      ? validationErrors.map((v) => v.message).join(' • ')
+      : null;
+    const message = validationMsg || error.response?.data?.message || error.message || 'An unexpected error occurred';
     return Promise.reject({
       message,
       status: error.response?.status,
@@ -124,6 +128,7 @@ export const analyticsService = {
   getStudentDashboard: () => api.get('/analytics/student'),
   getRecruiterDashboard: () => api.get('/analytics/recruiter'),
   getPlacementOfficerDashboard: () => api.get('/analytics/placement'),
+  getPlacementOffers: () => api.get('/analytics/placement/offers'),
   getAdminDashboard: () => api.get('/analytics/admin'),
 };
 

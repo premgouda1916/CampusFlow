@@ -3,7 +3,6 @@ import { studentService } from '../../services/api';
 import { useToast } from '../../context/ToastContext';
 import { useAuth } from '../../context/AuthContext';
 import {
-  User,
   GraduationCap,
   FileText,
   Upload,
@@ -14,7 +13,7 @@ import {
 } from 'lucide-react';
 
 export const StudentProfilePage = () => {
-  const { user, updateUserState } = useAuth();
+  const { updateUserState } = useAuth();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -47,8 +46,8 @@ export const StudentProfilePage = () => {
         backlogCount: p.backlogCount || 0,
         skills: p.skills || '',
       });
-    } catch (err) {
-      toast.error('Could not load profile');
+    } catch {
+      toast.error('Could not load student profile');
     } finally {
       setLoading(false);
     }
@@ -69,14 +68,14 @@ export const StudentProfilePage = () => {
     try {
       const payload = {
         ...formData,
-        graduationYear: parseInt(formData.graduationYear),
+        graduationYear: parseInt(formData.graduationYear, 10),
         currentCgpa: parseFloat(formData.currentCgpa),
-        backlogCount: parseInt(formData.backlogCount),
+        backlogCount: parseInt(formData.backlogCount, 10),
       };
       const res = await studentService.updateMyProfile(payload);
       setProfile(res.data);
       updateUserState({ fullName: res.data.fullName });
-      toast.success('Academic profile updated successfully!');
+      toast.success('Academic profile updated successfully.');
     } catch (err) {
       toast.error(err.message || 'Profile update failed');
     } finally {
@@ -99,7 +98,7 @@ export const StudentProfilePage = () => {
 
     try {
       const res = await studentService.uploadResume(data);
-      toast.success('Resume uploaded successfully!');
+      toast.success('Resume uploaded successfully.');
       setProfile((prev) => ({ ...prev, resumeUrl: res.data }));
     } catch (err) {
       toast.error(err.message || 'Resume upload failed');
@@ -109,77 +108,84 @@ export const StudentProfilePage = () => {
   };
 
   if (loading) {
-    return <div className="p-12 text-center text-xs text-slate-400">Loading student profile...</div>;
+    return (
+      <div className="p-12 text-center text-xs text-zinc-400">
+        Loading academic profile...
+      </div>
+    );
   }
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
-      <div>
-        <h1 className="text-2xl font-black text-slate-900 tracking-tight">Academic Profile & Resume</h1>
-        <p className="text-xs text-slate-500">
+    <div className="space-y-6 max-w-5xl mx-auto pb-8">
+      <div className="rounded-3xl spatial-panel p-5 sm:p-6">
+        <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-400">
+          Candidate Portfolio
+        </span>
+        <h1 className="text-2xl font-light text-white tracking-tight mt-0.5">
+          Academic <strong className="font-semibold">Profile & Resume</strong>
+        </h1>
+        <p className="text-xs text-zinc-400 mt-0.5">
           This data powers the Dynamic Eligibility Engine during campus recruitment screenings.
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Col: Readonly Identifiers & Resume Upload */}
         <div className="space-y-6">
-          <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm space-y-4">
-            <div className="w-16 h-16 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 font-black text-2xl mx-auto">
+          <div className="rounded-3xl spatial-panel p-6 space-y-4">
+            <div className="w-16 h-16 rounded-2xl bg-emerald-500/15 border border-emerald-400/30 flex items-center justify-center text-emerald-300 font-bold text-2xl mx-auto">
               {profile?.fullName?.charAt(0)}
             </div>
 
             <div className="text-center space-y-1">
-              <h3 className="font-bold text-base text-slate-900">{profile?.fullName}</h3>
-              <div className="text-xs text-slate-400">{profile?.email}</div>
-              <div className="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-100">
+              <h3 className="font-semibold text-base text-white">{profile?.fullName}</h3>
+              <div className="text-xs text-zinc-400">{profile?.email}</div>
+              <div className="inline-block mt-1.5 px-3 py-0.5 rounded-full text-[11px] font-semibold bg-white/[0.08] text-zinc-200 border border-white/15">
                 USN: {profile?.usn}
               </div>
             </div>
 
-            <div className="border-t border-slate-100 pt-3 text-xs space-y-1.5 text-slate-600">
+            <div className="border-t border-white/[0.08] pt-3.5 text-xs space-y-2 text-zinc-400">
               <div className="flex justify-between">
-                <span className="text-slate-400">Department:</span>
-                <strong className="text-slate-800">{profile?.departmentCode}</strong>
+                <span>Department</span>
+                <strong className="text-zinc-100">{profile?.departmentCode}</strong>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-400">Placement State:</span>
+                <span>Placement State</span>
                 {profile?.placed ? (
-                  <span className="text-emerald-700 font-bold">Placed</span>
+                  <span className="text-emerald-400 font-semibold">Placed</span>
                 ) : (
-                  <span className="text-slate-500">Available</span>
+                  <span className="text-zinc-200 font-medium">Available</span>
                 )}
               </div>
             </div>
           </div>
 
-          {/* Resume Upload Box */}
-          <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm space-y-4">
-            <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <FileText className="w-4 h-4 text-indigo-600" /> Resume Document
+          <div className="rounded-3xl spatial-panel p-6 space-y-4">
+            <h4 className="text-sm font-semibold text-white flex items-center gap-2">
+              <FileText className="w-4 h-4 text-emerald-400" /> Resume Document
             </h4>
 
             {profile?.resumeUrl ? (
-              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <div className="text-xs font-semibold text-slate-800 flex items-center gap-1">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Resume on file
+              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-between gap-2">
+                <div className="space-y-0.5 min-w-0">
+                  <div className="text-xs font-semibold text-white flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> Resume on file
                   </div>
-                  <div className="text-[10px] text-slate-400">PDF / DOC format</div>
+                  <div className="text-[11px] text-zinc-400 truncate">PDF / DOC format</div>
                 </div>
                 <a
                   href={profile.resumeUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="p-1.5 rounded-lg text-indigo-600 hover:bg-indigo-50 transition"
-                  title="View document"
+                  className="p-2 rounded-xl text-emerald-400 hover:bg-white/[0.08] transition"
+                  title="Open Resume"
                 >
                   <ExternalLink className="w-4 h-4" />
                 </a>
               </div>
             ) : (
-              <div className="text-xs text-amber-600 bg-amber-50 p-3 rounded-xl border border-amber-200">
-                No resume uploaded yet. Recruiters cannot review your candidate portfolio!
+              <div className="text-xs text-amber-300 bg-amber-500/10 p-3.5 rounded-2xl border border-amber-500/25">
+                No resume uploaded yet. Upload your PDF resume so recruiters can review your profile.
               </div>
             )}
 
@@ -191,7 +197,7 @@ export const StudentProfilePage = () => {
                 disabled={uploading}
                 className="hidden"
               />
-              <div className="w-full py-2.5 px-4 rounded-xl border-2 border-dashed border-indigo-200 hover:border-indigo-400 bg-indigo-50/30 text-indigo-700 text-xs font-semibold flex items-center justify-center gap-2 transition">
+              <div className="w-full py-2.5 px-4 rounded-xl border border-dashed border-emerald-400/40 hover:border-emerald-400/70 bg-emerald-500/10 hover:bg-emerald-500/15 text-emerald-300 text-xs font-semibold flex items-center justify-center gap-2 transition">
                 {uploading ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin" /> Uploading...
@@ -206,46 +212,39 @@ export const StudentProfilePage = () => {
           </div>
         </div>
 
-        {/* Right 2 Cols: Edit Academic Form */}
         <div className="lg:col-span-2">
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-6">
-            <h3 className="font-bold text-base text-slate-900 border-b border-slate-100 pb-3 flex items-center gap-2">
-              <GraduationCap className="w-4 h-4 text-indigo-600" /> Edit Profile & Credentials
+          <div className="rounded-3xl spatial-panel p-6 sm:p-8 space-y-6">
+            <h3 className="font-semibold text-sm text-white border-b border-white/[0.08] pb-3.5 flex items-center gap-2">
+              <GraduationCap className="w-4 h-4 text-emerald-400" /> Edit Profile & Credentials
             </h3>
 
             <form onSubmit={handleProfileSave} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
-                    Display Name
-                  </label>
+                  <label className="spatial-label">Display Name</label>
                   <input
                     type="text"
                     name="fullName"
                     required
                     value={formData.fullName}
                     onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="spatial-input"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
-                    Phone Number
-                  </label>
+                  <label className="spatial-label">Phone Number</label>
                   <input
                     type="text"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="spatial-input"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
-                    Current Cumulative CGPA (0 - 10) *
-                  </label>
+                  <label className="spatial-label">Cumulative CGPA (0 - 10) *</label>
                   <input
                     type="number"
                     step="0.01"
@@ -255,14 +254,12 @@ export const StudentProfilePage = () => {
                     required
                     value={formData.currentCgpa}
                     onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="spatial-input"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
-                    Active Backlog Count *
-                  </label>
+                  <label className="spatial-label">Active Backlog Count *</label>
                   <input
                     type="number"
                     min="0"
@@ -270,61 +267,51 @@ export const StudentProfilePage = () => {
                     required
                     value={formData.backlogCount}
                     onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="spatial-input"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
-                    Graduation Batch Year *
-                  </label>
+                  <label className="spatial-label">Graduation Batch Year *</label>
                   <input
                     type="number"
                     name="graduationYear"
                     required
                     value={formData.graduationYear}
                     onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="spatial-input"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
-                    Institution / University
-                  </label>
+                  <label className="spatial-label">Institution / University</label>
                   <input
                     type="text"
                     name="collegeName"
                     required
                     value={formData.collegeName}
                     onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="spatial-input"
                   />
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
-                    Technical Skills (Comma-separated)
-                  </label>
+                  <label className="spatial-label">Technical Skills (Comma-separated)</label>
                   <textarea
                     rows={3}
                     name="skills"
                     value={formData.skills}
                     onChange={handleChange}
-                    placeholder="Java, Python, Spring Boot, MySQL, React, Docker, Git"
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 leading-relaxed"
+                    placeholder="Java, Spring Boot, MySQL, React, Docker, Git"
+                    className="spatial-input leading-relaxed"
                   />
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-slate-100 flex justify-end">
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-xs text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm transition disabled:opacity-50"
-                >
+              <div className="pt-4 border-t border-white/[0.08] flex justify-end">
+                <button type="submit" disabled={saving} className="spatial-btn-primary">
                   {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                  Save Academic Changes
+                  <span>Save Academic Changes</span>
                 </button>
               </div>
             </form>
@@ -336,4 +323,3 @@ export const StudentProfilePage = () => {
 };
 
 export default StudentProfilePage;
-

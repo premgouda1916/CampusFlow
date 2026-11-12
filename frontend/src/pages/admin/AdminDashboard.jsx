@@ -6,11 +6,7 @@ import {
   Users,
   Briefcase,
   Activity,
-  Layers,
-  FileSpreadsheet,
-  CheckCircle2,
-  Clock,
-  ArrowRight
+  Layers
 } from 'lucide-react';
 
 export const AdminDashboard = () => {
@@ -25,129 +21,130 @@ export const AdminDashboard = () => {
   }, []);
 
   if (loading) {
-    return <div className="p-12 text-center text-xs text-slate-400">Loading system administration console...</div>;
+    return (
+      <div className="h-96 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-10 h-10 rounded-full border-2 border-emerald-500 border-t-transparent animate-spin" />
+          <span className="text-xs text-zinc-400 font-medium">Loading system governance console...</span>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-slate-900 via-rose-950 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <div className="space-y-6 pb-8">
+      <div className="rounded-3xl spatial-panel p-6 sm:p-7 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-2">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30">
+          <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-semibold bg-rose-500/15 text-rose-300 border border-rose-500/25">
             <ShieldCheck className="w-3.5 h-3.5" /> Platform Governance
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-            System Administration & Security
+          </span>
+          <h1 className="text-2xl sm:text-3xl font-light text-white tracking-tight">
+            System <strong className="font-semibold">Administration & Security</strong>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300 max-w-xl leading-relaxed">
-            Monitor real-time platform user activity, corporate accounts, database integrity, and security audit logs.
+          <p className="text-xs sm:text-sm text-zinc-400 max-w-xl leading-relaxed">
+            Monitor platform accounts, enterprise verification queues, active requisitions, and immutable audit logs.
           </p>
         </div>
 
-        <div className="flex gap-2">
-          <Link
-            to="/officer/approvals"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs text-white bg-rose-600 hover:bg-rose-500 shadow-md shadow-rose-600/20 transition"
-          >
-            Review Approvals
-          </Link>
-        </div>
+        <Link to="/officer/approvals" className="spatial-btn-primary py-3 px-6 shrink-0">
+          Review Pending Approvals
+        </Link>
       </div>
 
-      {/* Global Metrics */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-        <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-sm space-y-2">
-          <div className="flex items-center justify-between text-slate-500">
-            <span className="text-xs font-semibold uppercase tracking-wider">Total Users</span>
-            <div className="p-2 rounded-xl bg-indigo-50 text-indigo-600">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="p-5 rounded-2xl spatial-panel spatial-panel-hover space-y-2">
+          <div className="flex items-center justify-between text-zinc-400">
+            <span className="text-[11px] font-semibold uppercase tracking-wider">Total Users</span>
+            <div className="p-2 rounded-xl bg-white/[0.06] text-zinc-300 border border-white/10">
               <Users className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-slate-900">{stats?.totalUsers}</div>
-          <div className="text-[11px] text-slate-400">
-            {stats?.totalStudents} Students &bull; {stats?.totalRecruiters} Recruiters
+          <div className="text-3xl font-semibold text-white tabular-nums">{stats?.totalUsers ?? 0}</div>
+          <div className="text-[11px] text-zinc-400">
+            {stats?.totalStudents ?? 0} Students • {stats?.totalRecruiters ?? 0} Recruiters
           </div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-sm space-y-2">
-          <div className="flex items-center justify-between text-slate-500">
-            <span className="text-xs font-semibold uppercase tracking-wider">Enterprises</span>
-            <div className="p-2 rounded-xl bg-teal-50 text-teal-600">
+        <div className="p-5 rounded-2xl spatial-panel spatial-panel-hover space-y-2">
+          <div className="flex items-center justify-between text-zinc-400">
+            <span className="text-[11px] font-semibold uppercase tracking-wider">Enterprises</span>
+            <div className="p-2 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">
               <Briefcase className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-slate-900">{stats?.verifiedCompanies}</div>
-          <div className="text-[11px] text-slate-400">
-            {stats?.pendingCompanyApprovals} Pending Approvals
+          <div className="text-3xl font-semibold text-white tabular-nums">{stats?.verifiedCompanies ?? 0}</div>
+          <div className="text-[11px] text-zinc-400">
+            {stats?.pendingCompanyApprovals ?? 0} Pending verification
           </div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-sm space-y-2">
-          <div className="flex items-center justify-between text-slate-500">
-            <span className="text-xs font-semibold uppercase tracking-wider">Applications</span>
-            <div className="p-2 rounded-xl bg-blue-50 text-blue-600">
+        <div className="p-5 rounded-2xl spatial-panel spatial-panel-hover space-y-2">
+          <div className="flex items-center justify-between text-zinc-400">
+            <span className="text-[11px] font-semibold uppercase tracking-wider">Applications</span>
+            <div className="p-2 rounded-xl bg-amber-500/15 text-amber-400 border border-amber-500/20">
               <Layers className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-slate-900">{stats?.totalApplications}</div>
-          <div className="text-[11px] text-slate-400">Across {stats?.totalJobs} jobs</div>
+          <div className="text-3xl font-semibold text-white tabular-nums">{stats?.totalApplications ?? 0}</div>
+          <div className="text-[11px] text-zinc-400">Across {stats?.totalJobs ?? 0} job openings</div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-sm space-y-2">
-          <div className="flex items-center justify-between text-slate-500">
-            <span className="text-xs font-semibold uppercase tracking-wider">Audit Records</span>
-            <div className="p-2 rounded-xl bg-rose-50 text-rose-600">
+        <div className="p-5 rounded-2xl bg-emerald-600 text-white shadow-spatial-glow border border-emerald-400/35 space-y-2">
+          <div className="flex items-center justify-between text-emerald-50">
+            <span className="text-[11px] font-semibold uppercase tracking-wider">Audit Records</span>
+            <div className="p-2 rounded-xl bg-white/15">
               <Activity className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-slate-900">{stats?.totalAuditLogs}</div>
-          <div className="text-[11px] text-slate-400">Security event history</div>
+          <div className="text-3xl font-bold tabular-nums">{stats?.totalAuditLogs ?? 0}</div>
+          <div className="text-[11px] text-emerald-50">Immutable security ledger</div>
         </div>
       </div>
 
-      {/* Audit Log Stream */}
-      <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden space-y-4">
-        <div className="p-6 border-b border-slate-100 flex items-center justify-between">
+      <div className="rounded-3xl spatial-panel overflow-hidden">
+        <div className="p-6 border-b border-white/[0.08] flex items-center justify-between">
           <div>
-            <h3 className="font-bold text-base text-slate-900 flex items-center gap-2">
-              <Activity className="w-4 h-4 text-rose-600" /> Platform Audit Trail Stream
+            <h3 className="font-semibold text-base text-white flex items-center gap-2">
+              <Activity className="w-4 h-4 text-rose-400" /> Platform Audit Trail Stream
             </h3>
-            <p className="text-xs text-slate-400">Immutable ledger of sensitive operations and status transitions.</p>
+            <p className="text-xs text-zinc-400 mt-0.5">
+              Immutable ledger of sensitive operations and status transitions.
+            </p>
           </div>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50/80 text-slate-500 uppercase tracking-wider text-[10px] border-b border-slate-100">
+            <thead className="bg-white/[0.03] text-zinc-400 uppercase tracking-wider text-[10px] border-b border-white/[0.08]">
               <tr>
-                <th className="px-6 py-3 font-bold">Action</th>
-                <th className="px-6 py-3 font-bold">User</th>
-                <th className="px-6 py-3 font-bold">Entity</th>
-                <th className="px-6 py-3 font-bold">Description</th>
-                <th className="px-6 py-3 font-bold">IP Address</th>
-                <th className="px-6 py-3 font-bold text-right">Timestamp</th>
+                <th className="px-6 py-3.5 font-semibold">Action</th>
+                <th className="px-6 py-3.5 font-semibold">User</th>
+                <th className="px-6 py-3.5 font-semibold">Entity</th>
+                <th className="px-6 py-3.5 font-semibold">Description</th>
+                <th className="px-6 py-3.5 font-semibold">IP Address</th>
+                <th className="px-6 py-3.5 font-semibold text-right">Timestamp</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 font-mono">
-              {stats?.recentActivity?.length === 0 ? (
+            <tbody className="divide-y divide-white/[0.06] font-mono">
+              {!stats?.recentActivity || stats.recentActivity.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-8 text-center text-slate-400">
-                    No recent audit log entries recorded.
+                  <td colSpan={6} className="px-6 py-10 text-center text-zinc-500 font-sans">
+                    No audit log entries recorded.
                   </td>
                 </tr>
               ) : (
-                stats?.recentActivity?.map((log) => (
-                  <tr key={log.id} className="hover:bg-slate-50/60 transition">
-                    <td className="px-6 py-3">
-                      <span className="font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded text-[11px]">
+                stats.recentActivity.map((log) => (
+                  <tr key={log.id} className="hover:bg-white/[0.03] transition">
+                    <td className="px-6 py-3.5">
+                      <span className="font-semibold text-zinc-100 bg-white/[0.06] border border-white/10 px-2.5 py-0.5 rounded-lg text-[11px]">
                         {log.action}
                       </span>
                     </td>
-                    <td className="px-6 py-3 font-sans text-slate-700">{log.userEmail || 'System'}</td>
-                    <td className="px-6 py-3 text-indigo-700 font-bold">{log.entityType}</td>
-                    <td className="px-6 py-3 font-sans text-slate-600 max-w-xs truncate">{log.description}</td>
-                    <td className="px-6 py-3 text-slate-400">{log.ipAddress || '127.0.0.1'}</td>
-                    <td className="px-6 py-3 text-right text-slate-400 font-sans">
+                    <td className="px-6 py-3.5 font-sans text-zinc-200">{log.userEmail || 'System'}</td>
+                    <td className="px-6 py-3.5 text-emerald-400 font-semibold">{log.entityType}</td>
+                    <td className="px-6 py-3.5 font-sans text-zinc-400 max-w-xs truncate">{log.description}</td>
+                    <td className="px-6 py-3.5 text-zinc-500">{log.ipAddress || '127.0.0.1'}</td>
+                    <td className="px-6 py-3.5 text-right text-zinc-400 font-sans whitespace-nowrap">
                       {new Date(log.timestamp).toLocaleString()}
                     </td>
                   </tr>
@@ -162,4 +159,3 @@ export const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
-

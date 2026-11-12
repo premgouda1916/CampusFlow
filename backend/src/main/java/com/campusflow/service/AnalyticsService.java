@@ -2,6 +2,7 @@ package com.campusflow.service;
 
 import com.campusflow.dto.response.AuditLogResponse;
 import com.campusflow.dto.response.DashboardStatsResponse.*;
+import com.campusflow.dto.response.OfferResponse;
 import com.campusflow.entity.*;
 import com.campusflow.exception.ResourceNotFoundException;
 import com.campusflow.mapper.EntityMapper;
@@ -221,6 +222,13 @@ public class AnalyticsService {
                 .totalAuditLogs(totalAuditLogs)
                 .recentActivity(recentActivity)
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public List<OfferResponse> getAllPlacementOffers() {
+        return offerRepository.findAll().stream()
+                .map(EntityMapper::toOfferResponse)
+                .toList();
     }
 
     @Transactional(readOnly = true)

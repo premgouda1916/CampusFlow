@@ -69,8 +69,9 @@ public class StudentController {
             @RequestParam(required = false) Long departmentId,
             @RequestParam(required = false) Integer graduationYear,
             @RequestParam(required = false) Boolean isPlaced,
+            @RequestParam(required = false) String search,
             @PageableDefault(size = 20, sort = "currentCgpa", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<StudentResponse> response = studentService.getAllStudents(departmentId, graduationYear, isPlaced, pageable);
+        Page<StudentResponse> response = studentService.getAllStudents(departmentId, graduationYear, isPlaced, search, pageable);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 }

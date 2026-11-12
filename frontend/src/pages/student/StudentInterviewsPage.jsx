@@ -4,11 +4,9 @@ import { useToast } from '../../context/ToastContext';
 import StatusBadge from '../../components/StatusBadge';
 import {
   CalendarCheck,
-  Building,
-  MapPin,
+  Building2,
   Clock,
   Video,
-  FileText,
   ExternalLink
 } from 'lucide-react';
 
@@ -19,82 +17,89 @@ export const StudentInterviewsPage = () => {
 
   useEffect(() => {
     interviewService.getMyInterviews({ size: 50 })
-      .then((res) => setInterviews(res.data.content || []))
+      .then((res) => setInterviews(res.data?.content || []))
       .catch(() => toast.error('Could not load interviews'))
       .finally(() => setLoading(false));
   }, []);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-black text-slate-900 tracking-tight">Interview Schedule</h1>
-        <p className="text-xs text-slate-500">Live technical and HR interview rounds scheduled by corporate recruiters.</p>
+    <div className="space-y-6 pb-8">
+      <div className="rounded-3xl spatial-panel p-5 sm:p-6">
+        <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-400">
+          Assessments
+        </span>
+        <h1 className="text-2xl font-light text-white tracking-tight mt-0.5">
+          Interview <strong className="font-semibold">Schedule</strong>
+        </h1>
+        <p className="text-xs text-zinc-400 mt-0.5">
+          Technical and HR interview rounds scheduled by corporate recruiters.
+        </p>
       </div>
 
       {loading ? (
-        <div className="space-y-4 animate-pulse">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 animate-pulse">
           {[1, 2].map((i) => (
-            <div key={i} className="h-32 bg-slate-200 rounded-2xl"></div>
+            <div key={i} className="h-44 rounded-3xl bg-white/[0.03] border border-white/[0.06]" />
           ))}
         </div>
       ) : interviews.length === 0 ? (
-        <div className="p-16 text-center bg-white rounded-3xl border border-slate-200 shadow-sm space-y-3">
-          <CalendarCheck className="w-10 h-10 text-slate-300 mx-auto" />
-          <h3 className="text-base font-bold text-slate-800">No Scheduled Interviews</h3>
-          <p className="text-xs text-slate-400 max-w-sm mx-auto">
-            When recruiters shortlist your application and allocate a time slot, interview invitations will appear here.
+        <div className="p-16 text-center rounded-3xl spatial-panel space-y-3">
+          <CalendarCheck className="w-10 h-10 text-zinc-500 mx-auto" />
+          <h3 className="text-base font-semibold text-white">No Scheduled Interviews</h3>
+          <p className="text-xs text-zinc-400 max-w-sm mx-auto">
+            When recruiters shortlist your profile and schedule an assessment slot, details will appear here.
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {interviews.map((item) => (
             <div
               key={item.id}
-              className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition space-y-4"
+              className="rounded-3xl spatial-panel spatial-panel-hover p-6 space-y-4"
             >
-              <div className="flex items-start justify-between">
-                <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-purple-50 text-purple-700 border border-purple-200">
+              <div className="flex items-start justify-between gap-2">
+                <span className="px-3 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wider bg-amber-500/15 text-amber-300 border border-amber-500/25">
                   {item.roundName?.replace(/_/g, ' ')}
                 </span>
                 <StatusBadge status={item.status} />
               </div>
 
               <div>
-                <h3 className="font-bold text-base text-slate-900">{item.jobTitle}</h3>
-                <div className="text-xs font-semibold text-slate-600 flex items-center gap-1.5 mt-0.5">
-                  <Building className="w-3.5 h-3.5 text-slate-400" /> {item.companyName}
+                <h3 className="font-semibold text-base text-white">{item.jobTitle}</h3>
+                <div className="text-xs text-zinc-400 flex items-center gap-1.5 mt-0.5">
+                  <Building2 className="w-3.5 h-3.5 text-emerald-400" /> {item.companyName}
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 text-xs space-y-1.5 text-slate-600">
-                <div className="flex items-center gap-2 text-slate-800 font-semibold">
-                  <Clock className="w-4 h-4 text-purple-600" />
+              <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.07] text-xs space-y-2 text-zinc-300">
+                <div className="flex items-center gap-2 text-white font-semibold">
+                  <Clock className="w-4 h-4 text-emerald-400" />
                   <span>{new Date(item.scheduledAt).toLocaleString()}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Video className="w-4 h-4 text-indigo-500" />
-                  <span>Mode: <strong className="text-slate-800">{item.mode}</strong></span>
+                  <Video className="w-4 h-4 text-teal-400" />
+                  <span>Mode: <strong className="text-white">{item.mode}</strong></span>
                 </div>
                 <div className="pt-1">
-                  <span className="text-slate-400 block text-[11px]">Location / Meeting Link:</span>
+                  <span className="text-zinc-400 block text-[11px] mb-0.5">Location / Meeting Link</span>
                   {item.locationOrLink?.startsWith('http') ? (
                     <a
                       href={item.locationOrLink}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-indigo-600 hover:underline font-medium inline-flex items-center gap-1 truncate max-w-full"
+                      className="text-emerald-400 hover:text-emerald-300 hover:underline font-medium inline-flex items-center gap-1 break-all"
                     >
-                      {item.locationOrLink} <ExternalLink className="w-3 h-3" />
+                      {item.locationOrLink} <ExternalLink className="w-3 h-3 shrink-0" />
                     </a>
                   ) : (
-                    <span className="font-medium text-slate-800">{item.locationOrLink}</span>
+                    <span className="font-medium text-zinc-100">{item.locationOrLink}</span>
                   )}
                 </div>
               </div>
 
               {item.instructions && (
-                <div className="text-xs text-slate-500 bg-amber-50/60 p-3 rounded-xl border border-amber-100">
-                  <strong className="text-amber-800 block mb-0.5">Instructions:</strong>
+                <div className="text-xs text-amber-200/90 bg-amber-500/10 p-3.5 rounded-2xl border border-amber-500/25">
+                  <strong className="text-amber-300 block mb-0.5">Instructions</strong>
                   {item.instructions}
                 </div>
               )}
@@ -107,4 +112,3 @@ export const StudentInterviewsPage = () => {
 };
 
 export default StudentInterviewsPage;
-

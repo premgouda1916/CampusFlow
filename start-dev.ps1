@@ -61,3 +61,4 @@ Write-Host " - Web Portal: http://localhost:5173                        " -Foreg
 Write-Host " - REST API:   http://localhost:8081                        " -ForegroundColor White
 Write-Host " - Swagger UI: http://localhost:8081/swagger-ui.html        " -ForegroundColor White
 Write-Host "============================================================" -ForegroundColor Cyan
+

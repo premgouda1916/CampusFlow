@@ -8,31 +8,25 @@ export default {
     extend: {
       colors: {
         brand: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6', // Electric Spatial Blue
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
-          950: '#172554',
+          50: '#ecfdf5',
+          100: '#d1fae5',
+          200: '#a7f3d0',
+          300: '#6ee7b7',
+          400: '#34d399',
+          500: '#10b981',
+          600: '#059669',
+          700: '#047857',
+          800: '#065f46',
+          900: '#064e3b',
+          950: '#022c22',
         },
         spatial: {
-          bg: '#0a0d14',
-          surface: 'rgba(18, 24, 38, 0.72)',
-          'surface-light': 'rgba(30, 41, 59, 0.6)',
+          bg: '#101012',
+          surface: 'rgba(24, 24, 27, 0.78)',
           card: 'rgba(255, 255, 255, 0.04)',
-          'card-hover': 'rgba(255, 255, 255, 0.08)',
-          'card-active': 'rgba(59, 130, 246, 0.15)',
-          border: 'rgba(255, 255, 255, 0.12)',
-          'border-light': 'rgba(255, 255, 255, 0.06)',
-          'border-glow': 'rgba(96, 165, 250, 0.4)',
-          text: '#f8fafc',
-          muted: '#94a3b8',
-          accent: '#3b82f6',
+          border: 'rgba(255, 255, 255, 0.1)',
+          text: '#f4f4f5',
+          muted: '#a1a1aa',
         }
       },
       fontFamily: {
@@ -44,16 +38,14 @@ export default {
         '4xl': '64px',
       },
       boxShadow: {
-        'spatial-window': '0 30px 80px -15px rgba(0, 0, 0, 0.8), 0 0 1px 1px rgba(255, 255, 255, 0.15) inset',
-        'spatial-card': '0 10px 30px -5px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12)',
-        'spatial-glow': '0 0 25px -5px rgba(59, 130, 246, 0.5), 0 8px 20px -6px rgba(59, 130, 246, 0.4)',
-        'spatial-cyan': '0 0 25px -5px rgba(6, 182, 212, 0.5)',
-        'spatial-dock': '0 12px 40px -8px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.18)',
+        'spatial-window': '0 28px 70px -16px rgba(0, 0, 0, 0.72), inset 0 1px 0 0 rgba(255, 255, 255, 0.14)',
+        'spatial-card': '0 10px 30px -8px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
+        'spatial-glow': '0 6px 20px -4px rgba(5, 150, 105, 0.4)',
+        'spatial-dock': '0 12px 36px -8px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12)',
       },
       animation: {
         'pulse-subtle': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'float-slow': 'float 6s ease-in-out infinite',
-        'radar-spin': 'spin 12s linear infinite',
       },
       keyframes: {
         float: {

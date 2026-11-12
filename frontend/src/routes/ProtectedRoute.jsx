@@ -6,7 +6,7 @@ export const ProtectedRoute = ({ allowedRoles }) => {
   const { user, isAuthenticated, loading } = useAuth();
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center text-xs text-slate-400">Loading portal session...</div>;
+    return <div className="spatial-environment min-h-screen flex items-center justify-center text-xs text-zinc-400">Loading portal session...</div>;
   }
 
   if (!isAuthenticated) {

@@ -3,14 +3,17 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import { jobService, driveService } from '../../services/api';
 import { useToast } from '../../context/ToastContext';
 import {
-  Briefcase,
   ArrowLeft,
   Save,
   Loader2,
-  ShieldCheck,
-  Calendar,
-  Layers
+  ShieldCheck
 } from 'lucide-react';
+
+const getDefaultFutureDeadline = () => {
+  const d = new Date();
+  d.setDate(d.getDate() + 30);
+  return `${d.toISOString().slice(0, 10)}T23:59`;
+};
 
 export const CreateJobPage = () => {
   const { id } = useParams();
@@ -29,7 +32,7 @@ export const CreateJobPage = () => {
     eligibleDepartments: 'CSE,ISE,AIML',
     graduationYear: 2027,
     requiredSkills: 'Java, Spring Boot, MySQL, Docker, React',
-    applicationDeadline: '2026-12-31T23:59',
+    applicationDeadline: getDefaultFutureDeadline(),
     placementDriveId: '',
   });
 
@@ -40,9 +43,10 @@ export const CreateJobPage = () => {
   useEffect(() => {
     driveService.getAllDrives()
       .then((res) => {
-        setDrives(res.data || []);
-        if (res.data?.length > 0 && !formData.placementDriveId) {
-          setFormData((prev) => ({ ...prev, placementDriveId: res.data[0].id }));
+        const list = res.data || [];
+        setDrives(list);
+        if (list.length > 0 && !isEdit) {
+          setFormData((prev) => ({ ...prev, placementDriveId: list[0].id }));
         }
       })
       .catch(() => {});
@@ -62,7 +66,7 @@ export const CreateJobPage = () => {
             eligibleDepartments: j.eligibleDepartments || 'CSE,ISE,AIML',
             graduationYear: j.graduationYear || 2027,
             requiredSkills: j.requiredSkills || '',
-            applicationDeadline: j.applicationDeadline ? j.applicationDeadline.substring(0, 16) : '',
+            applicationDeadline: j.applicationDeadline ? j.applicationDeadline.substring(0, 16) : getDefaultFutureDeadline(),
             placementDriveId: j.placementDriveId || '',
           });
         })
@@ -87,20 +91,20 @@ export const CreateJobPage = () => {
       const payload = {
         ...formData,
         minCgpa: parseFloat(formData.minCgpa),
-        maxBacklogs: parseInt(formData.maxBacklogs),
-        graduationYear: parseInt(formData.graduationYear),
+        maxBacklogs: parseInt(formData.maxBacklogs, 10),
+        graduationYear: parseInt(formData.graduationYear, 10),
         applicationDeadline: formData.applicationDeadline.length === 16
-          ? formData.applicationDeadline + ':00'
+          ? `${formData.applicationDeadline}:00`
           : formData.applicationDeadline,
-        placementDriveId: formData.placementDriveId ? parseInt(formData.placementDriveId) : null,
+        placementDriveId: formData.placementDriveId ? parseInt(formData.placementDriveId, 10) : null,
       };
 
       if (isEdit) {
         await jobService.updateJob(id, payload);
-        toast.success('Job posting updated successfully!');
+        toast.success('Job posting updated successfully.');
       } else {
         await jobService.createJob(payload);
-        toast.success('Draft job posting created! Review and publish when ready.');
+        toast.success('Draft job posting created. Publish when ready.');
       }
       navigate('/recruiter/jobs');
     } catch (err) {
@@ -111,60 +115,62 @@ export const CreateJobPage = () => {
   };
 
   if (fetching) {
-    return <div className="p-12 text-center text-xs text-slate-400">Loading opening...</div>;
+    return (
+      <div className="p-12 text-center text-xs text-zinc-400">
+        Loading role configuration...
+      </div>
+    );
   }
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
+    <div className="space-y-6 max-w-4xl mx-auto pb-8">
       <Link
         to="/recruiter/jobs"
-        className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-teal-600 transition"
+        className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-400 hover:text-emerald-400 transition"
       >
         <ArrowLeft className="w-4 h-4" /> Back to Company Openings
       </Link>
 
-      <div className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/80 shadow-sm space-y-6">
+      <div className="rounded-3xl spatial-panel p-6 sm:p-8 space-y-6">
         <div>
-          <h1 className="text-2xl font-black text-slate-900 tracking-tight">
-            {isEdit ? 'Edit Job Opening' : 'Create Campus Job Opening'}
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-400">
+            Requisition Builder
+          </span>
+          <h1 className="text-2xl font-light text-white tracking-tight mt-0.5">
+            {isEdit ? 'Edit' : 'Create'} <strong className="font-semibold">Job Opening</strong>
           </h1>
-          <p className="text-xs text-slate-500">
-            Define role parameters and criteria for the automated Dynamic Eligibility Engine.
+          <p className="text-xs text-zinc-400 mt-0.5">
+            Configure role parameters and prerequisites evaluated by the Eligibility Engine.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Basic Role Info */}
           <div className="space-y-4">
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 pb-2">
-              1. Job Details
+            <h3 className="text-[11px] font-semibold text-zinc-400 uppercase tracking-wider border-b border-white/[0.08] pb-2">
+              1. Role Details
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="sm:col-span-2">
-                <label className="block text-xs font-semibold text-slate-600 mb-1.5">
-                  Job Title *
-                </label>
+                <label className="spatial-label">Job Title *</label>
                 <input
                   type="text"
                   name="title"
                   required
                   value={formData.title}
                   onChange={handleChange}
-                  placeholder="e.g. Software Development Engineer (Backend)"
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
+                  placeholder="Software Development Engineer (Backend)"
+                  className="spatial-input"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1.5">
-                  Employment Type *
-                </label>
+                <label className="spatial-label">Employment Type *</label>
                 <select
                   name="jobType"
                   value={formData.jobType}
                   onChange={handleChange}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
+                  className="spatial-input"
                 >
                   <option value="Full-time">Full-time</option>
                   <option value="Internship">Internship</option>
@@ -173,59 +179,50 @@ export const CreateJobPage = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1.5">
-                  Salary Package (CTC) *
-                </label>
+                <label className="spatial-label">Salary Package (CTC) *</label>
                 <input
                   type="text"
                   name="salaryPackage"
                   required
                   value={formData.salaryPackage}
                   onChange={handleChange}
-                  placeholder="e.g. 18 LPA, 24 LPA"
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
+                  placeholder="18 LPA"
+                  className="spatial-input"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1.5">
-                  Work Location *
-                </label>
+                <label className="spatial-label">Work Location *</label>
                 <input
                   type="text"
                   name="location"
                   required
                   value={formData.location}
                   onChange={handleChange}
-                  placeholder="Bangalore, Hyderabad, Remote"
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
+                  className="spatial-input"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1.5">
-                  Application Deadline *
-                </label>
+                <label className="spatial-label">Application Deadline *</label>
                 <input
                   type="datetime-local"
                   name="applicationDeadline"
                   required
                   value={formData.applicationDeadline}
                   onChange={handleChange}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
+                  className="spatial-input"
                 />
               </div>
 
               {drives.length > 0 && (
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">
-                    Associated Placement Drive
-                  </label>
+                  <label className="spatial-label">Associated Placement Drive</label>
                   <select
                     name="placementDriveId"
                     value={formData.placementDriveId}
                     onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
+                    className="spatial-input"
                   >
                     <option value="">None / Open Season</option>
                     {drives.map((d) => (
@@ -238,33 +235,28 @@ export const CreateJobPage = () => {
               )}
 
               <div className="sm:col-span-2">
-                <label className="block text-xs font-semibold text-slate-600 mb-1.5">
-                  Role Description & Expectations *
-                </label>
+                <label className="spatial-label">Role Description & Expectations *</label>
                 <textarea
                   rows={4}
                   name="description"
                   required
                   value={formData.description}
                   onChange={handleChange}
-                  placeholder="Outline responsibilities, team structure, tech stack, and selection procedure..."
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 leading-relaxed font-medium"
+                  placeholder="Outline responsibilities, tech stack, and selection workflow..."
+                  className="spatial-input leading-relaxed"
                 />
               </div>
             </div>
           </div>
 
-          {/* Eligibility Rules */}
-          <div className="space-y-4 pt-4 border-t border-slate-100">
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 pb-2 flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-teal-600" /> 2. Institutional Eligibility Criteria
+          <div className="space-y-4 pt-2">
+            <h3 className="text-[11px] font-semibold text-zinc-400 uppercase tracking-wider border-b border-white/[0.08] pb-2 flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-emerald-400" /> 2. Eligibility Prerequisites
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1.5">
-                  Minimum Qualifying CGPA (0 - 10) *
-                </label>
+                <label className="spatial-label">Minimum CGPA (0 - 10) *</label>
                 <input
                   type="number"
                   step="0.01"
@@ -274,15 +266,12 @@ export const CreateJobPage = () => {
                   required
                   value={formData.minCgpa}
                   onChange={handleChange}
-                  placeholder="7.50"
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
+                  className="spatial-input"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1.5">
-                  Maximum Allowable Active Backlogs *
-                </label>
+                <label className="spatial-label">Maximum Active Backlogs *</label>
                 <input
                   type="number"
                   min="0"
@@ -290,15 +279,12 @@ export const CreateJobPage = () => {
                   required
                   value={formData.maxBacklogs}
                   onChange={handleChange}
-                  placeholder="0"
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
+                  className="spatial-input"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1.5">
-                  Eligible Academic Departments (Comma-separated) *
-                </label>
+                <label className="spatial-label">Eligible Branches (Comma-separated) *</label>
                 <input
                   type="text"
                   name="eligibleDepartments"
@@ -306,55 +292,43 @@ export const CreateJobPage = () => {
                   value={formData.eligibleDepartments}
                   onChange={handleChange}
                   placeholder="CSE,ISE,AIML,ECE"
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
+                  className="spatial-input"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1.5">
-                  Graduation Batch Year *
-                </label>
+                <label className="spatial-label">Graduation Batch Year *</label>
                 <input
                   type="number"
                   name="graduationYear"
                   required
                   value={formData.graduationYear}
                   onChange={handleChange}
-                  placeholder="2027"
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
+                  className="spatial-input"
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block text-xs font-semibold text-slate-600 mb-1.5">
-                  Required Technical Skills (Comma-separated)
-                </label>
+                <label className="spatial-label">Required Technical Skills (Comma-separated)</label>
                 <input
                   type="text"
                   name="requiredSkills"
                   value={formData.requiredSkills}
                   onChange={handleChange}
-                  placeholder="Java, Spring Boot, MySQL, Docker, Kubernetes"
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
+                  placeholder="Java, Spring Boot, MySQL, Docker"
+                  className="spatial-input"
                 />
               </div>
             </div>
           </div>
 
-          <div className="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
-            <Link
-              to="/recruiter/jobs"
-              className="px-5 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100 transition"
-            >
+          <div className="pt-4 border-t border-white/[0.08] flex items-center justify-end gap-3">
+            <Link to="/recruiter/jobs" className="spatial-btn-secondary">
               Cancel
             </Link>
-            <button
-              type="submit"
-              disabled={loading}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-teal-600 hover:bg-teal-500 shadow-md shadow-teal-600/30 transition disabled:opacity-50"
-            >
+            <button type="submit" disabled={loading} className="spatial-btn-primary">
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-              {isEdit ? 'Save Changes' : 'Create Job Opening'}
+              <span>{isEdit ? 'Save Changes' : 'Create Job Opening'}</span>
             </button>
           </div>
         </form>
@@ -364,4 +338,3 @@ export const CreateJobPage = () => {
 };
 
 export default CreateJobPage;
-

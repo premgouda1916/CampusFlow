@@ -2,6 +2,8 @@ package com.campusflow.controller;
 
 import com.campusflow.dto.response.ApiResponse;
 import com.campusflow.dto.response.DashboardStatsResponse.*;
+import com.campusflow.dto.response.OfferResponse;
+import java.util.List;
 import com.campusflow.security.SecurityUserPrincipal;
 import com.campusflow.service.AnalyticsService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -58,6 +60,14 @@ public class AnalyticsController {
     public ResponseEntity<ApiResponse<AdminDashboard>> getAdminStats() {
         AdminDashboard stats = analyticsService.getAdminDashboard();
         return ResponseEntity.ok(ApiResponse.success(stats));
+    }
+
+    @GetMapping("/placement/offers")
+    @PreAuthorize("hasAnyRole('PLACEMENT_OFFICER', 'ADMIN')")
+    @Operation(summary = "List all extended institutional placement offers for reporting")
+    public ResponseEntity<ApiResponse<List<OfferResponse>>> getPlacementOffers() {
+        List<OfferResponse> offers = analyticsService.getAllPlacementOffers();
+        return ResponseEntity.ok(ApiResponse.success(offers));
     }
 
     @GetMapping("/placement/export-csv")
