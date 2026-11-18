@@ -30,9 +30,21 @@ public class DataSourceSanitizer implements BeanPostProcessor {
             if (username != null) {
                 String clean = username.trim().replaceAll("^[\"']|[\"']$", "");
                 if (hikari.getJdbcUrl() != null && hikari.getJdbcUrl().contains("tidbcloud.com")) {
-                    if (!clean.contains(".")) {
-                        log.warn("TiDB Cloud Serverless requires user prefix. Auto-prepending '{}' to user '{}'", DEFAULT_TIDB_PREFIX, clean);
-                        clean = DEFAULT_TIDB_PREFIX + "." + clean;
+                    if (clean.contains(".")) {
+                        String[] parts = clean.split("\\.", 2);
+                        if (parts[0].equalsIgnoreCase(parts[1])) {
+                            clean = parts[0] + ".root";
+                            log.warn("TiDB Cloud user had duplicate prefix '{}'. Corrected to '{}'", username, clean);
+                        }
+                    } else {
+                        if (clean.equalsIgnoreCase("root") || clean.equalsIgnoreCase("admin")) {
+                            clean = DEFAULT_TIDB_PREFIX + "." + clean;
+                            log.warn("TiDB Cloud user missing prefix. Prepending '{}' -> '{}'", DEFAULT_TIDB_PREFIX, clean);
+                        } else {
+                            // User provided only the cluster prefix (e.g. 'wBUbPksgrCdv4vP')
+                            clean = clean + ".root";
+                            log.warn("TiDB Cloud user provided cluster prefix only. Appending '.root' -> '{}'", clean);
+                        }
                     }
                 }
                 hikari.setUsername(clean);
