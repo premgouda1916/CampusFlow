@@ -25,7 +25,8 @@ public class DatabaseSequenceInitializer implements CommandLineRunner {
 
             String[] tables = {
                 "users", "students", "recruiters", "companies", "departments",
-                "placement_drives", "jobs", "applications", "interviews", "placement_offers"
+                "placement_drives", "jobs", "applications", "application_status_history",
+                "interviews", "offers", "notifications", "audit_logs"
             };
 
             for (String table : tables) {

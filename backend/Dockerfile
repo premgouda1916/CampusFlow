@@ -27,5 +27,6 @@ EXPOSE 8081
 
 # Configure JVM flags for containers (optimized for 512MB free cloud tiers like Render/Koyeb)
 ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=60.0 -XX:+UseSerialGC -Xss512k -XX:CICompilerCount=2"
+ENV SPRING_PROFILES_ACTIVE="prod"
 
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
