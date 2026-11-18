@@ -1,16 +1,15 @@
 # Multi-stage Dockerfile for CampusFlow Backend
 # Stage 1: Build
-FROM eclipse-temurin:21-jdk-jammy AS build
+FROM maven:3.9.9-eclipse-temurin-21-jammy AS build
 WORKDIR /app
 
-# Copy Maven wrapper / files
-COPY .mvn/ .mvn/
+# Copy Maven descriptor and fetch dependencies
 COPY pom.xml .
-RUN ./mvnw dependency:go-offline -B || true
+RUN mvn dependency:go-offline -B || true
 
 # Copy source code and build production jar
 COPY src src
-RUN ./mvnw clean package -DskipTests -B
+RUN mvn clean package -DskipTests -B
 
 # Stage 2: Runtime
 FROM eclipse-temurin:21-jre-jammy
@@ -30,4 +29,3 @@ EXPOSE 8081
 ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=60.0 -XX:+UseSerialGC -Xss512k -XX:CICompilerCount=2"
 
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
-
