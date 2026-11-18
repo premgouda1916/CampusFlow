@@ -1,119 +1,118 @@
-# CampusFlow: Production Cloud Deployment Guide
+# CampusFlow: 100% Free Production Deployment Guide
+## (Verified Zero-Cost Stack: No Credit Card Required)
 
-This guide provides instructions to deploy **CampusFlow** to live production environments at zero cost using **Vercel** (for the React 18 SPA frontend) and **Render** or **Railway** (for the Spring Boot backend, Node.js/TypeScript outbound service, and MySQL database).
-
----
-
-## 1. Architecture in Production
-
-```
-Users / Hiring Manager
-       │
-       ▼
-[ Vercel CDN ] ──► Serves React 18 SPA (HTTPS: https://campusflow.vercel.app)
-       │ (REST APIs)
-       ├─────────────────────────────────┐
-       ▼                                 ▼
-[ Render Web Service ]          [ Render Web Service ]
-CampusFlow Core Engine          Outbound Campaign Engine
-(Java 21 / Spring Boot 3)       (Node.js / TypeScript 5)
-       │                                 │
-       └────────────────┬────────────────┘
-                        ▼
-               [ Cloud MySQL 8 ]
-            (Aiven / Railway / TiDB)
-```
+This guide documents the verified **100% free hosting stack** for CampusFlow. Many platforms (like Railway, Heroku, PlanetScale, and Aiven) have discontinued or limited their free tiers. The stack below is tested, requires **zero dollars**, and **no credit card** to set up.
 
 ---
 
-## 2. Step 1: Provision a Free Cloud MySQL Database
+## The Verified Zero-Cost Production Stack
 
-CampusFlow requires a standard MySQL 8.0 instance with InnoDB support. You can provision a free cloud database in under 2 minutes:
-
-### Option A: Aiven for MySQL (Recommended - 100% Free Tier)
-1. Go to [https://aiven.io/](https://aiven.io/) and create a free account.
-2. Click **Create Service** -> Select **MySQL**.
-3. Choose the **Free Plan** and select your preferred region (e.g., AWS / Google Cloud).
-4. Once provisioned, copy the connection details:
-   - **Host** (e.g., `mysql-xxxx.aivencloud.com`)
-   - **Port** (e.g., `12345`)
-   - **Database Name** (`defaultdb` or create `campusflow_db`)
-   - **Username** (`avnadmin`)
-   - **Password** (`<generated-password>`)
+| Component | Platform | Free Tier Quota | Credit Card Required? |
+|---|---|---|---|
+| **Frontend** (React 18 SPA) | **Vercel** (Hobby Plan) | 100 GB Bandwidth/mo, unlimited deployments, automatic SSL | **NO** |
+| **Database** (MySQL 8.0) | **TiDB Cloud Serverless** | 5 GiB Storage, 50 Million Request Units (RUs)/mo, 5 free clusters | **NO** |
+| **Backend Core** (Java 21 / Spring Boot) | **Render** (Free Web Service) | 750 Free Compute Hours/mo, 512 MB RAM, automatic HTTPS | **NO** |
+| **Outbound Engine** (Node.js / TS) | **Koyeb** (Eco Free) or **Render** | 512 MB RAM, 2 free web services, automatic HTTPS | **NO** |
 
 ---
 
-## 3. Step 2: Deploy Frontend to Vercel (2 Minutes)
+## Step 1: Provision a 100% Free Cloud MySQL Database (TiDB Cloud)
+*Time required: 2 minutes*
 
-Vercel provides instant global CDN deployment for Vite React applications with automatic SSL:
+**TiDB Cloud Serverless** is 100% wire-compatible with MySQL 8.0 (works out-of-the-box with Spring Data JPA and Node.js `mysql2`).
+
+1. Go to [https://tidbcloud.com/](https://tidbcloud.com/) and click **Sign Up** (Sign in with GitHub).
+2. Choose **Serverless (Free Tier)**:
+   - Cluster Name: `campusflow-db`
+   - Cloud Provider & Region: Select AWS / Oregon or Singapore (choose region closest to you).
+   - Root Password: Generate and save your password securely.
+3. Click **Create**.
+4. In the cluster overview, click **Connect**:
+   - Connection Type: Choose **General** or **Java / Spring Boot**.
+   - Note down:
+     - **Host**: e.g., `gateway01.ap-southeast-1.prod.aws.tidbcloud.com`
+     - **Port**: `4000` (standard TiDB/MySQL port)
+     - **Database**: `test` (or create `campusflow_db`)
+     - **Username**: e.g., `2XXXXX.root`
+     - **Password**: `<your-saved-password>`
+     - **SSL**: Enabled by default (`useSSL=true`).
+
+---
+
+## Step 2: Deploy Frontend on Vercel (100% Free Forever)
+*Time required: 2 minutes*
+
+Vercel provides free global CDN hosting for Vite React applications:
 
 1. Push your latest code to your GitHub repository:
    ```bash
    git push origin main
    ```
-2. Navigate to [https://vercel.com/](https://vercel.com/) and sign in with GitHub.
-3. Click **Add New...** -> **Project**.
-4. Select the `CampusFlow` repository and click **Import**.
-5. Configure the project settings:
+2. Go to [https://vercel.com/](https://vercel.com/) and sign in with GitHub.
+3. Click **Add New...** -> **Project** -> Select `CampusFlow`.
+4. Configure the project:
    - **Root Directory**: Click *Edit* and select **`frontend`**.
    - **Framework Preset**: Vite (detected automatically).
    - **Build Command**: `npm run build`
    - **Output Directory**: `dist`
-6. Add Environment Variable:
-   - `VITE_API_TARGET`: Set this to your live backend URL (or leave blank initially, then update once backend is live).
-7. Click **Deploy**.
-8. Within 45 seconds, your frontend is live with an official URL like:
-   `https://campusflow.vercel.app` (or `https://campusflow-premgouda.vercel.app`).
+5. Click **Deploy**.
+6. Within 45 seconds, your frontend is live at a URL like:
+   `https://campusflow-premgouda.vercel.app`
 
-> **Note on Client-Side Routing:** CampusFlow includes a pre-configured `frontend/vercel.json` file that rewrites all paths (`/*`) to `/index.html`, ensuring that direct navigation or refreshing pages like `/student/dashboard` never produces 404 errors.
+> **SPA Client-Side Routing:** CampusFlow includes [`frontend/vercel.json`](frontend/vercel.json) pre-configured with rewrites (`/* -> /index.html`). You can refresh routes like `/student/dashboard` or `/recruiter/jobs` without encountering 404 errors.
 
 ---
 
-## 4. Step 3: Deploy Backend Services to Render
+## Step 3: Deploy Java 21 / Spring Boot Backend on Render (100% Free)
+*Time required: 3 minutes*
 
-CampusFlow includes a multi-service `render.yaml` Blueprint file for automatic configuration.
+Render provides 750 free compute hours each month (enough to run 1 service 24/7 all month without paying):
 
-### Option A: Using the Render Blueprint (One-Click)
-1. Go to [https://render.com/](https://render.com/) and connect your GitHub account.
-2. Click **New +** -> **Blueprint**.
-3. Connect your `premgouda1916/CampusFlow` repository.
-4. Render will parse `render.yaml` and configure:
-   - `campusflow-backend` (Docker web service for Java 21)
-   - `campusflow-outbound` (Docker web service for Node.js/TypeScript)
-5. Fill in the database environment variables (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USERNAME`, `DB_PASSWORD`) with your cloud MySQL credentials.
-6. Click **Apply**.
-
-### Option B: Manual Web Service Setup on Render
-If you prefer configuring services manually on Render:
-1. **New Web Service** -> Connect repo.
-2. Set **Root Directory** to `backend`.
-3. Set **Runtime** to **Docker**.
-4. Set Environment Variables:
+1. Go to [https://render.com/](https://render.com/) and sign up with GitHub.
+2. Click **New +** -> **Web Service**.
+3. Select your GitHub repository: `premgouda1916/CampusFlow`.
+4. Configure the service:
+   - **Name**: `campusflow-backend`
+   - **Root Directory**: `backend`
+   - **Runtime**: **Docker** (Render will automatically detect [`backend/Dockerfile`](backend/Dockerfile))
+   - **Instance Type**: **Free** (512 MB RAM / 0.1 CPU)
+5. Add the following **Environment Variables**:
    - `SPRING_PROFILES_ACTIVE`: `prod`
    - `SERVER_PORT`: `8081`
-   - `DB_HOST`: `<your-cloud-mysql-host>`
-   - `DB_PORT`: `<your-cloud-mysql-port>`
-   - `DB_NAME`: `campusflow_db`
-   - `DB_USERNAME`: `<your-mysql-user>`
-   - `DB_PASSWORD`: `<your-mysql-password>`
+   - `DB_HOST`: `<your-tidb-host>` (from Step 1)
+   - `DB_PORT`: `4000` (or your TiDB port)
+   - `DB_NAME`: `test` (or `campusflow_db`)
+   - `DB_USERNAME`: `<your-tidb-username>`
+   - `DB_PASSWORD`: `<your-tidb-password>`
    - `JWT_SECRET`: `404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970`
    - `JWT_EXPIRATION_MS`: `86400000`
-5. Click **Create Web Service**.
+6. Click **Create Web Service**.
+7. Render will build the Docker container and deploy it to a live HTTPS URL:
+   `https://campusflow-backend.onrender.com`
 
 ---
 
-## 5. Live Portfolio Links Template for Job Application
+## Step 4: Connect Frontend to Backend
 
-Once deployed, copy your live URLs into your application submission:
+1. In your **Vercel** dashboard, go to your `CampusFlow` project -> **Settings** -> **Environment Variables**.
+2. Add:
+   - `VITE_API_TARGET`: `https://campusflow-backend.onrender.com`
+3. Click **Save** and trigger a quick redeploy (Deployments -> Redeploy).
+4. Now your live Vercel frontend talks directly to your live Render backend!
 
-```text
-Project: CampusFlow (Smart Campus Placement & Recruitment Management Platform)
-Live Frontend: https://campusflow-premgouda.vercel.app
-Live Backend API: https://campusflow-backend.onrender.com
-Live Outbound Service API: https://campusflow-outbound.onrender.com
-GitHub Repository: https://github.com/premgouda1916/CampusFlow
-Demo Credentials:
-  - Student: arjun.sharma@campusflow.com / password123
-  - Recruiter: recruiter.google@campusflow.com / password123
-  - Placement Officer: officer@campusflow.com / password123
-```
+---
+
+## Crucial Free Tier Behaviors to Know (No Surprises!)
+
+1. **Idle Spin-Down on Render Free Tier:**
+   - Free services on Render automatically spin down (sleep) after **15 minutes of inactivity**.
+   - When a user (or recruiter) visits your live site after it has been asleep, the first request takes about **40–50 seconds** to wake up the Java Spring Boot container. Once awake, all subsequent requests are instant.
+   - *Tip:* Before an interview or demo, open the backend URL in your browser 1 minute early to warm up the container!
+2. **JVM Memory Optimization:**
+   - We pre-configured [`backend/Dockerfile`](backend/Dockerfile) with:
+     ```dockerfile
+     ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=60.0 -XX:+UseSerialGC -Xss512k -XX:CICompilerCount=2"
+     ```
+     This ensures Spring Boot operates safely within the **512 MB RAM** free limit without being killed by the container orchestrator.
+3. **Monthly Free Hours Limit (Render):**
+   - Render gives **750 free instance hours per month**. Since a 31-day month has 744 hours, running your 1 backend service is 100% covered. If the limit is reached, Render temporarily suspends the service until the 1st of the next month—**it will never bill your card unexpectedly**.
