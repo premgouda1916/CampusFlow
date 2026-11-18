@@ -1,0 +1,69 @@
+services:
+  # 1. React 18 Production Static Site
+  - type: web
+    name: campusflow-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: ./frontend/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_TARGET
+        fromService:
+          type: web
+          name: campusflow-backend
+          property: host
+
+  # 2. Java 21 / Spring Boot 3 Backend Web Service
+  - type: web
+    name: campusflow-backend
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SERVER_PORT
+        value: 8081
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: 3306
+      - key: DB_NAME
+        value: campusflow_db
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRATION_MS
+        value: 86400000
+
+  # 3. Node.js + TypeScript Outbound Campaign Engine
+  - type: web
+    name: campusflow-outbound
+    env: docker
+    dockerfilePath: ./services/outbound-service/Dockerfile
+    dockerContext: ./services/outbound-service
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 4000
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: 3306
+      - key: DB_NAME
+        value: campusflow_db
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false

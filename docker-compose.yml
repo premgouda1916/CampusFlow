@@ -73,6 +73,29 @@ services:
     networks:
       - campusflow-net
 
+  # Node.js + TypeScript Outbound Marketing & Campaign Service
+  campusflow-outbound:
+    build:
+      context: ./services/outbound-service
+      dockerfile: Dockerfile
+    container_name: campusflow-outbound
+    restart: unless-stopped
+    depends_on:
+      campusflow-mysql:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DB_HOST: campusflow-mysql
+      DB_PORT: 3306
+      DB_NAME: campusflow_db
+      DB_USER: campusflow_user
+      DB_PASSWORD: campusflow_secret
+    ports:
+      - "4000:4000"
+    networks:
+      - campusflow-net
+
   # React 18 + Vite Frontend with Nginx Reverse Proxy
   campusflow-frontend:
     build:

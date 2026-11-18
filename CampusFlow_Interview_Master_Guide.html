@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Software Engineering Technical Interview Master Guide - Prem Gouda</title>
+<style>
+  @page {
+    size: A4;
+    margin: 14mm 14mm 14mm 14mm;
+    @bottom-right {
+      content: counter(page);
+    }
+  }
+  
+  *, *:before, *:after {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    background-color: #ffffff;
+    line-height: 1.55;
+    font-size: 10pt;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Cover / Header Section */
+  .cover-header {
+    border-bottom: 3px solid #059669;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+  }
+  
+  .badge-tag {
+    display: inline-block;
+    background-color: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  
+  .interview-meta {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #059669;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    font-size: 9pt;
+  }
+  
+  .interview-meta div strong {
+    color: #0f172a;
+  }
+  
+  h1 {
+    font-size: 20pt;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.5px;
+  }
+  
+  h2 {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #0f172a;
+    border-bottom: 1.5px solid #e2e8f0;
+    padding-bottom: 5px;
+    margin-top: 24px;
+    margin-bottom: 12px;
+    page-break-after: avoid;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .h2-num {
+    background: #059669;
+    color: #ffffff;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9pt;
+    font-weight: 700;
+  }
+  
+  h3 {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #1e293b;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    page-break-after: avoid;
+  }
+  
+  h4 {
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: #334155;
+    margin-top: 10px;
+    margin-bottom: 4px;
+  }
+  
+  p {
+    margin: 0 0 8px 0;
+  }
+  
+  ul, ol {
+    margin: 0 0 10px 0;
+    padding-left: 20px;
+  }
+  
+  li {
+    margin-bottom: 4px;
+  }
+  
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 8.5pt;
+    background: #f1f5f9;
+    color: #0f172a;
+    padding: 1.5px 5px;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
+  }
+  
+  pre {
+    background: #0f172a;
+    color: #f8fafc;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 8pt;
+    line-height: 1.45;
+    overflow-x: auto;
+    margin: 8px 0 12px 0;
+    page-break-inside: avoid;
+  }
+
+  pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    border: none;
+  }
+  
+  /* Callout & Card styles */
+  .card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    page-break-inside: avoid;
+  }
+  
+  .card-highlight {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-left: 4px solid #10b981;
+  }
+
+  .card-warning {
+    background: #fffbeb;
+    border: 1px solid #fef3c7;
+    border-left: 4px solid #f59e0b;
+  }
+
+  .card-info {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #3b82f6;
+  }
+
+  .card-purple {
+    background: #faf5ff;
+    border: 1px solid #e9d5ff;
+    border-left: 4px solid #8b5cf6;
+  }
+  
+  .script-box {
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-left: 4px solid #059669;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-style: italic;
+    color: #334155;
+    margin: 8px 0 12px 0;
+    page-break-inside: avoid;
+  }
+  
+  .qa-block {
+    margin-bottom: 14px;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 10px;
+    page-break-inside: avoid;
+  }
+  
+  .qa-question {
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 9.5pt;
+    margin-bottom: 4px;
+    display: flex;
+    gap: 6px;
+  }
+  
+  .qa-question .q-badge {
+    background: #0f172a;
+    color: #fff;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 7.5pt;
+    height: fit-content;
+  }
+  
+  .qa-answer {
+    color: #334155;
+    font-size: 9pt;
+    padding-left: 2px;
+  }
+
+  .qa-answer strong {
+    color: #0f172a;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 14px 0;
+    font-size: 8.5pt;
+    page-break-inside: avoid;
+  }
+  
+  th, td {
+    border: 1px solid #cbd5e1;
+    padding: 6px 9px;
+    text-align: left;
+    vertical-align: top;
+  }
+  
+  th {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    font-weight: 700;
+  }
+  
+  tr:nth-child(even) td {
+    background-color: #f8fafc;
+  }
+  
+  .page-break {
+    page-break-before: always;
+  }
+  
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+
+  .mini-badge {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 7pt;
+    font-weight: 700;
+    margin-right: 4px;
+  }
+  .b-green { background: #dcfce7; color: #15803d; }
+  .b-blue { background: #e0f2fe; color: #0369a1; }
+  .b-purple { background: #f3e8ff; color: #7e22ce; }
+  .b-amber { background: #fef3c7; color: #b45309; }
+</style>
+</head>
+<body>
+
+<!-- HEADER / COVER SUMMARY -->
+<div class="cover-header">
+  <span class="badge-tag">Confidential &bull; High-Priority Interview Prep</span>
+  <h1>Software Engineering Technical Interview Master Guide</h1>
+  <p style="margin: 0; color: #475569; font-size: 11pt;">
+    Comprehensive Architectural Walkthrough, Code Defense, System Design, and CS Fundamentals
+  </p>
+  
+  <div class="interview-meta">
+    <div><strong>Candidate:</strong> Prem Gouda (BE - Information Science &amp; Engineering)</div>
+    <div><strong>College:</strong> Yenepoya Institute of Technology (USN: 4DM23IS035)</div>
+    <div><strong>Target Company:</strong> Ganglia Technologies Pvt. Ltd., Manipal</div>
+    <div><strong>Position:</strong> Software Development Intern (30-Minute In-Person Interview)</div>
+    <div><strong>Venue:</strong> 4th Floor, MUTBI, Advanced Research Centre, MAHE, Manipal</div>
+    <div><strong>Primary Projects:</strong> CampusFlow &bull; Distributed Ticketing Engine &bull; SentimentX</div>
+  </div>
+</div>
+
+<!-- SECTION 1 -->
+<h2><span class="h2-num">1</span> 30-Minute Interview Game Plan &amp; Strategy</h2>
+<div class="card card-highlight">
+  <p style="margin: 0;"><strong>The Golden Rule for a 30-Minute Technical Interview:</strong> Time is short. Interviewers make their evaluation in the first 10 minutes. Lead with high-confidence architectural explanations, speak with precision about trade-offs, and state clearly: <em>"Here is what the system does, here is the architecture I chose, here is the exact part I built, and here is how I solved the hardest technical challenge."</em></p>
+</div>
+
+<div class="grid-3">
+  <div class="card">
+    <h4>Phase 1: Min 00 &ndash; 04</h4>
+    <p><strong>Introduction &amp; Positioning:</strong> Deliver a razor-sharp 90-second elevator pitch that frames you as a systems-oriented full-stack developer who loves backend architecture and concurrency.</p>
+  </div>
+  <div class="card">
+    <h4>Phase 2: Min 04 &ndash; 20</h4>
+    <p><strong>Project Defense &amp; Code Walk:</strong> Deep dive into your project (CampusFlow / Ticketing Engine / SentimentX). Walk through the problem, data flow, architecture, and live demo on your laptop.</p>
+  </div>
+  <div class="card">
+    <h4>Phase 3: Min 20 &ndash; 30</h4>
+    <p><strong>Core Fundamentals &amp; Wrap-up:</strong> Answer Java 21, Spring Boot, SQL, Redis, Concurrency, and REST concepts cleanly. Ask 2 high-caliber questions at the end.</p>
+  </div>
+</div>
+
+<h3>The 90-Second "Tell Me About Yourself" Script (Memorize &amp; Internalize)</h3>
+<div class="script-box">
+  "Good morning! I'm Prem Gouda, a final-year Information Science and Engineering student at Yenepoya Institute of Technology.<br><br>
+  My core focus is full-stack software engineering with a strong emphasis on backend systems, concurrency, and clean architecture. Over the past couple of years, I’ve concentrated on building production-grade distributed applications rather than simple tutorial projects.<br><br>
+  Most recently, I designed and implemented <strong>CampusFlow</strong>, a full-stack campus placement and recruitment platform built on Java 21, Spring Boot 3, and React. It features an automated dynamic eligibility evaluation engine, role-based JWT security, and Redis caching. Alongside that, I built a high-concurrency <strong>Ticketing Engine</strong> in TypeScript and Redis that uses atomic Lua scripts and RabbitMQ to prevent double-booking race conditions during flash traffic. For my final-year academic research, I co-developed <strong>SentimentX</strong>, a hybrid CNN-XLM-RoBERTa deep learning framework for low-resource Indian languages.<br><br>
+  I'm really excited about Ganglia Technologies because of your engineering focus and proximity to the MAHE research hub, and I'd love to walk you through any of these systems today!"
+</div>
+
+<!-- SECTION 2 -->
+<div class="page-break"></div>
+<h2><span class="h2-num">2</span> CampusFlow: Flagship Full-Stack Platform Walkthrough</h2>
+
+<div class="card card-highlight">
+  <h4>Executive Pitch (2 Minutes)</h4>
+  <p><strong>Problem:</strong> Campus placement departments typically rely on disorganized Google Sheets, email threads, and WhatsApp groups. This causes data discrepancies, students applying to jobs they aren't eligible for, recruiters wasting hours manually filtering CSV files, and zero audit trails for offers.</p>
+  <p><strong>Solution:</strong> CampusFlow is an enterprise modular-monolith web platform that digitizes the entire campus hiring lifecycle across four distinct actors: <strong>Students, Recruiters, Placement Officers, and Administrators</strong>. It features a Dynamic Eligibility Engine, multi-round interview tracking, offer acceptance workflows, real-time audit logging, and analytical reporting.</p>
+</div>
+
+<h3>CampusFlow System Architecture</h3>
+<table>
+  <tr>
+    <th style="width: 22%;">Layer</th>
+    <th style="width: 28%;">Technologies</th>
+    <th>Responsibilities &amp; Design Decisions</th>
+  </tr>
+  <tr>
+    <td><strong>Frontend</strong></td>
+    <td>React 18, Vite, Tailwind CSS, Lucide React, Recharts</td>
+    <td>Component-driven SPA, dark-mode Spatial Glass design system, Axios HTTP interceptors with automatic JWT token attachment and 401 redirect handling, responsive role-based navigation.</td>
+  </tr>
+  <tr>
+    <td><strong>API &amp; Security</strong></td>
+    <td>Spring Web, Spring Security 6, JWT, BCrypt</td>
+    <td>Stateless REST APIs, <code>JwtAuthenticationFilter</code>, Role-Based Access Control (RBAC), method-level authorization (<code>@PreAuthorize</code>), CORS configuration, global exception handler.</td>
+  </tr>
+  <tr>
+    <td><strong>Business Logic</strong></td>
+    <td>Java 21, Spring Boot 3.3.4, Spring Service Layer</td>
+    <td>Modular services with constructor injection, Dynamic Eligibility Engine, recruitment workflow state machine, DTO-to-Entity mapping via mapper, validation layer (Jakarta validation).</td>
+  </tr>
+  <tr>
+    <td><strong>Caching Layer</strong></td>
+    <td>Redis, Spring Data Redis</td>
+    <td>Cache-Aside pattern on frequently accessed read endpoints (active job listings, placement statistics). Automatic cache invalidation on mutations (<code>@CacheEvict</code>).</td>
+  </tr>
+  <tr>
+    <td><strong>Persistence Layer</strong></td>
+    <td>MySQL 8, Spring Data JPA, Hibernate 6</td>
+    <td>12 normalized relational tables, foreign key constraints, composite unique indexes, transactional isolation (<code>@Transactional</code>), Flyway/schema migration scripts.</td>
+  </tr>
+</table>
+
+<h3>The 5 Core Features You Built Yourself (Deep Dive)</h3>
+<div class="grid-2">
+  <div class="card">
+    <h4>1. Dynamic Eligibility Evaluation Engine</h4>
+    <p>A decoupled rule-evaluation pipeline that evaluates student credentials against company requirements in real-time:</p>
+    <ul>
+      <li><strong>CGPA Check:</strong> <code>student.cgpa &gt;= job.minCgpa</code></li>
+      <li><strong>Backlog Constraint:</strong> <code>student.backlogs &lt;= job.maxBacklogs</code></li>
+      <li><strong>Department Matching:</strong> Set intersection of eligible branches.</li>
+      <li><strong>Batch Year:</strong> Match graduation year.</li>
+    </ul>
+    <p>Returns a composite <code>EligibilityResult</code> with an overall percentage match score and individual rule evaluations displayed visually in the UI.</p>
+  </div>
+  <div class="card">
+    <h4>2. End-to-End Application State Machine</h4>
+    <p>A strict status lifecycle preventing illegal recruitment transitions:</p>
+    <pre><code>APPLIED &rarr; SHORTLISTED &rarr; INTERVIEW_SCHEDULED
+        &rarr; OFFERED &rarr; ACCEPTED / DECLINED
+        &searr; REJECTED / WITHDRAWN</code></pre>
+    <p>Enforced by service-level validation and database constraints (preventing duplicate applications with composite unique key <code>uk_student_job</code>).</p>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <h4>3. Spring Security &amp; JWT Filter Chain</h4>
+    <p>Custom <code>JwtAuthenticationFilter</code> extending <code>OncePerRequestFilter</code>. Intercepts incoming requests, extracts the <code>Bearer</code> token, validates HMAC-SHA signature and expiration, extracts user ID and role, and populates <code>SecurityContextHolder</code>.</p>
+  </div>
+  <div class="card">
+    <h4>4. Redis Caching &amp; Invalidation Strategy</h4>
+    <p>Implemented Spring Cache abstraction with Redis. Job listings (<code>GET /api/v1/jobs</code>) and dashboard stats are cached with a 15-minute TTL. Updates or deletions trigger <code>@CacheEvict(allEntries = true)</code> to guarantee cache consistency.</p>
+  </div>
+</div>
+
+<div class="card">
+  <h4>5. Secure Static Resume File Upload Architecture</h4>
+  <p>Engineered resume uploads via <code>MultipartFile</code> with file size limits (5MB) and MIME-type verification (PDF/DOCX). Files are saved to an isolated upload directory with randomized UUID filenames (preventing filename collisions and path traversal attacks). Mapped via Spring's <code>WebMvcConfigurer</code> resource handler to serve files securely over HTTP without exposing the underlying filesystem paths.</p>
+</div>
+
+<!-- SECTION 2 CONTINUED -->
+<div class="page-break"></div>
+<h3>Step-by-Step Live Laptop Demo Script (3 to 5 Minutes)</h3>
+<div class="card card-info">
+  <p style="margin: 0;"><strong>Setup Before the Interview:</strong> Have backend running on <code>localhost:8081</code> and frontend on <code>localhost:5173</code>. Pre-open Chrome with two tabs: 1) Normal tab (Recruiter view), 2) Incognito tab (Student view).</p>
+</div>
+
+<ol>
+  <li><strong>Landing Page &amp; Role Access (30s):</strong> Show the Spatial Glass UI. Mention that the platform supports 4 independent personas with dedicated portals. Click "Quick Role Access" on the login page to show credentials for Student, Recruiter, Placement Officer, and Admin.</li>
+  <li><strong>Recruiter Creates a Job (60s):</strong> Log in as Google Recruiter (<code>recruiter.google@campusflow.com</code>). Open "Create Job". Set Min CGPA = 8.0, Max Backlogs = 0, Eligible Branches = CSE, ISE. Post the job. Note: <em>"Notice the dynamic deadline calculator and how this evicts the Redis job cache."</em></li>
+  <li><strong>Student Evaluates Eligibility &amp; Applies (60s):</strong> Switch to Incognito tab logged in as Arjun Sharma (<code>arjun.sharma@campusflow.com</code>). Go to Jobs Explorer. Arjun sees the newly posted job. Click <strong>"Check Eligibility"</strong>. Show the modal popup rendering the match score and each evaluated rule. Click <strong>"Apply Now"</strong>. Show the instant status change to "Applied".</li>
+  <li><strong>Recruiter Shortlists &amp; Schedules Interview (45s):</strong> Switch back to Recruiter tab. Open "Candidates". Arjun appears under the job. Click "Schedule Interview", pick date, time, and Google Meet URL. The application status advances to "Interview Scheduled".</li>
+  <li><strong>Placement Officer Analytics &amp; CSV Export (45s):</strong> Switch to Placement Officer (<code>officer@campusflow.com</code>). Show the interactive Recharts bar charts displaying department-wise placement stats, salary distributions, and click <strong>"Export Placement Report (CSV)"</strong> to download the real-time CSV report.</li>
+</ol>
+
+<h3>Top 15 Technical Interview Questions &amp; Model Answers for CampusFlow</h3>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q1</span> Why did you use Java 21 and Spring Boot 3 instead of older versions like Java 8/11 and Spring Boot 2?</div>
+  <div class="qa-answer">
+    "Java 21 is a Long-Term Support (LTS) release that introduces <strong>Virtual Threads (Project Loom)</strong>, which provide lightweight concurrency for I/O-heavy enterprise services without exhausting OS thread pools. It also brings <strong>Records</strong> for boilerplate-free immutable DTOs, Pattern Matching for cleaner polymorphic logic, and Sequenced Collections. Spring Boot 3 aligns with Java 17+ and the <strong>Jakarta EE 10</strong> standard, providing native observability with Micrometer, improved startup performance, and GraalVM AOT native image compatibility."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q2</span> How does your Dynamic Eligibility Engine work under the hood?</div>
+  <div class="qa-answer">
+    "I created an <code>EligibilityEngine</code> service that decouples business rules from the database entities. When a student views or applies for a job, the engine takes the <code>Student</code> profile and the <code>Job</code> criteria. It evaluates four independent predicates: CGPA threshold, backlog limit, department list containment, and batch year match. Each criterion produces a <code>CriterionEvaluation</code> containing the rule name, expected value, student's actual value, and a pass/fail flag. The engine aggregates these into an <code>EligibilityResult</code> with an overall percentage match score. This modular design makes it easy to add new criteria—such as minimum test scores or specific skill tags—without altering existing application code."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q3</span> How do you prevent a student from applying to the same job multiple times?</div>
+  <div class="qa-answer">
+    "Defense-in-depth on two layers. First, at the application service layer, inside a <code>@Transactional</code> method, I execute <code>applicationRepository.existsByStudentIdAndJobId(studentId, jobId)</code> and throw a custom <code>ConflictException</code> if true. Second, at the database layer, the <code>applications</code> table has a composite unique constraint: <code>UNIQUE KEY uk_student_job (student_id, job_id)</code>. Even if two concurrent requests bypass the service check simultaneously, MySQL will enforce atomicity and reject the second insert with a unique constraint violation."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q4</span> Why did you use DTOs instead of returning JPA Entities directly from controllers?</div>
+  <div class="qa-answer">
+    "Exposing JPA entities directly creates three major problems: 1) <strong>Infinite recursion during JSON serialization</strong> due to bidirectional relationships (<code>@OneToMany</code> and <code>@ManyToOne</code>), 2) <strong>Security vulnerabilities</strong> like Mass Assignment / Over-Posting where a malicious payload could overwrite sensitive fields like <code>user.role</code> or <code>company.isVerified</code>, and 3) <strong>Tight coupling</strong> between the internal database schema and the public API contract. DTOs (Data Transfer Objects) combined with an explicit mapper ensure we only expose the exact fields needed by the client."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q5</span> Explain your Spring Security architecture and the JWT authentication lifecycle.</div>
+  <div class="qa-answer">
+    "When a user logs in with email and password, Spring Security's <code>AuthenticationManager</code> verifies credentials via <code>DaoAuthenticationProvider</code> and BCrypt. On success, <code>JwtTokenProvider</code> signs a compact JWT with claims including <code>sub</code> (email), <code>userId</code>, <code>role</code>, and expiration time using HMAC-SHA. On subsequent requests, the client sends this token in the <code>Authorization: Bearer &lt;token&gt;</code> header. My custom <code>JwtAuthenticationFilter</code> (which extends <code>OncePerRequestFilter</code>) intercepts the request, validates the signature and expiration, extracts the user details, creates a <code>UsernamePasswordAuthenticationToken</code> with granted authorities, and stores it in the thread-local <code>SecurityContextHolder</code>."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q6</span> How is Redis caching implemented, and how do you handle cache invalidation?</div>
+  <div class="qa-answer">
+    "I used the Cache-Aside pattern via Spring Data Redis. High-frequency read endpoints like <code>GET /api/v1/jobs</code> and placement analytics are annotated with <code>@Cacheable(value = 'jobs', key = '#pageable')</code>. If the key exists in Redis, the response is returned in sub-millisecond time without touching MySQL. To solve the cache invalidation problem, whenever a recruiter creates, updates, or closes a job, the mutating method is annotated with <code>@CacheEvict(value = 'jobs', allEntries = true)</code>. We also set a default TTL (Time-To-Live) of 15 minutes to prevent stale data."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q7</span> What is the N+1 problem in JPA/Hibernate, and how did you prevent it?</div>
+  <div class="qa-answer">
+    "The N+1 problem occurs when fetching an entity with lazy relationships (e.g. querying 50 Job applications, and Hibernate executes 1 query for the applications, plus 50 separate queries to fetch each associated Student). In CampusFlow, I prevented this by using explicit <strong><code>JOIN FETCH</code></strong> queries in repository methods (e.g., <code>SELECT a FROM Application a JOIN FETCH a.student JOIN FETCH a.job WHERE ...</code>) or using JPA <code>@EntityGraph</code>. This forces Hibernate to retrieve the parent and child records in a single SQL inner or left join."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q8</span> How does <code>@Transactional</code> work, and what are its propagation and rollback rules?</div>
+  <div class="qa-answer">
+    "Spring uses AOP (Aspect-Oriented Programming) proxies. When a method annotated with <code>@Transactional</code> is invoked from an external bean, the proxy intercepts the call, opens a JDBC connection transaction, executes the method, and commits on success. By default, Spring rolls back the transaction on <strong>unchecked exceptions</strong> (<code>RuntimeException</code> and <code>Error</code>), but commits on checked exceptions unless <code>rollbackFor = Exception.class</code> is explicitly specified. The default propagation is <code>REQUIRED</code> (join existing transaction or create new one)."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q9</span> How did you handle file uploads securely without exposing server files?</div>
+  <div class="qa-answer">
+    "In <code>StudentService.uploadResume()</code>, I accept a <code>MultipartFile</code>. I validate the content type against an allowlist (PDF, DOCX) and restrict size to 5MB. I strip the user's original filename to prevent Directory Traversal attacks (e.g. <code>../../etc/passwd</code>) and generate a secure UUID filename like <code>resume_3_a9f1b2c4.pdf</code> stored outside the web root. In <code>WebConfig</code>, I register a <code>ResourceHandler</code> mapping <code>/uploads/resumes/**</code> to the local directory, enabling HTTP streaming while abstracting the real disk path."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q10</span> What happens if Redis is down? Will CampusFlow crash?</div>
+  <div class="qa-answer">
+    "In enterprise architectures, caching should be an optimization, not a single point of failure. Spring Cache allows configuring a custom <code>CacheErrorHandler</code>. If Redis is unreachable, the error handler logs a warning and allows the request to fall through directly to the MySQL database. This ensures <strong>graceful degradation</strong>—the application remains fully functional, albeit with higher database latency."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q11</span> How did you handle Global Exception Handling in the backend?</div>
+  <div class="qa-answer">
+    "I created a <code>@RestControllerAdvice</code> class (<code>GlobalExceptionHandler</code>) that intercepts exceptions across all controllers. It maps specific domain exceptions (e.g., <code>ResourceNotFoundException</code> &rarr; 404, <code>BadRequestException</code> &rarr; 400, <code>BadCredentialsException</code> &rarr; 401, <code>AccessDeniedException</code> &rarr; 403) to a uniform <code>ApiResponse&lt;T&gt;</code> envelope containing timestamp, status code, error message, and validation field errors for form binding."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q12</span> Explain your database indexing strategy in MySQL.</div>
+  <div class="qa-answer">
+    "In addition to primary keys (which automatically create clustered B-Tree indexes), I added secondary indexes on: 1) Foreign keys (<code>student_id</code>, <code>job_id</code>, <code>company_id</code>) to optimize JOIN and WHERE lookups, 2) Search fields like <code>email</code> and <code>usn</code> with unique indexes, and 3) Frequently filtered status columns like <code>applications.status</code> and <code>jobs.is_active</code>. This prevents full table scans during candidate filtering and dashboard aggregation queries."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q13</span> Why did you use Axios interceptors in React instead of standard <code>fetch()</code>?</div>
+  <div class="qa-answer">
+    "Axios interceptors provide a centralized pipeline for HTTP operations. In the <strong>request interceptor</strong>, I read the JWT token from <code>localStorage</code> and automatically attach the <code>Authorization: Bearer &lt;token&gt;</code> header to every outgoing request. In the <strong>response interceptor</strong>, I inspect error responses: if a 401 Unauthorized status is returned, the interceptor clears the expired token and redirects the user to the login screen with a toast notification. This eliminates repetitive error handling in individual components."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q14</span> How does CampusFlow handle role-based authorization at the API level?</div>
+  <div class="qa-answer">
+    "At the network layer, <code>SecurityConfig</code> configures URL matchers (e.g. <code>/api/v1/students/**</code> has role STUDENT, <code>/api/v1/analytics/**</code> has role PLACEMENT_OFFICER or ADMIN). Furthermore, at the controller method level, I enabled <code>@EnableMethodSecurity</code> and used <code>@PreAuthorize('hasRole("RECRUITER")')</code>. This ensures fine-grained role boundaries even if URL patterns change."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q15</span> How did you test CampusFlow to ensure reliability?</div>
+  <div class="qa-answer">
+    "I wrote 22 automated tests covering both unit and integration levels. Using <strong>JUnit 5</strong> and <strong>Mockito</strong>, I tested service-layer logic in isolation—verifying eligibility engine boundary conditions, backlog limits, and duplicate application rejections. For end-to-end API verification, I wrote <code>@SpringBootTest</code> integration tests with <strong>MockMvc</strong> that simulate real HTTP requests through the full filter chain, testing login, recruiter drive access, and placement report generation against an in-memory test database."
+  </div>
+</div>
+
+<!-- SECTION 3 -->
+<div class="page-break"></div>
+<h2><span class="h2-num">3</span> Distributed Ticketing Engine (Target Project from Email!)</h2>
+
+<div class="card card-purple">
+  <h4>Why Ganglia Technologies Asked About This Project</h4>
+  <p style="margin: 0;">In their invitation email, the HR Lead specifically noted: <em>"Be ready to walk us through SentimentX or your ticketing engine, and explain the parts you built yourself."</em> This shows they value practical backend engineering, concurrency control, and distributed systems architecture.</p>
+</div>
+
+<h3>Executive Pitch (2 Minutes)</h3>
+<div class="card card-info">
+  <p><strong>Problem:</strong> In high-demand ticketing platforms (like BookMyShow or Ticketmaster), thousands of concurrent users attempt to reserve the same finite pool of seats during a 10-second flash sale window. Traditional relational databases using standard <code>SELECT ... WHERE status = 'AVAILABLE'</code> followed by <code>UPDATE</code> suffer from catastrophic <strong>Race Conditions (Check-Then-Act)</strong> leading to double-booking, lock contention, and database connection pool exhaustion.</p>
+  <p><strong>Solution:</strong> A high-throughput distributed ticketing engine built with TypeScript, Node.js, Redis, RabbitMQ, and PostgreSQL. It uses <strong>atomic Redis Lua scripts</strong> for sub-millisecond seat reservations, asynchronous message queues for order persistence, an automated background expiry worker, and Prometheus metrics tracking.</p>
+</div>
+
+<h3>The 4 Core Distributed Components You Built Yourself</h3>
+<div class="grid-2">
+  <div class="card">
+    <h4>1. Atomic Seat Reservation via Redis Lua Scripts</h4>
+    <p>Executed <code>reserve_seat.lua</code> directly inside Redis. Because Redis evaluates Lua scripts atomically in a single-threaded execution context, checking availability, assigning the user ID, and setting a 10-minute hold TTL occurs in <strong>O(1) time without distributed locks</strong>.</p>
+  </div>
+  <div class="card">
+    <h4>2. Asynchronous Queueing with RabbitMQ &amp; DLQ</h4>
+    <p>Offloaded order creation and payment confirmation to RabbitMQ. If payment processing fails repeatedly, messages are routed to a <strong>Dead-Letter Queue (DLQ)</strong> with a custom replay script (<code>replay-dlq.ts</code>) ensuring zero message loss.</p>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <h4>3. Seat Expiry Worker (TTL Reclamation)</h4>
+    <p>Built <code>ExpiryWorker.ts</code> which runs in the background. If a customer reserves a seat but abandons checkout without paying within 10 minutes, the hold expires and <code>release_seat.lua</code> returns the seat back to the general pool automatically.</p>
+  </div>
+  <div class="card">
+    <h4>4. Sliding-Window Rate Limiter &amp; Prometheus</h4>
+    <p>Engineered a Redis sorted-set (<code>ZSET</code>) sliding-window rate limiter (<code>rateLimiter.ts</code>) to prevent bot scraping and DDoS. Instrumented Prometheus (<code>prom-client</code>) tracking p95 latency, queue depth, and throughput.</p>
+  </div>
+</div>
+
+<h3>Top 10 Technical Questions &amp; Answers for the Ticketing Engine</h3>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q1</span> Why did you use Redis Lua scripts instead of standard Redis commands or distributed locks?</div>
+  <div class="qa-answer">
+    "If you use separate Redis commands (e.g., <code>GET seat:101</code> followed by <code>SET seat:101 'RESERVED'</code>), another concurrent request can execute between your read and write, causing a race condition. Distributed locks (like Redlock) introduce network roundtrips, lock expiration edge-cases, and latency overhead. In contrast, <strong>Redis executes Lua scripts atomically</strong> on its main event thread. No other command or script can run concurrently on that key. This gives us absolute atomicity and sub-millisecond execution with zero locking overhead."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q2</span> Walk me through the exact logic inside your <code>reserve_seat.lua</code> script.</div>
+  <div class="qa-answer">
+    "The script takes the seat key (e.g. <code>seat:{showId}:{seatNumber}</code>), user ID, and TTL duration in seconds. It first checks <code>redis.call('GET', seatKey)</code>. If the key exists and its value is not null, the seat is already held or booked, so the script immediately returns <code>0</code> (failure). If the seat is free, it executes <code>redis.call('SET', seatKey, userId, 'EX', ttl)</code> and returns <code>1</code> (success). All of this happens in a single atomic CPU cycle on Redis."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q3</span> Why use RabbitMQ instead of writing directly to PostgreSQL?</div>
+  <div class="qa-answer">
+    "Relational databases have strict limits on concurrent active connections (typically 100 to 500 connections in a pool). If 10,000 users checkout simultaneously, direct database writes will cause connection timeouts and crash the DB. RabbitMQ acts as a <strong>load leveler (buffer)</strong>. The API quickly validates the reservation in Redis, publishes an <code>OrderCreated</code> message to RabbitMQ, and returns HTTP 202 Accepted. Consumer workers then process messages at a controlled, sustainable rate, protecting the database."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q4</span> What is an Idempotency Key and why is it essential in payment and ticketing systems?</div>
+  <div class="qa-answer">
+    "An idempotent operation can be called multiple times without changing the result beyond the initial execution. In ticketing, if a user clicks 'Pay Now' and a network glitch causes the HTTP response to drop, the browser may retry the request. Without idempotency, the customer might be charged twice. By requiring a unique client-generated <code>Idempotency-Key</code> (UUID) in the request header, we check Redis/DB: if that key was already processed, we return the cached response without re-executing payment or seat booking."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q5</span> How does your Dead-Letter Queue (DLQ) work and how do you recover from failures?</div>
+  <div class="qa-answer">
+    "When a worker consumes a message from RabbitMQ and encounters an unrecoverable failure (e.g. database schema mismatch or external payment API timeout after 3 exponential backoff retries), the worker sends a negative acknowledgement (<code>nack</code>) with <code>requeue=false</code>. RabbitMQ automatically forwards this message to our configured Dead-Letter Exchange (DLX) and DLQ. I wrote a maintenance script, <code>replay-dlq.ts</code>, which inspects failed messages, logs root causes, and safely replays them back into the primary queue once the underlying issue is resolved."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q6</span> How does the Expiry Worker know when a seat reservation has expired?</div>
+  <div class="qa-answer">
+    "I explored two approaches: Redis Keyspace Notifications (listening to <code>__keyevent@0__:expired</code>) and a time-indexed Sorted Set (<code>ZSET</code>). In production, keyspace notifications can be dropped under high network load because Redis pub/sub does not guarantee delivery. Therefore, I used a Redis Sorted Set where the score is the epoch timestamp of expiration. The <code>ExpiryWorker</code> periodically queries <code>ZRANGEBYSCORE seats_expiring 0 &lt;currentTime&gt;</code>, atomically removes the expired items, and releases the seats back to the inventory pool."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q7</span> How does your Sliding Window Rate Limiter work in Redis?</div>
+  <div class="qa-answer">
+    "Fixed-window rate limiters suffer from boundary bursts (e.g. allowing twice the limit across the window edge). In my sliding window algorithm using Redis <code>ZSET</code>, every incoming request adds a member with a unique timestamp as both member and score. We remove all elements older than <code>currentTime - windowSize</code> using <code>ZREMRANGEBYSCORE</code>, and then check <code>ZCARD</code>. If the count exceeds the threshold (e.g. 50 requests per minute), we reject the request with HTTP 429 Too Many Requests. This guarantees a smooth rate regardless of when requests arrive."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q8</span> How did you load test this engine and what were the results?</div>
+  <div class="qa-answer">
+    "I wrote an automated TypeScript load test script (<code>load-test.ts</code>) using concurrency promises to simulate 1,000 concurrent virtual users competing for 50 seats simultaneously. Under 1,000 concurrent requests, exactly 50 seats were successfully reserved, 950 received clean 'Seat Unavailable' responses, and <strong>zero double-bookings occurred</strong>. The average p95 response time for Redis Lua seat reservation was under 12 milliseconds."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q9</span> What is the difference between Optimistic Locking and Pessimistic Locking in database terms?</div>
+  <div class="qa-answer">
+    "<strong>Pessimistic Locking</strong> locks the database record upfront using <code>SELECT FOR UPDATE</code>, preventing any other transaction from reading or writing until the lock is released. It guarantees consistency but kills throughput under high concurrency due to blocking. <strong>Optimistic Locking</strong> assumes conflicts are rare; it reads without locking, but includes a <code>version</code> column. On write, it checks <code>UPDATE ... WHERE id = :id AND version = :readVersion</code>. If another transaction changed the version, Hibernate throws an <code>OptimisticLockException</code>. In high-concurrency seat booking, we bypass DB locking altogether by using in-memory Redis atomic operations for the reservation phase."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q10</span> What Prometheus metrics did you export and why?</div>
+  <div class="qa-answer">
+    "Using the <code>prom-client</code> library, I instrumented four key RED metrics (Rate, Errors, Duration): <code>http_requests_total</code> (labeled by route and status code), <code>http_request_duration_seconds</code> (histogram measuring p50, p90, and p99 latency), <code>active_reservations_gauge</code> (tracking real-time inventory holds), and <code>rabbitmq_queue_depth_gauge</code>. These metrics allow detecting bottlenecks before they cause outages."
+  </div>
+</div>
+
+<!-- SECTION 4 -->
+<div class="page-break"></div>
+<h2><span class="h2-num">4</span> SentimentX: Multilingual NLP Framework (Target Project from Email!)</h2>
+
+<div class="card card-purple">
+  <h4>Context &amp; Academic Contribution</h4>
+  <p style="margin: 0;">Major Project: <em>"SentimentX: A Hybrid CNN-XLM-RoBERTa Framework for Multilingual Low-Resource Indian Language Sentiment Analysis"</em>. Done under the Department of Information Science &amp; Engineering, Yenepoya Institute of Technology, with team members Naveen Katti, Nikith N, Prem Gouda, and Sumanth T P.</p>
+</div>
+
+<h3>Executive Pitch (2 Minutes)</h3>
+<div class="card card-info">
+  <p><strong>Problem:</strong> Most state-of-the-art sentiment models are trained almost exclusively on English and high-resource European languages. Low-resource Indian languages (Kannada, Hindi, Malayalam, Marathi, Telugu) suffer from complex morphological structures, agglutinative grammar, and heavy phonetic code-mixing (e.g. Kannada typed in English script / 'Kanglish' on social media). Standard models like BERT or standalone LSTMs fail to capture these cross-lingual nuances.</p>
+  <p><strong>Solution:</strong> A novel hybrid deep learning architecture that combines <strong>XLM-RoBERTa</strong> (cross-lingual transformer encoder) with a <strong>1D Convolutional Neural Network (CNN)</strong>. XLM-RoBERTa captures global contextual cross-lingual semantics, while the 1D CNN extracts localized spatial n-gram morphological patterns. Trained on 72,365 records across 6 languages, mapping into Ekman's 6 basic emotions (Happiness, Sadness, Anger, Fear, Surprise, Disgust).</p>
+</div>
+
+<h3>Key Architecture &amp; Empirical Results</h3>
+<table>
+  <tr>
+    <th>Metric / Feature</th>
+    <th>SentimentX (Our Hybrid CNN-XLM-RoBERTa)</th>
+    <th>Baseline Models (BiLSTM / mBERT / CNN)</th>
+  </tr>
+  <tr>
+    <td><strong>Overall Accuracy</strong></td>
+    <td><strong>95.8%</strong></td>
+    <td>BiLSTM: 81.2% &bull; mBERT: 88.4% &bull; CNN: 79.5%</td>
+  </tr>
+  <tr>
+    <td><strong>Weighted F1-Score</strong></td>
+    <td><strong>95.5%</strong></td>
+    <td>BiLSTM: 80.8% &bull; mBERT: 87.9% &bull; CNN: 78.9%</td>
+  </tr>
+  <tr>
+    <td><strong>Target Languages</strong></td>
+    <td colspan="2">Kannada, Hindi, Malayalam, Marathi, Telugu, and English (72,365 curated samples)</td>
+  </tr>
+  <tr>
+    <td><strong>Output Classification</strong></td>
+    <td colspan="2">Ekman's 6 Basic Emotions: Happiness, Sadness, Anger, Fear, Surprise, Disgust</td>
+  </tr>
+  <tr>
+    <td><strong>Deployment</strong></td>
+    <td colspan="2">Asynchronous FastAPI microservice backend with an interactive web dashboard</td>
+  </tr>
+</table>
+
+<h3>Top 8 Technical Questions &amp; Answers for SentimentX</h3>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q1</span> Why combine a CNN with XLM-RoBERTa? Why not just fine-tune XLM-RoBERTa directly?</div>
+  <div class="qa-answer">
+    "While XLM-RoBERTa's self-attention mechanism is unmatched at learning long-range semantic dependencies and cross-lingual alignments, it processes text at the subword token level. In Indian social media text, users frequently use phonetic spelling variations and informal slang (code-mixing). A <strong>1D Convolutional layer</strong> acting on top of the transformer's hidden representations acts as an n-gram feature extractor that detects local morphological character and word patterns regardless of position. Combining both gave us a +7.4% boost in F1-score over baseline multilingual BERT."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q2</span> Why did you choose XLM-RoBERTa over Multilingual BERT (mBERT)?</div>
+  <div class="qa-answer">
+    "Two main reasons: <strong>Data volume and Tokenization</strong>. mBERT was trained on Wikipedia dumps of 104 languages, where Indian languages had very low representation. XLM-RoBERTa was trained on 2.5 Terabytes of filtered CommonCrawl data in 100 languages, providing orders of magnitude more coverage for Indic languages. Furthermore, XLM-RoBERTa uses SentencePiece byte-level BPE with a 250,000 subword vocabulary, significantly reducing Out-Of-Vocabulary (OOV) tokens for Dravidian and Indo-Aryan scripts."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q3</span> What specific part did you personally build and contribute to SentimentX?</div>
+  <div class="qa-answer">
+    "I worked on three critical areas: 1) <strong>Data Preprocessing &amp; Script Normalization Pipeline:</strong> Cleaning noisy social media text, handling zero-width non-joiners in Indic Unicode scripts, and formatting token inputs for the SentencePiece tokenizer. 2) <strong>Model Integration &amp; Training:</strong> Implementing the hybrid PyTorch architecture that bridges the XLM-RoBERTa pooler output into the 1D CNN and Dense classification head. 3) <strong>FastAPI Inference Service:</strong> Packaging the fine-tuned model into an asynchronous FastAPI REST microservice that loads the weights onto GPU/CPU and serves sub-50ms inference endpoints for the web client."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q4</span> Why is F1-score emphasized more than simple accuracy in this project?</div>
+  <div class="qa-answer">
+    "In emotion analysis, dataset classes are inherently imbalanced. In real-world data, 'Happiness' and 'Anger' appear far more frequently than 'Disgust' or 'Fear'. A naive classifier predicting only the majority class could achieve 80% accuracy while having 0% recall on minority emotions. The <strong>Weighted F1-Score</strong> balances Precision and Recall across all 6 classes, proving the model truly distinguishes nuanced emotional boundaries."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q5</span> How does the Self-Attention mechanism in Transformers work?</div>
+  <div class="qa-answer">
+    "Self-attention allows every word token in a sentence to attend to every other word token, calculating dynamic contextual weights. For an input vector, we project it into three matrices: <strong>Query (Q), Key (K), and Value (V)</strong>. The attention weights are computed using the scaled dot-product: <code>Attention(Q,K,V) = softmax( (Q * K^T) / sqrt(d_k) ) * V</code>. Scaling by <code>sqrt(d_k)</code> prevents vanishing gradients during softmax when the dimension is large."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q6</span> What loss function and optimizer did you use during fine-tuning?</div>
+  <div class="qa-answer">
+    "We used <strong>Categorical Cross-Entropy Loss</strong> combined with the <strong>AdamW optimizer</strong> (weight decay rate of 0.01) with a linear learning rate warm-up schedule. The initial learning rate was set to <code>2e-5</code> for transformer layers and <code>1e-3</code> for the newly initialized CNN classification head to prevent catastrophic forgetting of pretrained weights."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q7</span> How did you handle code-mixed sentences (e.g. Kannada/Hindi written in English alphabets)?</div>
+  <div class="qa-answer">
+    "Code-mixed text breaks traditional dictionary lookups. Because XLM-RoBERTa's Byte-Pair Encoding operates at the subword and byte level, it breaks Romanized words into phonetically recurring character clusters (n-grams). Our 1D CNN filter then captured these phonetic patterns, allowing the model to recognize sentiment even without standard Devanagari or Kannada orthography."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">Q8</span> How did you optimize the model for production inference in FastAPI?</div>
+  <div class="qa-answer">
+    "Transformer models are computationally heavy. To deploy with low latency, we: 1) Set PyTorch to <code>torch.no_grad()</code> and <code>model.eval()</code> mode to disable autograd graph construction, 2) Applied dynamic 8-bit post-training quantization (reducing model memory by ~50% with negligible loss in accuracy), and 3) Loaded the model weights as a single shared singleton at FastAPI startup using the lifespan context manager."
+  </div>
+</div>
+
+<!-- SECTION 5 -->
+<div class="page-break"></div>
+<h2><span class="h2-num">5</span> Core CS, Java &amp; Spring Boot Technical Concepts Cheat Sheet</h2>
+
+<div class="grid-2">
+  <div class="card">
+    <h4>Java 21 Features You Must Mention</h4>
+    <ul>
+      <li><strong>Virtual Threads (Loom):</strong> Lightweight JVM-managed threads (~KB memory) vs OS kernel threads (~1MB). Enables high-throughput <em>thread-per-request</em> model for blocking I/O without reactive programming complexity.</li>
+      <li><strong>Records:</strong> Immutable data carriers with compiler-generated getters, equals, hashCode, and toString (<code>public record LoginRequest(String email, String password) {}</code>).</li>
+      <li><strong>Pattern Matching:</strong> Enhanced <code>instanceof</code> and <code>switch</code> expressions with exhaustiveness checking.</li>
+      <li><strong>Sealed Classes:</strong> Restricting subclass inheritance hierarchy using <code>permits</code>.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h4>Spring Framework Core Concepts</h4>
+    <ul>
+      <li><strong>Inversion of Control (IoC):</strong> Delegating object creation and lifecycle management to the Spring container.</li>
+      <li><strong>Dependency Injection:</strong> Passing dependencies into a bean. <em>Always advocate for Constructor Injection</em> because it enables immutability (<code>final</code> fields) and clean unit testing without Spring context.</li>
+      <li><strong>Bean Scopes:</strong> <code>singleton</code> (1 instance per container - default), <code>prototype</code> (new instance every request), <code>request</code>, <code>session</code>.</li>
+      <li><strong>Spring AOP:</strong> Aspect-Oriented Programming (proxies used by <code>@Transactional</code>, <code>@PreAuthorize</code>, and <code>@Aspect</code>).</li>
+    </ul>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <h4>Database &amp; SQL Concepts</h4>
+    <ul>
+      <li><strong>ACID Properties:</strong>
+        <ul>
+          <li><strong>Atomicity:</strong> All operations succeed or all roll back.</li>
+          <li><strong>Consistency:</strong> DB transitions between valid states.</li>
+          <li><strong>Isolation:</strong> Concurrent transactions don't interfere.</li>
+          <li><strong>Durability:</strong> Committed data survives crashes (WAL).</li>
+        </ul>
+      </li>
+      <li><strong>B-Tree / B+Tree Indexes:</strong> Balanced search tree structure. Leaves contain data or pointers. Logarithmic search <code>O(log N)</code>. Speeds up SELECT; slows down INSERT/UPDATE due to tree rebalancing.</li>
+      <li><strong>Transaction Isolation Levels:</strong> Read Uncommitted &rarr; Read Committed &rarr; Repeatable Read (MySQL default) &rarr; Serializable. Prevents Dirty Reads, Non-repeatable Reads, and Phantom Reads.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h4>REST &amp; Distributed Systems Fundamentals</h4>
+    <ul>
+      <li><strong>HTTP Status Codes:</strong>
+        <ul>
+          <li><code>200 OK</code> / <code>201 Created</code> / <code>204 No Content</code></li>
+          <li><code>400 Bad Request</code> / <code>401 Unauthorized</code> (missing/invalid auth)</li>
+          <li><code>403 Forbidden</code> (authenticated but lack role permission)</li>
+          <li><code>404 Not Found</code> / <code>409 Conflict</code> (duplicate entry)</li>
+          <li><code>500 Internal Error</code> / <code>503 Service Unavailable</code></li>
+        </ul>
+      </li>
+      <li><strong>JWT Structure:</strong> 3 Base64Url parts: <code>Header.Payload.Signature</code>. Signed with secret key. Stateless (server doesn't store session in memory).</li>
+      <li><strong>Cache Invalidation Patterns:</strong> Cache-Aside, Write-Through, Write-Behind. <em>"There are only two hard things in Computer Science: cache invalidation and naming things."</em></li>
+    </ul>
+  </div>
+</div>
+
+<!-- SECTION 6 -->
+<div class="page-break"></div>
+<h2><span class="h2-num">6</span> Behavioral &amp; Internship-Specific Questions for Ganglia Technologies</h2>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">B1</span> Why do you want to join Ganglia Technologies for this internship?</div>
+  <div class="qa-answer">
+    "I want to work at Ganglia Technologies because you are an agile, research-driven engineering firm based inside the MUTBI Advanced Research Centre at MAHE. At a large services company, interns often get relegated to bug fixing or documentation. At Ganglia, I know I will be working directly on production systems where code quality, concurrency, and architecture genuinely matter. My background in building Java/Spring Boot platforms, distributed concurrency engines, and multilingual NLP fits directly into your software development initiatives."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">B2</span> The email mentions that the 4-month internship is unpaid initially, with a performance-based full-time offer at the end. How do you feel about that?</div>
+  <div class="qa-answer">
+    "I understand the structure. My top priority right now is working on high-impact engineering problems, learning from senior engineers, and demonstrating my capabilities in a live production environment. I am confident that during these four months, the quality of my work, speed of delivery, and technical ownership will speak for themselves and earn a full-time position on your team."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">B3</span> Tell me about a time you faced a difficult technical bug and how you solved it.</div>
+  <div class="qa-answer">
+    "While developing CampusFlow, I encountered an issue where recruiters were receiving a 401 Unauthorized error when attempting to fetch placement drives while creating job postings. In our Spring Security filter configuration, <code>/api/v1/placement/**</code> was restricted to <code>PLACEMENT_OFFICER</code>. However, the business logic dictated that recruiters need read access to placement drives to associate jobs with drives. Instead of opening up all placement routes, I refactored the security rules to explicitly grant <code>authenticated()</code> access to HTTP GET on <code>/api/v1/placement/drives/**</code> while keeping mutating POST/PUT actions strictly guarded for officers. I wrote an integration test (<code>WorkflowIntegrationTest</code>) to prevent any regression."
+  </div>
+</div>
+
+<div class="qa-block">
+  <div class="qa-question"><span class="q-badge">B4</span> How do you approach code reviews and teamwork?</div>
+  <div class="qa-answer">
+    "I view code reviews as a collaborative learning mechanism rather than personal critique. I keep PRs small and self-contained, include unit test coverage, and write clear descriptions of what changed and why. When receiving feedback, I focus on the architectural rationale and best practices. In college projects, I acted as the Git release coordinator, enforcing clean branch hygiene, semantic commit messages, and automated testing before merges."
+  </div>
+</div>
+
+<h3>4 Killer Questions to Ask the Interviewer at the End of the 30 Minutes</h3>
+<div class="card card-highlight">
+  <ol style="margin-bottom: 0;">
+    <li><em>"What does the core technology stack look like for the project I would be contributing to during this internship?"</em></li>
+    <li><em>"How does the engineering team at Ganglia Technologies balance shipping new features with managing technical debt and system reliability?"</em></li>
+    <li><em>"What are the key milestones or metrics you would look for in an intern to transition them into a full-time software engineer after 4 months?"</em></li>
+    <li><em>"What has been the most interesting technical or scaling challenge your team tackled recently?"</em></li>
+  </ol>
+</div>
+
+<!-- SECTION 7 -->
+<h2><span class="h2-num">7</span> Tomorrow Morning Execution Checklist</h2>
+
+<div class="grid-2">
+  <div class="card card-warning">
+    <h4>Physical &amp; Document Checklist</h4>
+    <ul>
+      <li>&check; <strong>College ID Card</strong> (Mandatory per email!)</li>
+      <li>&check; <strong>Printed copies of your Resume</strong> (2-3 clean physical copies)</li>
+      <li>&check; <strong>Laptop &amp; Charger</strong> (Fully charged tonight!)</li>
+      <li>&check; <strong>Professional attire:</strong> Clean collared shirt, well-groomed</li>
+      <li>&check; <strong>Arrival timing:</strong> Arrive at MUTBI, 4th Floor ARC, MAHE by <strong>10:35 AM</strong> (25 minutes early!)</li>
+    </ul>
+  </div>
+  <div class="card card-highlight">
+    <h4>Laptop Technical Prep (Tonight!)</h4>
+    <ul>
+      <li>&check; <strong>MySQL &amp; Redis running</strong> on your laptop</li>
+      <li>&check; <strong>Backend running:</strong> <code>d:\CampusFlowackend</code> on port 8081 (or test running)</li>
+      <li>&check; <strong>Frontend running:</strong> <code>d:\CampusFlowrontend</code> on port 5173</li>
+      <li>&check; <strong>Browser tabs ready:</strong> Landing page, Recruiter Dashboard, Student Dashboard</li>
+      <li>&check; <strong>Code editor ready:</strong> VS Code open to CampusFlow and Ticketing Engine with clean terminals</li>
+    </ul>
+  </div>
+</div>
+
+<div style="text-align: center; margin-top: 25px; padding-top: 15px; border-top: 1px solid #cbd5e1; color: #64748b; font-size: 8.5pt;">
+  Prepared exclusively for <strong>Prem Gouda</strong> &bull; Software Development Intern Interview &bull; Ganglia Technologies Pvt. Ltd. &bull; Good luck!
+</div>
+
+</body>
+</html>

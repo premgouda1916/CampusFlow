@@ -1,292 +1,223 @@
-# CampusFlow – Smart Campus Placement & Recruitment Management Platform
+# CampusFlow: Smart Campus Placement & Recruitment Management Platform
 
-[![Java 21](https://img.shields.io/badge/Java-21_LTS-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/projects/jdk/21/)
-[![Spring Boot 3.3](https://img.shields.io/badge/Spring_Boot-3.3.4-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
-[![React 18](https://img.shields.io/badge/React-18.3-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-5.4-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![MySQL 8](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
-[![Redis](https://img.shields.io/badge/Redis-7.0-DC382D?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io/)
-[![Docker Compose](https://img.shields.io/badge/Docker_Compose-Supported-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![Java 21](https://img.shields.io/badge/Java-21_LTS-ED8B00?style=flat-square&logo=openjdk&logoColor=white)](https://openjdk.org/projects/jdk/21/)
+[![Spring Boot 3.3](https://img.shields.io/badge/Spring_Boot-3.3.4-6DB33F?style=flat-square&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![Node.js](https://img.shields.io/badge/Node.js-20_LTS-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![MySQL 8](https://img.shields.io/badge/MySQL-8.0-4479A1?style=flat-square&logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![Redis](https://img.shields.io/badge/Redis-7.0-DC382D?style=flat-square&logo=redis&logoColor=white)](https://redis.io/)
+[![React 18](https://img.shields.io/badge/React-18.3-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Docker Compose](https://img.shields.io/badge/Docker_Compose-Supported-2496ED?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
 
-**CampusFlow** is an enterprise-grade full-stack web platform designed to digitize and automate the entire campus recruitment lifecycle. It replaces disjointed spreadsheets, manual communication channels, and physical notice boards with an integrated, secure, role-based ecosystem connecting **Students**, **Corporate Recruiters**, **Placement Officers**, and **System Administrators**.
+**CampusFlow** is an enterprise-grade full-stack platform designed to modernize the campus placement and recruitment ecosystem. It replaces fragmented spreadsheets, manual notice boards, and unverified candidate lists with an automated, role-governed state machine connecting **Students**, **Corporate Recruiters**, **Placement Officers**, and **Administrators**.
 
----
-
-## 🌟 Key Functional Highlights
-
-### 1. 🎓 Student Placement Portal
-- **Profile & Academic Management**: USN, college, department, graduation year, verified CGPA, active backlog tracking, and technical skills.
-- **Resume Upload & Validation**: Secure PDF/DOC upload with MIME and size validation (up to 5MB), stored outside publicly executable web directories.
-- **Dynamic Eligibility Pre-Screening**: Instantly view eligibility breakdown for any job before applying—including profile match scores, institutional requirement passes/fails, and matched vs. missing skills.
-- **1-Click Application & Tracking**: Submit applications with atomic server-side validation and track progress across applied, shortlisted, interview, and offer stages.
-- **Interview Hub**: Track upcoming technical and HR interview rounds with direct video meeting links and recruiter instructions.
-- **Offer Desk**: Review detailed formal job offers (package in LPA, joining dates, notes) and accept or reject offers in-app.
-
-### 2. 🏢 Recruiter Pipeline & Candidate Management
-- **Company & Recruiter Verification**: Recruiter accounts require verified corporate domains and placement officer approval before unlocking job posting capabilities.
-- **Flexible Job Creation**: Define custom eligibility criteria (minimum CGPA, maximum backlogs, target departments, graduation years, required skills, and deadlines).
-- **Candidate Shortlisting & Screening**: Review applicants, filter by status, inspect student resumes, and transition candidate states.
-- **Multi-Round Interview Scheduling**: Schedule Aptitude, Technical, and HR rounds with dates, times, Google Meet/Teams links, and interviewer feedback.
-- **Offer Issuance**: Generate formal job offers with compensation packages and acceptance deadlines.
-
-### 3. 🏛️ Placement Officer Command Center
-- **Executive Analytics Dashboard**: Real-time aggregated statistics calculated directly from the database (total students, verified rate, placed students, average package, highest package, placement percentage).
-- **Interactive Recharts Visualizations**: Department-wise placement rate bar charts and top recruiting corporate partners breakdown.
-- **Recruiter Approvals**: Review and approve/reject company and recruiter registrations.
-- **Academic Verification**: Review student records and mark academic details as verified, locking student marksheets from unauthorized tampering.
-- **Institutional Placement Drives**: Create and govern campus-wide recruitment drives with defined calendar dates and student targets.
-- **One-Click CSV Export**: Generate official institutional placement reports formatted as CSV for university accreditation and NIRF reporting.
-
-### 4. 🛡️ System Administration & Governance
-- **Global User & Role Management**: Manage user accounts and activate/deactivate credentials.
-- **Department Master Data**: Configure and update academic departments and discipline codes.
-- **Immutable Security Audit Trail**: Asynchronous transactional logging of critical platform events (`LOGIN`, `JOB_CREATE`, `STATUS_CHANGE`, `OFFER_ISSUE`) with IP address logging.
+The platform is architected as a polyglot system combining:
+1. **Core Placement Engine** (`backend`): Enterprise Java 21 / Spring Boot 3 service handling transactional workflows, Spring Security JWT authentication, and a dynamic student eligibility evaluation engine.
+2. **Outbound Campaign & Notification Engine** (`services/outbound-service`): High-throughput Node.js & TypeScript microservice with MySQL connection pooling, managing automated outbound candidate marketing, batch announcements, and communication delivery analytics.
+3. **Responsive Web Frontend** (`frontend`): React 18 SPA built with Vite and Tailwind CSS, featuring route-level code splitting (reducing initial bundle payload by 90%), dark spatial UI design, and interactive Recharts analytics.
 
 ---
 
-## 🧠 Dynamic Eligibility Engine
+## Architecture Overview
 
-CampusFlow replaces simple boolean checks with an extensible, rule-based **Dynamic Eligibility Engine**. When a student views or applies for a job, the engine evaluates candidate parameters against job constraints and returns a comprehensive evaluation response:
-
-```mermaid
-flowchart TD
-    Student[Student Candidate] --> Engine[CampusFlow Eligibility Engine]
-    Job[Job Posting Rules] --> Engine
-
-    Engine --> CgpaRule[1. CGPA Threshold Rule]
-    Engine --> BacklogRule[2. Maximum Backlog Rule]
-    Engine --> DeptRule[3. Target Department Rule]
-    Engine --> GradRule[4. Graduation Year Rule]
-    Engine --> DeadlineRule[5. Application Deadline Rule]
-    Engine --> PriorAppRule[6. Duplicate Application Invariant]
-    Engine --> SkillMatchRule[7. Technical Skill Match Rule]
-
-    CgpaRule --> Result[Consolidated Eligibility Result]
-    BacklogRule --> Result
-    DeptRule --> Result
-    GradRule --> Result
-    DeadlineRule --> Result
-    PriorAppRule --> Result
-    SkillMatchRule --> Result
-
-    Result --> Decision{All Hard Invariants Passed?}
-    Decision -->|Yes| Eligible[Eligible: Allow 1-Click Application + Profile Match %]
-    Decision -->|No| Ineligible[Ineligible: Block Application + Show Rejection Reasons & Missing Skills]
 ```
-
-### Sample Eligibility Evaluation JSON Payload
-```json
-{
-  "eligible": true,
-  "matchScorePercentage": 92.5,
-  "criteriaBreakdown": [
-    { "criterion": "Minimum CGPA", "passed": true, "requirement": ">= 7.5", "studentValue": "8.85" },
-    { "criterion": "Active Backlogs", "passed": true, "requirement": "<= 0", "studentValue": "0" },
-    { "criterion": "Department", "passed": true, "requirement": "CSE, ISE, AIML", "studentValue": "Computer Science and Engineering" },
-    { "criterion": "Graduation Year", "passed": true, "requirement": "2026", "studentValue": "2026" },
-    { "criterion": "Application Deadline", "passed": true, "requirement": "Before 2026-12-15T23:59:59", "studentValue": "Current Date Valid" },
-    { "criterion": "Application History", "passed": true, "requirement": "Single Application Invariant", "studentValue": "Not yet applied" }
-  ],
-  "rejectionReasons": [],
-  "matchedSkills": ["Java", "Spring Boot", "React", "SQL"],
-  "missingSkills": ["Docker"]
-}
+                                 +--------------------------------+
+                                 |          React 18 SPA          |
+                                 |   (Vite, Tailwind CSS, Dark    |
+                                 |    Spatial UI, Code Splitting) |
+                                 +---------------+----------------+
+                                                 |
+                       +-------------------------+-------------------------+
+                       | HTTPS / REST                                      | HTTPS / REST
+                       v                                                   v
+        +------------------------------+                    +------------------------------+
+        |   CampusFlow Core Service    |                    |   Outbound Campaign Engine   |
+        |   (Java 21 / Spring Boot 3)  |                    |   (Node.js / TypeScript 5)   |
+        +--------------+---------------+                    +--------------+---------------+
+                       |                                                   |
+       +---------------+---------------+                                   |
+       |               |               |                                   |
+       v               v               v                                   v
++--------------+ +-----------+ +---------------+                   +---------------+
+|   Spring     | |   Redis   | |  Spring Data  |                   |  MySQL Pool   |
+|   Security   | |   Cache   | |      JPA      |                   | (mysql2 /     |
+| (JWT / RBAC) | | (Aside)   | | (Hibernate 6) |                   |  Promise)     |
++--------------+ +-----+-----+ +-------+-------+                   +-------+-------+
+                       |               |                                   |
+                       +---------------+-----------------+-----------------+
+                                                         |
+                                                         v
+                                              +---------------------+
+                                              |       MySQL 8       |
+                                              | Relational Database |
+                                              +---------------------+
 ```
 
 ---
 
-## 🏗️ System Architecture
+## Key Modules & Engineering Features
 
-```
-                                  [ Browser / Client ]
-                                           |
-                                    (HTTP Port 80)
-                                           v
-                              +--------------------------+
-                              |      Nginx Reverse       |
-                              |   Proxy & Static SPA     |
-                              +--------------------------+
-                                  /                  \
-                       (Static Assets)          (/api/* Reverse Proxy)
-                                /                      \
-                               v                        v
-                    [ React 18 SPA Dist ]     [ Spring Boot 3 Backend:8080 ]
-                                                       |
-                              +------------------------+------------------------+
-                              |                        |                        |
-                              v                        v                        v
-                    [ Spring Security 6 ]      [ Dynamic Engine ]     [ Redis 7 Cache ]
-                              |                        |
-                              +------------------------+
-                                           |
-                                 (Spring Data JPA)
-                                           |
-                                           v
-                                [ MySQL 8.0 Database ]
-                                (Flyway Migrations V1 & V2)
-```
+### 1. Dynamic Eligibility Evaluation Engine (`backend`)
+Unlike standard boolean status checks, CampusFlow features a decoupled, rules-driven `EligibilityEngine` service:
+- Evaluates four independent predicates: CGPA cutoff, active backlog threshold, target discipline set containment, and graduation batch year.
+- Computes aggregate candidate match percentages and individual criteria pass/fail states.
+- Returns comprehensive feedback enabling students to see precisely which criteria they meet or miss before applying.
 
-### Security & Invariants
-- **Stateless JWT Authentication**: Tokens signed with HMAC-SHA256 (`HS256`) containing subject email, user ID, and role.
-- **Role-Based Access Control**: Strict method-level checks (`@PreAuthorize`) and URL antMatchers.
-- **Ownership Verification**: Recruiters can only access and modify their own company's jobs and candidates; students can only manage their own profile and view their own applications.
-- **Database Unique Constraints**: `uq_job_student` prevents duplicate applications at the database engine level.
-- **Optimistic Locking**: JPA `@Version` columns prevent concurrent overwrites during candidate status transitions.
+### 2. Outbound Marketing & Campaign Service (`services/outbound-service`)
+A dedicated Node.js + TypeScript service that drives targeted student recruitment campaigns:
+- **Audience Segmentation**: Queries candidate pools dynamically from MySQL matching specific department, CGPA, or manual applicant cohorts.
+- **Template Parser**: Mustache-style variable interpolation (`{{studentName}}`, `{{companyName}}`, `{{packageLpa}}`) with input sanitization.
+- **Throttled Batch Dispatcher**: Processes notifications in chunked batches with configurable latency controls to prevent downstream gateway throttling.
+- **Campaign Analytics**: Tracks real-time delivery percentages, sent counts, and failure reasons.
+
+### 3. Concurrency & Data Integrity
+- **Duplicate Application Prevention**: Multi-layered defense using service-layer validation and a composite database constraint (`UNIQUE KEY uk_student_job (student_id, job_id)`).
+- **Recruitment State Machine**: Strictly validates candidate status progression:
+  ```
+  APPLIED -> SHORTLISTED -> INTERVIEW_SCHEDULED -> OFFERED -> ACCEPTED / DECLINED
+          \-> REJECTED / WITHDRAWN
+  ```
+- **Redis Cache-Aside**: Read-heavy job listings and analytics endpoints are cached with a 15-minute TTL; mutating operations trigger selective or full eviction via `@CacheEvict`.
+
+### 4. Web Performance & Optimization (`frontend`)
+- **Route-Based Lazy Loading**: All 23 view routes are dynamically imported via `React.lazy()` and `<Suspense>`, reducing initial JavaScript payload from **806 KB to 85 KB (30 KB gzipped)**.
+- **Vendor Chunking**: Configured Rollup manual chunking isolating React core, Recharts visualization, and Lucide icons into separate cacheable vendor bundles.
+- **Axios HTTP Interceptor**: Centralized request interceptor attaching JWT bearer tokens and response interceptor gracefully handling 401 token expirations.
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Layer | Technologies |
 |---|---|
-| **Backend** | Java 21 LTS, Spring Boot 3.3.4, Spring Web, Spring Data JPA, Hibernate ORM, Spring Security 6, Spring Boot Actuator, Flyway Migrations, Apache Commons CSV, Springdoc OpenAPI 2.6.0 |
-| **Frontend** | React 18, Vite 5, Tailwind CSS 3, React Router v6, Axios, Recharts, Lucide React |
-| **Database** | MySQL 8.0 (production/docker) / H2 in MySQL mode (local standalone/testing) |
-| **Caching** | Redis 7 In-Memory Cache for job listings and dashboard metrics |
-| **DevOps** | Multi-stage Dockerfiles, Docker Compose, GitHub Actions CI/CD pipeline |
+| **Frontend** | React 18, Vite 5, Tailwind CSS, Lucide React, Recharts, Axios, React Router 6 |
+| **Backend Core** | Java 21, Spring Boot 3.3.4, Spring Data JPA, Hibernate 6, Spring Security 6, JWT, BCrypt, Maven |
+| **Outbound Engine** | Node.js 20, TypeScript 5.7, Express 4, Zod, mysql2, Winston, Vitest, Supertest |
+| **Database** | MySQL 8.0 (InnoDB, ACID transactions, Foreign Keys, B-Tree Indexes) |
+| **Caching** | Redis 7.0 (In-Memory Key-Value Cache, TTL-based eviction) |
+| **DevOps & Cloud** | Docker, Docker Compose, Multi-stage builds, Nginx, Render Blueprint, Vercel |
 
 ---
 
-## 🚀 Quick Start Guide
+## Database Architecture
 
-### Option A: 1-Click Launch with Docker Compose (Recommended)
+The schema contains 15 relational tables with strict foreign key constraints and secondary indexing:
 
-Make sure [Docker Desktop](https://www.docker.com/products/docker-desktop/) is running, then execute:
+- `users`: Core identity, password hash, role (`STUDENT`, `RECRUITER`, `PLACEMENT_OFFICER`, `ADMIN`), active status.
+- `students`: USN, department, verified CGPA, backlog count, graduation year, resume URL.
+- `companies` & `recruiters`: Corporate profiles, industry, verification status, contact details.
+- `jobs` & `job_criteria`: Job designations, salary packages, deadline, eligibility rules.
+- `applications`: Student job submissions with recruitment status enum and submission timestamps.
+- `interviews`: Scheduled rounds (Aptitude, Technical, HR), meeting URLs, feedback.
+- `placement_offers`: Formal compensation offers, joining dates, acceptance status.
+- `audit_logs`: Transactional audit stream logging user operations with IP tracking.
+- `outbound_campaigns`, `outbound_templates`, `outbound_campaign_recipients`: Outbound marketing lifecycle tables.
 
-```powershell
-# Clone the repository and navigate into the workspace
-git clone https://github.com/your-username/CampusFlow.git
-cd CampusFlow
+---
 
-# Launch all 4 orchestrated containers (MySQL, Redis, Backend, Frontend)
-docker compose up --build
+## Getting Started
+
+### Option A: Run with Docker Compose (Recommended)
+
+Start the complete full-stack environment with a single command:
+
+```bash
+docker-compose up --build -d
 ```
 
-Access the services:
-- **Frontend Web Portal**: [http://localhost](http://localhost) (or [http://localhost:3000](http://localhost:3000))
-- **Backend REST API**: [http://localhost:8081](http://localhost:8081)
-- **Interactive Swagger UI**: [http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html)
-- **Actuator Health Metrics**: [http://localhost:8081/actuator/health](http://localhost:8081/actuator/health)
+This starts:
+- MySQL 8.0 on `localhost:3306`
+- Redis 7.0 on `localhost:6379`
+- Spring Boot Backend on `http://localhost:8081`
+- Outbound Campaign Service on `http://localhost:4000`
+- React Frontend (Nginx) on `http://localhost:80` (or `http://localhost:3000`)
 
 ---
 
-### Option B: Local Standalone Development
+### Option B: Local Bare-Metal Setup
 
-#### 1. Backend Setup
-The backend is configured with a zero-setup `local` profile using in-memory H2 in MySQL syntax mode with automatic Flyway V1 & V2 migrations.
-```powershell
-cd d:\CampusFlow\backend
+#### 1. Prerequisites
+- Java 21 JDK
+- Node.js 20+ & npm
+- MySQL 8.0 & Redis installed and running locally
 
-# Ensure Java 21 is active
-$env:JAVA_HOME = "C:\Program Files\Java\jdk-21.0.10"
+#### 2. Database Initialization
+Create the database and user in MySQL:
+```sql
+CREATE DATABASE campusflow_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'campusflow_user'@'localhost' IDENTIFIED BY 'campusflow_secret';
+GRANT ALL PRIVILEGES ON campusflow_db.* TO 'campusflow_user'@'localhost';
+FLUSH PRIVILEGES;
+```
 
-# Compile and start Spring Boot (runs on port 8081 to avoid conflict with Jenkins on 8080)
+#### 3. Start Core Backend (Spring Boot)
+```bash
+cd backend
 mvn spring-boot:run
 ```
+*Runs on `http://localhost:8081`.*
 
-#### 2. Frontend Setup
-```powershell
-cd d:\CampusFlow\frontend
-
-# Install dependencies (Node.js 20+)
+#### 4. Start Outbound Campaign Service (Node.js + TypeScript)
+```bash
+cd services/outbound-service
 npm install
-
-# Start Vite development server (runs on port 5173 with proxy to 8081)
 npm run dev
 ```
-Open [http://localhost:5173](http://localhost:5173) in your browser.
+*Runs on `http://localhost:4000`.*
+
+#### 5. Start Frontend (React + Vite)
+```bash
+cd frontend
+npm install
+npm run dev
+```
+*Runs on `http://localhost:5173`.*
 
 ---
 
-## 👥 Pre-Seeded Demo User Accounts
+## Seed Credentials for Testing
 
-All seed accounts use the default password: **`password123`**
-
-| Role | Email | Full Name / Title | Description |
+| Role | Email | Password | Access Scope |
 |---|---|---|---|
-| 🎓 **Student** | `arjun.sharma@campusflow.com` | Arjun Sharma | High CGPA (8.85), 0 Backlogs, CSE Department, Has Resumes |
-| 🎓 **Student** | `priya.nair@campusflow.com` | Priya Nair | CGPA 7.40, 1 Backlog, ISE Department, Tests partial eligibility |
-| 🎓 **Student** | `rohit.verma@campusflow.com` | Rohit Verma | CGPA 6.80, 2 Backlogs, MECH Department, Tests ineligible edge cases |
-| 🏢 **Recruiter** | `recruiter.google@campusflow.com` | Ananya Deshmukh | Approved Google Recruiter (SWE, SRE roles) |
-| 🏢 **Recruiter** | `recruiter.msft@campusflow.com` | Vikramaditya Sen | Approved Microsoft Recruiter (Cloud Engineer roles) |
-| 🏢 **Recruiter** | `recruiter.pending@campusflow.com` | Rohit Khandelwal | Pending Approval Recruiter (Tests officer approval flow) |
-| 🏛️ **Placement Officer** | `officer@campusflow.com` | Dr. Rajesh Rao | Placement Head with verification & report powers |
-| 🛡️ **System Admin** | `admin@campusflow.com` | System Administrator | Full platform access, audit logs, department management |
-
-> **Pro-Tip**: The login page (`/login`) includes 1-click **Demo Account Switcher** buttons. Clicking any role instantly pre-populates credentials and logs in.
+| **Student** | `arjun.sharma@campusflow.com` | `password123` | Profile, Jobs Explorer, Eligibility Check, Applications, Offers |
+| **Recruiter** | `recruiter.google@campusflow.com` | `password123` | Company Profile, Job Postings, Candidate Shortlisting, Interviews |
+| **Placement Officer** | `officer@campusflow.com` | `password123` | Institutional Analytics, Recruiter Approvals, Drives, CSV Export |
+| **Administrator** | `admin@campusflow.com` | `password123` | Global User Management, Master Department Data, Audit Trail |
 
 ---
 
-## 🧪 Testing & Verification
+## Automated Testing
 
-### Running Backend Automated Tests
-```powershell
-$env:JAVA_HOME = "C:\Program Files\Java\jdk-21.0.10"
-cd d:\CampusFlow\backend
+### Backend Unit & Integration Tests (JUnit 5, Mockito, MockMvc)
+```bash
+cd backend
 mvn test
 ```
-*Executes unit and integration test suites: `EligibilityEngineTest`, `AuthServiceTest`, `ApplicationServiceTest`, `AuthControllerIntegrationTest`, and `BCryptTest`.*
+*Result: 22 tests run, 0 failures, 0 errors.*
 
-### Building Frontend Production Bundle
-```powershell
-cd d:\CampusFlow\frontend
+### Outbound Service Unit & Integration Tests (Vitest, Supertest)
+```bash
+cd services/outbound-service
+npm test
+```
+*Result: 6 tests run, 6 passed.*
+
+### Frontend Production Build Verification
+```bash
+cd frontend
 npm run build
 ```
-*Compiles and bundles the React 18 SPA with Vite into `dist/` with zero errors.*
+*Result: 23 lazy-loaded chunks compiled with 0 warnings.*
 
 ---
 
-## 📂 Repository Directory Layout
+## Production Deployment Guide
 
-```
-CampusFlow/
-├── .github/
-│   └── workflows/
-│       └── ci.yml                     # GitHub Actions CI/CD Pipeline
-├── backend/
-│   ├── src/
-│   │   ├── main/
-│   │   │   ├── java/com/campusflow/
-│   │   │   │   ├── config/            # Security, OpenAPI, Web MVC configs
-│   │   │   │   ├── controller/        # 12 REST API Controllers
-│   │   │   │   ├── dto/               # Request & Response DTOs + EntityMapper
-│   │   │   │   ├── entity/            # 13 JPA Entities with Auditing & Versioning
-│   │   │   │   ├── exception/         # RestControllerAdvice & Custom Exceptions
-│   │   │   │   ├── repository/        # 13 Spring Data JPA Repositories
-│   │   │   │   ├── security/          # JWT Filters, Token Provider, UserDetails
-│   │   │   │   └── service/           # Domain Services + Eligibility Engine
-│   │   │   └── resources/
-│   │   │       ├── db/migration/      # Flyway V1 (Schema) & V2 (Seed Data)
-│   │   │       └── application*.yml   # Configuration profiles (local, dev, docker)
-│   │   └── test/                      # Unit & MockMvc Integration Test Suites
-│   ├── Dockerfile                     # Multi-stage Maven/Java 21 Build
-│   └── pom.xml                        # Maven Dependencies & Plugins
-├── frontend/
-│   ├── src/
-│   │   ├── components/                # Modals, Eligibility Dialogs, Status Badges
-│   │   ├── context/                   # AuthContext, ToastContext
-│   │   ├── layouts/                   # DashboardLayout, Sidebar, Navbar
-│   │   ├── pages/                     # Student, Recruiter, Officer, Admin Portals
-│   │   ├── routes/                    # AppRoutes & Role-Protected Routes
-│   │   └── services/                  # Axios API Client with Auto-Auth Interceptor
-│   ├── Dockerfile                     # Multi-stage Node/Nginx Build
-│   ├── nginx.conf                     # Nginx Reverse Proxy & SPA Fallback
-│   ├── package.json                   # React 18, Vite, Tailwind Dependencies
-│   └── vite.config.js                 # Dev Server & Proxy Configuration
-├── docs/
-│   ├── api-documentation.md           # Complete REST API Endpoint Specification
-│   ├── database-design.md             # Mermaid ER Diagram & Relational Schemas
-│   └── testing.md                     # Test Suite Architecture & Manual Walkthroughs
-├── ARCHITECTURE.md                    # System Architecture & Design Patterns
-├── DEVELOPMENT_PLAN.md                # Phased Milestone Execution Checklist
-├── docker-compose.yml                 # Multi-Container Compose Orchestration
-└── README.md                          # Master Project Documentation
-```
+Detailed step-by-step instructions for hosting CampusFlow live at zero cost (Frontend on **Vercel**, Backend & Outbound Engine on **Render**, Database on **Aiven/Railway**) can be found in [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ---
 
-## 📄 License & Attribution
+## License
 
-Designed and engineered for enterprise campus placement operations. Open source under the [MIT License](LICENSE).
-
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
