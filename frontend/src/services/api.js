@@ -1,7 +1,13 @@
 import axios from 'axios';
 
+// Resolve API base URL: use Vercel/Vite environment target or default to relative proxy
+const rawTarget = import.meta.env.VITE_API_TARGET;
+const baseURL = rawTarget && !rawTarget.startsWith('/')
+  ? `${rawTarget.replace(/\/+$/, '')}/api/v1`
+  : '/api/v1';
+
 const api = axios.create({
-  baseURL: '/api/v1',
+  baseURL,
   headers: {
     'Content-Type': 'application/json',
   },
